@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "VitruvianApp2016", "VitruvianApp2016\VitruvianApp2016.shproj", "{2C90CD22-8D9D-4D80-A5B2-2D3B276C27C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VitruvianApp2016.Droid", "Droid\VitruvianApp2016.Droid.csproj", "{8C1BBC92-D14B-4FA6-9AA6-9D2BE750D95B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VitruvianApp2016.UITests", "UITests\VitruvianApp2016.UITests.csproj", "{B3116E66-0E22-49EF-A55D-44EE57CF16AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C1BBC92-D14B-4FA6-9AA6-9D2BE750D95B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C1BBC92-D14B-4FA6-9AA6-9D2BE750D95B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C1BBC92-D14B-4FA6-9AA6-9D2BE750D95B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C1BBC92-D14B-4FA6-9AA6-9D2BE750D95B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3116E66-0E22-49EF-A55D-44EE57CF16AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3116E66-0E22-49EF-A55D-44EE57CF16AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3116E66-0E22-49EF-A55D-44EE57CF16AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3116E66-0E22-49EF-A55D-44EE57CF16AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
