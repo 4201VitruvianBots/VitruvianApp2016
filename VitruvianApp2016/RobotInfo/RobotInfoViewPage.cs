@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VitruvianApp2016
 {
-	public class ViewTeamPage:ContentPage
+	public class RobotInfoViewPage:ContentPage
 	{
 		ParseObject data;
 		Image robotImage = new Image();
@@ -16,9 +16,15 @@ namespace VitruvianApp2016
 		Label[] descriptionLabel = new Label[999];
 		Label[] dataLabel = new Label[999];
 
-		public ViewTeamPage (ParseObject teamData)
+		public RobotInfoViewPage (ParseObject teamData)
 		{
-			string teamNo = teamData ["teamNo"].ToString ();
+			string teamNo;
+			try{
+				teamNo = teamData ["teamNo"].ToString ();
+			}
+			catch{
+				teamNo = "<No Data Recorded>";
+			}
 			Label title = new Label {
 				Text = teamNo + "'s Stats"
 			};
@@ -28,7 +34,7 @@ namespace VitruvianApp2016
 			Grid grid = new Grid () {
 				//Padding = new Thickness(0,20,0,0), 
 				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 
 				RowDefinitions = {
 					new RowDefinition{ Height = new GridLength(160, GridUnitType.Absolute) },
@@ -37,7 +43,7 @@ namespace VitruvianApp2016
 				},
 				ColumnDefinitions = {
 					new ColumnDefinition{ Width = new GridLength(160, GridUnitType.Absolute) },
-					new ColumnDefinition{ Width = GridLength.Auto }
+					new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) }
 				}
 			};
 
@@ -116,7 +122,7 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Black
 			};
 			refreshBtn.Clicked += (object sender, EventArgs e) => {
-				Navigation.PushModalAsync(new ViewTeamPage(teamData));
+				Navigation.PushModalAsync(new RobotInfoViewPage(teamData));
 			};
 
 			//Back Button
@@ -141,7 +147,7 @@ namespace VitruvianApp2016
 
 
 			StackLayout info = new StackLayout () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 			};
 

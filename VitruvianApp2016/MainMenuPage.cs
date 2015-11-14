@@ -7,6 +7,8 @@ namespace VitruvianApp2016
 {
 	public class MainMenuPage : ContentPage
 	{
+		ParseObject obj;
+
 		public MainMenuPage ()
 		{
 			//Title
@@ -14,7 +16,7 @@ namespace VitruvianApp2016
 				TextColor = Color.Green,
 				HorizontalOptions = LayoutOptions.Center,
 				Text = "Main Menu",
-				FontSize = Device.GetNamedSize (NamedSize.Large, typeof(Label))
+				FontSize = GlobalVariables.sizeTitle
 			};
 
 			//Robot Info Tab Navigation
@@ -22,7 +24,7 @@ namespace VitruvianApp2016
 				Text = "Robot Information",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black,
-				FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label))
+				FontSize = GlobalVariables.sizeMedium
 			};
 			infoBtn.Clicked += (object sender, EventArgs e) => {
 				Navigation.PushModalAsync (new RobotInfoIndexPage ());
@@ -33,10 +35,10 @@ namespace VitruvianApp2016
 				Text = "Pit Scouting",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black,
-				FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label))
+				FontSize = GlobalVariables.sizeMedium
 			};
 			pitBtn.Clicked += (object sender, EventArgs e) => {
-				//Navigation.PushModalAsync (new PitScoutingPage ());
+				Navigation.PushModalAsync (new PitScoutingIndexPage ());
 			};
 
 			//Match Scouting Tab Navigation
@@ -44,12 +46,24 @@ namespace VitruvianApp2016
 				Text = "Match Scouting",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black,
-				FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label))
+				FontSize = GlobalVariables.sizeMedium
 			};
 			matchBtn.Clicked += (object sender, EventArgs e) => {
-				//Navigation.PushModalAsync (new PreMatchDataPage ());
+				Navigation.PushModalAsync (new PreMatchScoutingPage ());
 			};
 
+			//Test Page Button
+			/*
+			Button testBtn = new Button (){
+				Text = "Test Button",
+				TextColor = Color.Green,
+				BackgroundColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium
+			};
+			testBtn.Clicked += (object sender, EventArgs e) => {
+				Navigation.PushModalAsync (new TeleOpMatchScoutingPage(obj));
+			};
+			*/
 			//Page Layout
 			this.Content = new StackLayout (){
 				VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -59,7 +73,8 @@ namespace VitruvianApp2016
 					title,
 					infoBtn,
 					pitBtn,
-					matchBtn
+					matchBtn,
+					//testBtn
 				}
 			};
 		}

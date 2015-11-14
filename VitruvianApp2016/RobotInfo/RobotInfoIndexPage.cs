@@ -84,7 +84,7 @@ namespace VitruvianApp2016
 				teamStack.Children.Add (cell);
 				TapGestureRecognizer tap = new TapGestureRecognizer ();
 				tap.Tapped += (object sender, EventArgs e) => {
-					Navigation.PushModalAsync (new ViewTeamPage (obj));
+					Navigation.PushModalAsync (new RobotInfoViewPage (obj));
 				};
 				cell.GestureRecognizers.Add (tap);
 			}

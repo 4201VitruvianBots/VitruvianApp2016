@@ -14,8 +14,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)PitScouting\PitScoutingEditPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PitScouting\PitScoutingIndexPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RobotInfo\RobotInfoIndexPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RobotInfo\ViewTeamPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\TeamListCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\PreMatchScoutingPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RobotInfo\RobotInfoViewPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\AutoMatchScoutingPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\PostMatchScoutingPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlobalVariables.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code Examples\ParseSaveExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\TeleOpMatchScoutingPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Images\Placeholder_image_placeholder.png" />
@@ -23,5 +29,10 @@
     <None Include="$(MSBuildThisFileDirectory)Code Examples\FunctionExample.cs" />
     <None Include="$(MSBuildThisFileDirectory)Code Examples\XamarinObjects.cs" />
     <None Include="$(MSBuildThisFileDirectory)README.txt" />
+    <None Include="$(MSBuildThisFileDirectory)Debug Hold\TeleOpMatchScoutingPage2016.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)MatchScouting\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Debug Hold\" />
   </ItemGroup>
 </Project>
