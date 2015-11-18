@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{7D681EA4-9641-4B93-A880-6B55513A0860}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>VitruvianApp2016</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)VitruvianApp2016.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlobalVariables.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MainMenuPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\AutoMatchScoutingPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\PostMatchScoutingPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\PreMatchScoutingPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PitScouting\PitScoutingIndexPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RobotInfo\RobotInfoIndexPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RobotInfo\RobotInfoViewPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\TeamListCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\TeleOpMatchScoutingPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PitScouting\PitScoutingEditPage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.txt" />
+    <None Include="$(MSBuildThisFileDirectory)Images\Placeholder_image_placeholder.png" />
+    <None Include="$(MSBuildThisFileDirectory)Code Examples\C#Essentials.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Code Examples\FunctionExample.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Code Examples\ParseSaveExample.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Code Examples\XamarinObjects.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Debug Hold\TeleOpMatchScoutingPage2016.cs" />
+  </ItemGroup>
+</Project>

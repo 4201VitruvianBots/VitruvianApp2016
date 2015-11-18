@@ -1,0 +1,19 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "VitruvianApp2016", "VitruvianApp2016\VitruvianApp2016.shproj", "{7D681EA4-9641-4B93-A880-6B55513A0860}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VitruvianApp2016.Droid", "Droid\VitruvianApp2016.Droid.csproj", "{34F81E6D-2248-46B8-A416-B9E1666CDC4F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34F81E6D-2248-46B8-A416-B9E1666CDC4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34F81E6D-2248-46B8-A416-B9E1666CDC4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34F81E6D-2248-46B8-A416-B9E1666CDC4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34F81E6D-2248-46B8-A416-B9E1666CDC4F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
