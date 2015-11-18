@@ -13,6 +13,7 @@ namespace VitruvianApp2016
 
 		public PitScoutingIndexPage ()
 		{
+<<<<<<< HEAD
 			//Page Title
 			Label title = new Label () {
 				Text = "Robot Information",
@@ -72,6 +73,10 @@ namespace VitruvianApp2016
 				}
 			};
 		}
+=======
+		}
+
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 		async Task UpdateTeamList(){
 			ParseQuery<ParseObject> query = ParseObject.GetQuery("TeamData");
 			ParseQuery<ParseObject> sorted = query.OrderBy("teamNumber");
@@ -91,4 +96,9 @@ namespace VitruvianApp2016
 			}
 		}
 	}
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5

@@ -91,8 +91,11 @@ namespace VitruvianApp2016
 			}
 			teamName.FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label));
 
+<<<<<<< HEAD
 			data = teamData;
 
+=======
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 			listedItem("Robot Weight:", "robotWeight");
 			listedItem("Requires Ramp:", "ramp");
 			listedItem("Drive Type:", "driveType");
@@ -104,6 +107,10 @@ namespace VitruvianApp2016
 			listedItem("# of Co-Op Totes they can stack:", "coopertitionTotes");
 			listedItem("Additional Notes:", "notes");
 
+<<<<<<< HEAD
+=======
+			data = teamData;
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 
 			/*
 			Button viewStatsBtn = new Button {
@@ -188,7 +195,10 @@ namespace VitruvianApp2016
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
 				TextColor = Color.Green
 			};
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 			dataLabel[Z] = new Label();
 			try{
 				if(data[parseString] != null)

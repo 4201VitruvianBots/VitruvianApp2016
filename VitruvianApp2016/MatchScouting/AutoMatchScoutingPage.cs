@@ -12,9 +12,12 @@ namespace VitruvianApp2016
 
 		int autoPoints = 0, robotSet = 0, containerSet = 0, toteSet =0, stackedToteSet = 0;
 
+<<<<<<< HEAD
 		string errorString = "The following data was unable to be saved: ";
 		bool errorStatus = false;
 
+=======
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 		public AutoMatchScoutingPage (ParseObject MatchData)
 		{	
 			//Robot Set
@@ -116,6 +119,7 @@ namespace VitruvianApp2016
 			};
 			TeleopPage.Clicked += (object sender, EventArgs e) => {
 				UpdateValues();
+<<<<<<< HEAD
 				errorHandling("autoPoints", autoPoints);
 				if(string.IsNullOrEmpty(autoCans.Title) == false)
 					errorHandling("autoStepCanPulls", Convert.ToInt32(autoCans.Title));
@@ -129,13 +133,19 @@ namespace VitruvianApp2016
 				}
 
 				/*
+=======
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 				data["autoPoints"] = autoPoints;
 				if(string.IsNullOrEmpty(autoCans.Title)==false){
 					data["autoStepCanPulls"] = Convert.ToInt16(autoCans.Title);
 				}
 				SaveData();
+<<<<<<< HEAD
 				Navigation.PushModalAsync(new TeleOpMatchScoutingPage(MatchData));
 				*/
+=======
+				Navigation.PushModalAsync(new TeleOpMatchScoutingPage(MatchData)); 
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 			};
 
 			this.Content = new StackLayout {
@@ -152,6 +162,7 @@ namespace VitruvianApp2016
 			};
 		}
 
+<<<<<<< HEAD
 		void errorHandling(string d, int i){
 			try{
 				data[d] = i;
@@ -162,6 +173,8 @@ namespace VitruvianApp2016
 			}
 		}
 
+=======
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 		async void SaveData(){
 			Console.WriteLine ("Saving...");
 			await data.SaveAsync ();

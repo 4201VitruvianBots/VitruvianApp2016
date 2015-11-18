@@ -5,6 +5,7 @@ using Parse;
 namespace VitruvianApp2016
 {
 	public class PitScoutingEditPage:ContentPage
+<<<<<<< HEAD
 
 	{
 		ParseObject data;
@@ -452,6 +453,12 @@ namespace VitruvianApp2016
 			await data.SaveAsync ();
 		}
 
+=======
+	{
+		public PitScoutingEditPage (ParseObject teamData)
+		{
+		}
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 	}
 }
 

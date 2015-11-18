@@ -245,8 +245,11 @@ namespace VitruvianApp2016
 				disabled = !disabled;
 			};
 
+<<<<<<< HEAD
 			data = obj;
 
+=======
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 			Button endTeleOpBtn = new Button () {
 				Text = "End TeleOp",
 				TextColor = Color.Black,

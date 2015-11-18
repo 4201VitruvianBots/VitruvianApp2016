@@ -60,7 +60,11 @@ namespace VitruvianApp2016
 				FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label))
 			};
 			backBtn.Clicked += (object sender, EventArgs e) => {
+<<<<<<< HEAD
 				Navigation.PushModalAsync(new MainMenuPage()); // This must be push because stack of pages will be different after a full match scout
+=======
+				Navigation.PopModalAsync();
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 			};
 
 			StackLayout navigationBtns = new StackLayout () {

@@ -25,8 +25,12 @@ namespace VitruvianApp2016
 			Button refreshBtn = new Button () {
 				Text = "Refresh",
 				TextColor = Color.Green,
+<<<<<<< HEAD
 				BackgroundColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium
+=======
+				BackgroundColor = Color.Black
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 			};
 			refreshBtn.Clicked += (object sender, EventArgs e) => {
 				UpdateTeamList();
@@ -37,7 +41,11 @@ namespace VitruvianApp2016
 				Text = "Back",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black,
+<<<<<<< HEAD
 				FontSize = GlobalVariables.sizeMedium
+=======
+				FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label))
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 			};
 			backBtn.Clicked += (object sender, EventArgs e) => {
 				Navigation.PopModalAsync();

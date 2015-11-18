@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.team4201.vitruvianapp2016">
+<<<<<<< HEAD
 	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="21" />
 	<application android:label="VitruvianApp2016"></application>
 </manifest>
+=======
+	<uses-sdk android:minSdkVersion="15" />
+	<application android:label="VitruvianApp2016">
+	</application>
+</manifest>
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5

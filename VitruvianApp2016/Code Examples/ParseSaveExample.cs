@@ -38,7 +38,10 @@ namespace VitruvianApp2016
 				if(error == true){
 					errorString = errorString.Remove(errorString.Length - 2); // Remove the " ," from the last element and store it as the string, tehn display it
 					DisplayAlert("Error:", errorString, "OK");
+<<<<<<< HEAD
 					errorString = "The following data was unable to be saved: "; // Reset the Error String
+=======
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 				} else {
 					//Navigation.PushModalAsync (new Page());
 				}

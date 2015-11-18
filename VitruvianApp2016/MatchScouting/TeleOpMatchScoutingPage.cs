@@ -28,9 +28,12 @@ namespace VitruvianApp2016
 		Label ToteCount = new Label (); //Tote Counter
 		Label ToteStackPoints = new Label (); //displays points just from the Totestack
 
+<<<<<<< HEAD
 		string errorString = "The following data was unable to be saved: ";
 		bool errorStatus = false;
 
+=======
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 		public TeleOpMatchScoutingPage (ParseObject MatchData)
 		{
 			int N = 35, Z = 0; //N is the maximum number of points, Z is which cycle the user is currently on.
@@ -459,6 +462,7 @@ namespace VitruvianApp2016
 			finishTeleop.TextColor = Color.Black;
 
 
+<<<<<<< HEAD
 			finishTeleop.Clicked += (object sender, EventArgs e) => {
 				
 				if (goodStacker == true) {
@@ -488,6 +492,11 @@ namespace VitruvianApp2016
 				/*
 				if (goodStacker == true) {
 					errorHandling("goodstack",goodStacker.ToString());
+=======
+
+			finishTeleop.Clicked += (object sender, EventArgs e) => {
+				if (goodStacker == true) {
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 					data ["goodStack"] = goodStacker;
 				} else {
 					data ["goodStack"] = false;
@@ -508,7 +517,10 @@ namespace VitruvianApp2016
 
 				SaveData();
 				Navigation.PushModalAsync(new PostMatchScoutingPage(data));
+<<<<<<< HEAD
 				*/
+=======
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 			};
 
 			Grid TeleopLayout = new Grid () {
@@ -614,6 +626,7 @@ namespace VitruvianApp2016
 
 		}
 
+<<<<<<< HEAD
 		void errorHandling(string d, string i){
 			try{
 				data[d] = i;
@@ -655,6 +668,8 @@ namespace VitruvianApp2016
 		}
 
 
+=======
+>>>>>>> 2cbb42c73b2a977ea0d0e3196afdd90918c0acf5
 		async void SaveData(){
 			Console.WriteLine ("Saving...");
 			await data.SaveAsync ();
