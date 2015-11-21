@@ -52,8 +52,31 @@ namespace VitruvianApp2016
 				Navigation.PushModalAsync (new PreMatchScoutingPage ());
 			};
 
+			//Match Data
+			Button matchDataBtn = new Button (){
+				Text = "Match Data",
+				TextColor = Color.Green,
+				BackgroundColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium
+			};
+			matchDataBtn.Clicked += (object sender, EventArgs e) => {
+				Navigation.PushModalAsync (new MatchDataSelectPage());
+			};
+
+			//Match Overview
+			Button overviewBtn = new Button (){
+				Text = "Match Overview",
+				TextColor = Color.Green,
+				BackgroundColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium
+			};
+			overviewBtn.Clicked += (object sender, EventArgs e) => {
+				//Navigation.PushModalAsync ();
+			};
+
+
+
 			//Test Page Button
-			/*
 			Button testBtn = new Button (){
 				Text = "Test Button",
 				TextColor = Color.Green,
@@ -61,11 +84,10 @@ namespace VitruvianApp2016
 				FontSize = GlobalVariables.sizeMedium
 			};
 			testBtn.Clicked += (object sender, EventArgs e) => {
-				Navigation.PushModalAsync (new TeleOpMatchScoutingPage(obj));
+				Navigation.PushModalAsync (new MatchDataViewTest());
 			};
-			*/
 			//Page Layout
-			this.Content = new StackLayout (){
+			StackLayout pageStack = new StackLayout (){
 				VerticalOptions = LayoutOptions.CenterAndExpand,
 				Padding = 20, Spacing = 20, //new Thickness (5, 10, 5, 10); Use this to control padding or spacing on the Left, Right, Top, Bottom
 
@@ -74,8 +96,15 @@ namespace VitruvianApp2016
 					infoBtn,
 					pitBtn,
 					matchBtn,
-					//testBtn
+					matchDataBtn,
+					overviewBtn,
+					testBtn
 				}
+			};
+
+			this.Content = new ScrollView(){
+
+				Content = pageStack
 			};
 		}
 	}

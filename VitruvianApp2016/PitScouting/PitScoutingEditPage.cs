@@ -280,7 +280,6 @@ namespace VitruvianApp2016
 					error = true;
 					errorString += "toteOrientation, "; 
 				}//Fourth
-				/*
 				try{ 
 					if(coopertitionTotes.Title != "# of Coopertition Totes They Can Stack"){
 						data["coopertitionTotes"] = Convert.ToInt32(coopertitionTotes.Title);
@@ -292,7 +291,6 @@ namespace VitruvianApp2016
 					error = true;
 					errorString += "coopertitionTotes, "; 
 				}
-				*/
 
 				//Fifth
 

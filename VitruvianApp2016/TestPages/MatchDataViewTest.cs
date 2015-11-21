@@ -7,17 +7,45 @@ using System.Threading.Tasks;
 
 namespace VitruvianApp2016
 {
-	public class RobotInfoIndexPage : ContentPage
+	public class MatchDataViewTest : ContentPage
 	{
 		StackLayout teamStack = new StackLayout();
 
-		ActivityIndicator busyIcon = new ActivityIndicator ();
+		int Z = 0;
+		Grid dataGrid = new Grid(){
+			HorizontalOptions = LayoutOptions.FillAndExpand,
+			VerticalOptions = LayoutOptions.FillAndExpand,
 
-		public RobotInfoIndexPage ()
+			RowDefinitions = {
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto },
+				new RowDefinition{ Height = GridLength.Auto }
+			},
+			ColumnDefinitions = {
+				new ColumnDefinition{ Width = GridLength.Auto},
+				new ColumnDefinition{ Width = GridLength.Auto},
+				new ColumnDefinition{ Width = GridLength.Auto}
+			}
+
+		};
+
+		public MatchDataViewTest ()
 		{
 			//Page Title
 			Label title = new Label () {
-				Text = "Robot Information",
+				Text = "MatchDataViewTest",
 				FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -69,33 +97,24 @@ namespace VitruvianApp2016
 
 				Children = {
 					title,
-					busyIcon,
-					teamList,
+					teamStack,
 					navigationBtns
 				}
 			};
 		}
 		async Task UpdateTeamList(){
-			busyIcon.IsVisible = true;
-			busyIcon.IsRunning = true;
-			ParseQuery<ParseObject> query = ParseObject.GetQuery("TeamData");
-			ParseQuery<ParseObject> sorted = query.OrderBy("teamNumber");
+			ParseQuery<ParseObject> query = ParseObject.GetQuery("MatchData");
+			ParseQuery<ParseObject> sorted = query.OrderBy("teamNo");
+			ParseQuery<ParseObject> filter = sorted.WhereEqualTo ("teamNo", 41);
 
-			var allTeams = await sorted.FindAsync();
+			var allTeams = await filter.FindAsync();
 			teamStack.Children.Clear();
 			foreach (ParseObject obj in allTeams) {
 				await obj.FetchAsync ();
 				TeamListCell cell = new TeamListCell ();
-				cell.teamName.Text = "Team " + obj ["teamNumber"];
+				cell.teamName.Text = "Match " + obj ["matchNo"];
 				teamStack.Children.Add (cell);
-				TapGestureRecognizer tap = new TapGestureRecognizer ();
-				tap.Tapped += (object sender, EventArgs e) => {
-					Navigation.PushModalAsync (new RobotInfoViewPage (obj));
-				};
-				cell.GestureRecognizers.Add (tap);
 			}
-			busyIcon.IsVisible = false;
-			busyIcon.IsRunning = false;
 		}
 	}
 }
