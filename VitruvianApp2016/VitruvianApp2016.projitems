@@ -28,6 +28,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)TestPages\MatchDataViewTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\ColumnCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\DataCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoachView\CoachViewIndexPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoachView\CoachViewDisplayPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.txt" />
@@ -44,5 +46,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)MatchData\" />
     <Folder Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\" />
     <Folder Include="$(MSBuildThisFileDirectory)TestPages\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Images\New Folder\" />
+    <Folder Include="$(MSBuildThisFileDirectory)CoachView\" />
   </ItemGroup>
 </Project>
