@@ -8,6 +8,7 @@ namespace VitruvianApp2016
 	{
 		ParseObject data;
 
+		enum RobotRole{Shooter, Breecher, Feeder, Other};
 		enum Choice{No, Yes};
 
 		string errorString = "The following data was unable to be saved: ";
@@ -15,11 +16,9 @@ namespace VitruvianApp2016
 
 		public PostMatchScoutingPage (ParseObject matchData)
 		{
-			int choiceValue = 0;
-
 			Label interferenceLabel = new Label {
-				Text = "Did the team interferece with their alliance members/stacks?",
-				TextColor = Color.Green
+				Text = "Did the team interfere with their alliance members?",
+				FontSize = GlobalVariables.sizeMedium,
 			};
 
 			Picker interferencePicker = new Picker();
@@ -30,17 +29,39 @@ namespace VitruvianApp2016
 
 			interferencePicker.SelectedIndexChanged += (sender, args) => {
 				Choice type = (Choice)interferencePicker.SelectedIndex;
-				choiceValue = interferencePicker.SelectedIndex;
 				string stringValue = type.ToString();
 				interferencePicker.Title = stringValue;
 			};
 
-			Label fieldLabel = new Label {
-				Text = "Match comments/notes:",
-				TextColor = Color.Green
+			Label roleLabel = new Label () {
+				Text = "What role did this robot generally perform?:",
+				FontSize = GlobalVariables.sizeMedium
+			};
+			Picker rolePicker = new Picker();
+			rolePicker.Title = "Choose an Option";
+			for (RobotRole i = RobotRole.Shooter; i <= RobotRole.Other; i++) {
+				rolePicker.Items.Add (i.ToString ());
+			};
+			rolePicker.SelectedIndexChanged += (sender, e) => {
+				rolePicker.Title = rolePicker.SelectedIndex.ToString ();
 			};
 
-			Editor notes = new Editor{
+			Label techFoulLabel = new Label {
+				Text = "How many tech fouls did this team commit?:",
+				FontSize = GlobalVariables.sizeMedium
+			};
+
+			Entry techFoulEntry = new Entry {
+				Placeholder = "0",
+				Keyboard = Keyboard.Numeric
+			};
+
+			Label noteLabel = new Label {
+				Text = "Match comments/notes:",
+				FontSize = GlobalVariables.sizeMedium
+			};
+
+			Editor noteEditor = new Editor{
 				HeightRequest = 100,
 				Text = "[notes]"
 			};
@@ -53,8 +74,13 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Black
 			};
 			submit.Clicked += (object sender, EventArgs e) => {
-				errorHandling("interferenceCount", choiceValue);
-				errorHandling("matchNotes", notes.Text);
+				if(interferencePicker.Title == "Yes")
+					errorHandling("interference", true);
+				else
+					errorHandling("interference", false);
+				errorHandling("matchNotes", noteEditor.Text);
+				if(rolePicker.Title.ToString() != "Choose an Option")
+					errorHandling("robotRole", rolePicker.Title.ToString());
 
 				if(errorStatus == true){
 					errorString = errorString.Remove(errorString.Length - 2); 
@@ -63,12 +89,6 @@ namespace VitruvianApp2016
 				} else {
 					Navigation.PushModalAsync(new PreMatchScoutingPage());
 				}
-				/*
-				data["interferenceCount"]= choiceValue;
-				data["matchNotes"] = notes.Text;
-				SaveData();
-				Navigation.PushModalAsync(new PreMatchScoutingPage());
-				*/
 			};
 
 			Label keyboardPadding = new Label ();
@@ -79,10 +99,14 @@ namespace VitruvianApp2016
 				VerticalOptions = LayoutOptions.FillAndExpand,
 
 				Children = {
+					roleLabel,
+					rolePicker,
 					interferenceLabel,
 					interferencePicker,
-					fieldLabel,
-					notes,
+					techFoulLabel,
+					techFoulEntry,
+					noteLabel,
+					noteEditor,
 					submit,
 					keyboardPadding
 				}
@@ -98,7 +122,7 @@ namespace VitruvianApp2016
 
 		void errorHandling(string d, string i){
 			try{
-				data[d] = i;
+				data.Add(d, i);
 				SaveData();
 			} catch {
 				errorStatus = true;
@@ -108,7 +132,17 @@ namespace VitruvianApp2016
 
 		void errorHandling(string d, int i){
 			try{
-				data[d] = i;
+				data.Add(d, i);
+				SaveData();
+			} catch {
+				errorStatus = true;
+				errorString += d + " , ";
+			}
+		}
+
+		void errorHandling(string d, bool i){
+			try{
+				data.Add(d, i);
 				SaveData();
 			} catch {
 				errorStatus = true;

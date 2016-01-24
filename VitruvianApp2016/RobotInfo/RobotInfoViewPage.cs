@@ -11,10 +11,10 @@ namespace VitruvianApp2016
 	{
 		ParseObject data;
 		Image robotImage = new Image();
-		int Z = 0;
 
-		Label[] descriptionLabel = new Label[999];
-		Label[] dataLabel = new Label[999];
+		int Z=0;
+		Label[]	descriptionLabel = new Label[99];
+		Label[]	dataLabel = new Label[99];
 
 		public RobotInfoViewPage (ParseObject teamData)
 		{
@@ -47,7 +47,7 @@ namespace VitruvianApp2016
 				}
 			};
 
-			Image robotImage = new Image();
+			// RobotImage
 			try {
 				if (teamData ["robotImage"].ToString() != null) {
 					ParseFile robotImageURL = (ParseFile)teamData ["robotImage"];
@@ -93,28 +93,11 @@ namespace VitruvianApp2016
 
 			data = teamData;
 
-			listedItem("Robot Weight:", "robotWeight");
-			listedItem("Requires Ramp:", "ramp");
 			listedItem("Drive Type:", "driveType");
-			listedItem("Tote Pickup Orientation:", "toteOrientation");
-			listedItem("Can Pickup Orientaiton:", "canOrientation");
+			listedItem("Can use the low bar?:", "lowBarAccess");
 			listedItem("Auto Strategy:", "autoStrategy");
-			listedItem("Can push tote in Auto?:", "autoTote");
 			listedItem("TeleOp Strategy:", "teleOpStrategy");
-			listedItem("# of Co-Op Totes they can stack:", "coopertitionTotes");
 			listedItem("Additional Notes:", "notes");
-
-
-			/*
-			Button viewStatsBtn = new Button {
-				Text = "View Stats",
-				TextColor = Color.Green,
-				BackgroundColor= Color.Black
-			};
-			viewStatsBtn.Clicked += (object sender, EventArgs e) => {
-				//Navigation.PushModalAsync(new TeamStatGenerator(Convert.ToInt32(teamData["teamNumber"].ToString())));
-			};
-			*/
 
 			//Refresh Button
 			Button refreshBtn = new Button () {
@@ -171,7 +154,6 @@ namespace VitruvianApp2016
 			grid.Children.Add (robotImage, 0, 0);
 			grid.Children.Add (side, 1, 0);
 			grid.Children.Add (info, 0, 2, 1, 2);
-			//grid.Children.Add (viewStatsBtn, 0, 2, 2, 3);
 			grid.Children.Add (navigationBtns, 0, 2, 2, 3);
 
 			this.Content = new ScrollView {

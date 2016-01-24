@@ -11,7 +11,7 @@ namespace VitruvianApp2016
 		{
 			data = new Label ();
 			WidthRequest = 30;
-			HeightRequest = 20;
+			HeightRequest = 10;
 			BackgroundColor = Color.White;
 			data.TextColor = Color.Black;
 			data.FontSize = GlobalVariables.sizeSmall;

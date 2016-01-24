@@ -10,7 +10,7 @@ namespace VitruvianApp2016
 		public ColumnCell ()
 		{
 			column = new Label ();
-			HeightRequest = 20;
+			HeightRequest = 10;
 			column.FontSize = GlobalVariables.sizeMedium;
 			column.BackgroundColor = Color.Black;
 			column.TextColor = Color.White;

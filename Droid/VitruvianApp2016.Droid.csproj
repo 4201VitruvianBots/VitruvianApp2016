@@ -84,6 +84,9 @@
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
+    <AndroidResource Include="..\VitruvianApp2016\Images\Placeholder_image_placeholder.png">
+      <Link>Resources\drawable\Placeholder_image_placeholder.png</Link>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="..\VitruvianApp2016\VitruvianApp2016.projitems" Label="Shared" Condition="Exists('..\VitruvianApp2016\VitruvianApp2016.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

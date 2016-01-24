@@ -7,14 +7,14 @@ using Parse;
 
 namespace VitruvianApp2016
 {
-	public class MatchDataSelectPage:ContentPage
+	public class MatchDataSearchPage:ContentPage
 	{
 		StackLayout dataList = new StackLayout();
 
-		public MatchDataSelectPage ()
+		public MatchDataSearchPage ()
 		{
 			Grid layoutGrid = new Grid () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 
 				RowDefinitions = {
@@ -23,13 +23,15 @@ namespace VitruvianApp2016
 					new RowDefinition{ Height = GridLength.Auto },
 					new RowDefinition{ Height = GridLength.Auto },
 					new RowDefinition{ Height = GridLength.Auto },
-					new RowDefinition{ Height = GridLength.Auto }
+					new RowDefinition{ Height = GridLength.Auto },
+					new RowDefinition{ Height = new GridLength(1, GridUnitType.Star) },
+					new RowDefinition{ Height = GridLength.Auto },
+
 				},
 				ColumnDefinitions = {
 					new ColumnDefinition{ Width = GridLength.Auto },
-					new ColumnDefinition{ Width = GridLength.Auto }
+					new ColumnDefinition{ Width = GridLength.Auto },
 				}
-
 			};
 
 			Label title = new Label () {
@@ -88,6 +90,20 @@ namespace VitruvianApp2016
 				}
 			};
 
+			Button allMatchesBtn = new Button () {
+				Text = "Show all Matches",
+				TextColor = Color.Green,
+				BackgroundColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium
+			};
+			allMatchesBtn.Clicked += (object sender, EventArgs e) => {
+				try{
+					filterMatches(3, -4201);
+				} catch{
+					DisplayAlert("Error:", "Unknown Error", "OK");
+				}
+			};
+
 			//Back Button
 			Button backBtn = new Button () {
 				Text = "Back",
@@ -117,7 +133,8 @@ namespace VitruvianApp2016
 			layoutGrid.Children.Add (matchSearch, 0, 1, 3, 4);
 			layoutGrid.Children.Add (matchSearchEntry, 0, 1, 4, 5);
 			layoutGrid.Children.Add (matchSearchBtn, 1, 2, 4, 5);
-			layoutGrid.Children.Add (navigationBtns, 0, 2, 5, 6);
+			layoutGrid.Children.Add (allMatchesBtn, 1, 2, 5, 6);
+			layoutGrid.Children.Add (navigationBtns, 0, 2, 7, 8);
 
 			this.Content = new ScrollView () {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -135,13 +152,14 @@ namespace VitruvianApp2016
 			if (searchType == 1) {
 				filter = sorted.WhereEqualTo ("teamNo", number);			
 				var dataSelect = await filter.FindAsync();
-				Console.WriteLine ("test1");
-				await Navigation.PushModalAsync(new MatchDataViewTeamPage(dataSelect, number));
-				Console.WriteLine ("test2");
+				await Navigation.PushModalAsync(new MatchDataDisplayPage(dataSelect, number));
 			} else if (searchType == 2) {
 				filter = query.WhereEqualTo ("matchNo", number);
 				var dataSelect = await filter.FindAsync();
-				//Navigation.PushAsync(new MatchDataViewMatchPage(dataSelect));
+				await Navigation.PushModalAsync(new MatchDataDisplayPage(dataSelect, number));
+			} else if (searchType == 3){
+				var dataSelect = await sorted.FindAsync();
+				await Navigation.PushModalAsync(new MatchDataDisplayPage(dataSelect, number));
 			}
 		}
 	}

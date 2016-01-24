@@ -9,6 +9,15 @@ namespace VitruvianApp2016
 	{
 		ParseObject MatchData = new ParseObject("MatchData");
 
+		enum alliance {red1, red2, red3, blue1, blue2, blue3};
+		enum defA {Portcullis, Cheval_de_Frise};
+		enum defB {Moat, Ramparts};
+		enum defC {Drawbridge, Salley_Port};
+		enum defD {Rock_Wall, Rough_Terrain};
+		Picker[] defPicker = new Picker[4]{new Picker(),new Picker(),new Picker(),new Picker()};
+		Label[] defLabel = new Label[4]{ new Label (), new Label (), new Label (), new Label () };
+		int[] def = new int[4] { -1, -1, -1, -1};
+
 		public PreMatchScoutingPage ()
 		{
 			Label matchNoLabel = new Label {
@@ -30,8 +39,50 @@ namespace VitruvianApp2016
 				Placeholder = "[Enter Team No.]"
 			};
 			teamNo.Keyboard = Keyboard.Numeric;
-			//Start Match Scout
 
+			// alliancePicker
+			Label allianceLabel = new Label {
+				Text = "Alliance Position:",
+				FontSize = GlobalVariables.sizeMedium,
+			};
+
+			Picker alliancePicker = new Picker();
+			alliancePicker.Title = "Choose an Option";
+			for (alliance i = alliance.red1; i <= alliance.blue3; i++) {
+				alliancePicker.Items.Add (i.ToString ());
+			};
+			alliancePicker.SelectedIndexChanged += (sender, e) => {
+				alliancePicker.Title = alliancePicker.SelectedIndex.ToString ();
+			};
+
+			// positionPicker
+			Label positionLabel = new Label {
+				Text = "Starting Position:",
+				FontSize = GlobalVariables.sizeMedium,
+			};
+
+			Picker positionPicker = new Picker();
+			positionPicker.Title = "Choose an Option";
+			for (int i = 1; i <= 7; i++) {
+				positionPicker.Items.Add (i.ToString ());
+			};
+			positionPicker.SelectedIndexChanged += (sender, e) => {
+				positionPicker.Title = positionPicker.SelectedIndex.ToString ();
+			};
+
+			// defPickers
+			for (int i = 0; i < 2; i++) {
+				defPicker[0].Items.Add (((defA)i).ToString());
+				defPicker[1].Items.Add (((defB)i).ToString());
+				defPicker[2].Items.Add (((defC)i).ToString());
+				defPicker[3].Items.Add (((defD)i).ToString());
+			}
+			defFunction ("Category A", 0);
+			defFunction ("Category B", 1);
+			defFunction ("Category C", 2);
+			defFunction ("Category D", 3);
+
+			//Start Match Scout
 			Button beginScoutBtn = new Button {
 				Text = "Begin Match",
 				TextColor = Color.Green,
@@ -39,18 +90,23 @@ namespace VitruvianApp2016
 				FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label))
 			};
 			beginScoutBtn.Clicked += (object sender, EventArgs e) => {
-				if(string.IsNullOrEmpty(matchNo.Text) || string.IsNullOrEmpty(teamNo.Text)){
-					DisplayAlert("Error", "Input both Team Number and Match Number", "Ok");
+				if(string.IsNullOrEmpty(matchNo.Text) || string.IsNullOrEmpty(teamNo.Text) ||positionPicker.Title.ToString() == "Choose an Option" || defPicker[0].Title.ToString() == "Choose an Option" || defPicker[1].Title.ToString() == "Choose an Option" || defPicker[2].Title.ToString() == "Choose an Option" || defPicker[3].Title.ToString() == "Choose an Option"){
+					DisplayAlert("Error", "Fill out all Fields", "Ok");
 				} else {
 					Console.WriteLine(matchNo.Text);
-					MatchData.Add("team_Match", teamNo.Text+"-"+matchNo.Text);
 					MatchData.Add("teamNo", Convert.ToInt32(teamNo.Text));
 					MatchData.Add("matchNo", Convert.ToInt32(matchNo.Text));
+					MatchData.Add("alliance", Convert.ToString(positionPicker.Title.ToString()));
+					MatchData.Add("startPosition", Convert.ToInt32(positionPicker.Title.ToString()));
 					SaveData();
-					Navigation.PushModalAsync(new AutoMatchScoutingPage(MatchData));
+					def[0]=defPicker[0].SelectedIndex;
+					def[1]=defPicker[1].SelectedIndex;
+					def[2]=defPicker[2].SelectedIndex;
+					def[3]=defPicker[3].SelectedIndex;
+
+					Navigation.PushModalAsync(new AutoMatchScoutingPage(MatchData, def));
 				}
 			};
-
 
 			//Back Button
 			Button backBtn = new Button (){
@@ -74,7 +130,7 @@ namespace VitruvianApp2016
 				}
 			};
 
-			this.Content = new StackLayout () {
+			 StackLayout pageLayout = new StackLayout () {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 
@@ -83,8 +139,23 @@ namespace VitruvianApp2016
 					matchNo,
 					teamNoLabel,
 					teamNo,
-					navigationBtns
+					allianceLabel,
+					alliancePicker,
+					positionLabel,
+					positionPicker,
 				}
+			};
+			for(int i=0; i<4; i++){
+				pageLayout.Children.Add(defLabel[i]);
+				pageLayout.Children.Add(defPicker[i]);
+			}
+			pageLayout.Children.Add(navigationBtns);
+
+			this.Content = new ScrollView(){
+				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				VerticalOptions = LayoutOptions.Fill,
+
+				Content=pageLayout
 			};
 		}
 
@@ -92,6 +163,16 @@ namespace VitruvianApp2016
 			Console.WriteLine ("Saving...");
 			await MatchData.SaveAsync ();
 			Console.WriteLine ("Done Saving");
+		}
+
+		void defFunction(string title, int arrayIndex){
+			defLabel [arrayIndex].Text = title;
+			defLabel [arrayIndex].FontSize = GlobalVariables.sizeMedium;
+
+			defPicker [arrayIndex].Title = "Choose an Option";
+			defPicker[arrayIndex].SelectedIndexChanged += (sender, e) => {
+				defPicker[arrayIndex].Title = defPicker[arrayIndex].SelectedIndex.ToString ();
+			};
 		}
 	}
 }

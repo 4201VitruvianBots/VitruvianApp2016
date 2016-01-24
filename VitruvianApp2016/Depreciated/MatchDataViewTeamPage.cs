@@ -23,34 +23,6 @@ namespace VitruvianApp2016
 			BackgroundColor =Color.Black,
 			ColumnSpacing = 1,
 			RowSpacing = 1,
-
-			RowDefinitions = {
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-			},
-			ColumnDefinitions = {
-				new ColumnDefinition{ Width = GridLength.Auto},
-				new ColumnDefinition{ Width = GridLength.Auto},
-				new ColumnDefinition{ Width = GridLength.Auto},
-				new ColumnDefinition{ Width = GridLength.Auto},
-				new ColumnDefinition{ Width = GridLength.Auto}
-			}
-
 		};
 
 
@@ -121,16 +93,20 @@ namespace VitruvianApp2016
 				}
 			};
 
-			ScrollView verticalScroll = new ScrollView () {
+			ScrollView dataVerticalScroll = new ScrollView () {
 				Orientation = ScrollOrientation.Vertical,
 
 				Content = dataStack
 			};
 
+			ScrollView dataHorizontalScroll = new ScrollView () {
+				Content = dataVerticalScroll
+			};
 			//grid.Children.Add (robotImage, 0, 0);
 			layoutGrid.Children.Add (teamNumberLabel, 1, 0);
-			layoutGrid.Children.Add (verticalScroll, 0, 2, 1, 2);
+			layoutGrid.Children.Add (dataHorizontalScroll, 0, 2, 1, 2);
 			layoutGrid.Children.Add (navigationBtns, 0, 2, 2, 3);
+
 
 			this.Content = new ScrollView {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -157,6 +133,7 @@ namespace VitruvianApp2016
 				cell2.teamNo.Text = obj ["teamNo"].ToString();
 				dataGrid.Children.Add (cell2, 1, 2, Z, Z+1);
 
+				/*
 				DataCell cell3 = new DataCell ();
 				cell3.data.Text = obj ["TotalScore"].ToString();
 				dataGrid.Children.Add (cell3, 2, 3, Z, Z+1);
@@ -168,6 +145,7 @@ namespace VitruvianApp2016
 				DataCell cell5 = new DataCell ();
 				cell5.data.Text = Convert.ToString(Convert.ToInt32(obj ["TotalScore"].ToString()) - Convert.ToInt32(obj ["autoPoints"].ToString()));
 				dataGrid.Children.Add (cell5, 4, 5, Z, Z + 1);
+				*/
 
 				Z++;
 			}

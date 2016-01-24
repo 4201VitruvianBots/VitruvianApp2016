@@ -60,7 +60,7 @@ namespace VitruvianApp2016
 				FontSize = GlobalVariables.sizeMedium
 			};
 			matchDataBtn.Clicked += (object sender, EventArgs e) => {
-				Navigation.PushModalAsync (new MatchDataSelectPage());
+				Navigation.PushModalAsync (new MatchDataSearchPage());
 			};
 
 			//Match Overview

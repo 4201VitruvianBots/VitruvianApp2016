@@ -1,12 +1,10 @@
 ﻿using System;
 using Xamarin.Forms;
 using Parse;
-using Xamarin.Media;
-using System.IO;
 
 namespace VitruvianApp2016
 {
-	public class PitScoutingEditPage:ContentPage
+	public class PitScoutEditPage2:ContentPage
 	{
 		ParseObject data;
 
@@ -19,10 +17,8 @@ namespace VitruvianApp2016
 
 		Image robotImage = new Image();
 
-		public PitScoutingEditPage (ParseObject teamData)
+		public PitScoutEditPage2 (ParseObject teamData)
 		{
-			data = teamData;
-
 			Grid grid = new Grid () {
 				//Padding = new Thickness(0,20,0,0), 
 				VerticalOptions = LayoutOptions.FillAndExpand,
@@ -37,12 +33,6 @@ namespace VitruvianApp2016
 					new ColumnDefinition{ Width = new GridLength(160, GridUnitType.Absolute) },
 					new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) }
 				}
-			};
-
-			var imageTap = new TapGestureRecognizer ();
-			imageTap.Tapped += (s, e) => {
-				Console.WriteLine("Tapped");
-				OpenImagePicker();
 			};
 
 			// RobotImage
@@ -64,7 +54,7 @@ namespace VitruvianApp2016
 				robotImage.Source = "Placeholder_image_placeholder.png";
 			}
 			robotImage.Aspect = Aspect.AspectFit; //Need better way to scale an image while keeping aspect ratio, but not overflowing everything else
-			robotImage.GestureRecognizers.Add (imageTap);
+			// robotImage.GestureRecognizers.Add (imageTap);
 
 			string teamNo;
 			try{
@@ -109,19 +99,13 @@ namespace VitruvianApp2016
 			};
 
 			Picker driveTypePicker = new Picker();
-			try{
-				if(teamData["driveType"] != null)
-					driveTypePicker.Title = teamData["driveType"].ToString();
-			}
-			catch{
-				driveTypePicker.Title = "Choose an Option";
-			}
+			driveTypePicker.Title = "Choose an Option";
 			for (DriveTypes i = DriveTypes.Tank; i <= DriveTypes.Other; i++) {
 				driveTypePicker.Items.Add (i.ToString ());
-			};
+			}
+			;
 			driveTypePicker.SelectedIndexChanged += (sender, e) => {
-				DriveTypes type = (DriveTypes)driveTypePicker.SelectedIndex;
-				driveTypePicker.Title = type.ToString ();
+				driveTypePicker.Title = driveTypePicker.SelectedIndex.ToString ();
 			};
 
 			// Low Bar Picker
@@ -131,19 +115,13 @@ namespace VitruvianApp2016
 			};
 
 			Picker lowBarPicker = new Picker();
-			try{
-				if(teamData["lowBarAccess"] != null)
-					lowBarPicker.Title = teamData["lowBarAccess"].ToString();
-			}
-			catch{
-				lowBarPicker.Title = "Choose an Option";
-			}
+			lowBarPicker.Title = "Choose an Option";
 			for (Choice i = Choice.Yes; i <= Choice.No; i++) {
 				lowBarPicker.Items.Add (i.ToString ());
-			};
+			}
+			;
 			lowBarPicker.SelectedIndexChanged += (sender, e) => {
-				Choice type = (Choice)lowBarPicker.SelectedIndex;
-				lowBarPicker.Title = type.ToString();
+				lowBarPicker.Title = lowBarPicker.SelectedIndex.ToString ();
 			};
 
 			// Auto Strategy Editor
@@ -157,7 +135,7 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Gray
 			};
 			try{
-				if(teamData["autoStrategy"] != null)
+				if(data[autoStrategy] != null)
 					autoStrategyEditor.Text = data ["autoStrategy"].ToString();
 			} catch {
 				autoStrategyEditor.Text = "<No Data Recorded>";
@@ -174,7 +152,7 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Gray
 			};
 			try{
-				if(teamData["teleOpStrategy"] != null)
+				if(data["teleOpStrategy"] != null)
 					teleOpStrategyEditor.Text = data ["teleOpStrategy"].ToString();
 			} catch {
 				teleOpStrategyEditor.Text = "<No Data Recorded>";
@@ -191,7 +169,7 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Gray
 			};
 			try{
-				if(teamData["notes"] != null)
+				if(data["notes"] != null)
 					notesEditor.Text = data ["notes"].ToString();
 			} catch {
 				notesEditor.Text = "<No Data Recorded>";
@@ -200,26 +178,67 @@ namespace VitruvianApp2016
 			data = teamData;
 
 			Button updateBtn = new Button () {
-				Text = "Update Button",
-				TextColor = Color.Green,
-				BackgroundColor = Color.Black
+				Text = "Update Button" 
 			};
 			updateBtn.Clicked += (object sender, EventArgs e) => {
 				// UpdateBtn
-				errorHandling("driveType", driveTypePicker.Title);
-				errorHandling("lowBarAccess", lowBarPicker.Title);
-				errorHandling("autoStrategy", autoStrategyEditor.Text.ToString());
-				errorHandling("teleOpStrategy", teleOpStrategyEditor.Text.ToString());
-				errorHandling("notes", notesEditor.Text.ToString());
+				try{
+					if(driveTypePicker.Title != "Choose an Option"){
+						data["driveType"] = driveTypePicker.Title.ToString();
+						SaveData();
+					}
+				}
+				catch {
+					errorString += "driveType, ";
+					error = true;
+				}
+				try{
+					if(lowBarPicker.Title != "Choose an Option"){
+						data["lowBarAccess"] = lowBarPicker.Title.ToString();
+						SaveData();
+					}
+				}
+				catch {
+					errorString += "lowBarAccess, ";
+					error = true;
+				}
+				try{
+					if(autoStrategyEditor.Text != "<No Data Recorded>"){
+						data["autoStrategy"] = autoStrategyEditor.Title.ToString();
+						SaveData();
+					}
+				}
+				catch {
+					errorString += "autoStrategy, ";
+					error = true;
+				}
+				try{
+					if(teleOpStrategyEditor.Text != "<No Data Recorded>"){
+						data["teleOpStrategy"] = teleOpStrategyEditor.Title.ToString();
+						SaveData();
+					}
+				}
+				catch {
+					errorString += "teleOpStrategy, ";
+					error = true;
+				}
+				try{
+					if(notesEditor.Text != "<No Data Recorded>"){
+						data["notes"] = notesEditor.Title.ToString();
+						SaveData();
+					}
+				}
+				catch {
+					errorString += "notes, ";
+					error = true;
+				}
 
 				// DisplayAlert if save did not go through
 				if(error == true){
-					errorString.Remove(errorString.Length - 2);
+					errorString -= 2;
 					DisplayAlert("Error", errorString, "OK");
 					errorString = errorStringDefault;
 					error = false;
-				} else{
-					Navigation.PopModalAsync();
 				}
 			};
 
@@ -278,12 +297,14 @@ namespace VitruvianApp2016
 
 				Children = {
 					backBtn,
+					driveTypeLabel,
+					driveTypePicker,
 					refreshBtn,
 					updateBtn
 				}
 			};
 
-			grid.Children.Add (robotImage, 0, 0);
+			//grid.Children.Add (robotImage, 0, 0);
 			grid.Children.Add (side, 1, 0);
 			grid.Children.Add (info, 0, 2, 1, 2);
 			grid.Children.Add (navigationBtns, 0, 2, 2, 3);
@@ -296,65 +317,8 @@ namespace VitruvianApp2016
 			};
 		}
 
-		void errorHandling(string d, string i){
-			try{
-				data[d] = i;
-				SaveData();
-			} catch {
-				error = true;
-				errorString += d + " , ";
-			}
-		}
-
-		void errorHandling(string d, int i){
-			try{
-				data[d] = i;
-				SaveData();
-			} catch {
-				error = true;
-				errorString += d + " , ";
-			}
-		}
-
-		void errorHandling(string d, bool i){
-			try{
-				data[d] = i;
-				SaveData();
-			} catch {
-				error = true;
-				errorString += d + " , ";
-			}
-		}
-
 		async void SaveData(){
 			await data.SaveAsync ();
-		}
-
-		public byte[] ImageToBinary(string imagePath)
-		{
-			FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
-			byte[] buffer = new byte[fileStream.Length];
-			fileStream.Read(buffer, 0, (int)fileStream.Length);
-			fileStream.Close();
-			return buffer;
-		}
-
-		async void OpenImagePicker(){
-			//It works? Don't use gallery
-			MediaPicker imagePicker = new MediaPicker(Forms.Context);
-			try{
-				Console.WriteLine(".25: ");
-				MediaFile robotImagePath = await imagePicker.PickPhotoAsync();
-				//Console.WriteLine(robotImagePath.Path);
-				ParseFile temp = new ParseFile(data["teamNumber"].ToString()+".jpg", ImageToBinary(robotImagePath.Path));
-				data["robotImage"] = temp;
-
-				SaveData();
-				await Navigation.PushModalAsync(new PitScoutingEditPage(data));
-			}
-			catch{
-				Console.WriteLine ("Error");
-			}
 		}
 	}
 }

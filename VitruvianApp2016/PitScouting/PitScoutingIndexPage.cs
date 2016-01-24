@@ -11,6 +11,8 @@ namespace VitruvianApp2016
 	{
 		StackLayout teamStack = new StackLayout();
 
+		ActivityIndicator busyIcon = new ActivityIndicator ();
+
 		public PitScoutingIndexPage ()
 		{
 			//Page Title
@@ -67,12 +69,15 @@ namespace VitruvianApp2016
 
 				Children = {
 					title,
+					busyIcon,
 					teamList,
 					navigationBtns
 				}
 			};
 		}
 		async Task UpdateTeamList(){
+			busyIcon.IsVisible = true;
+			busyIcon.IsRunning = true;
 			ParseQuery<ParseObject> query = ParseObject.GetQuery("TeamData");
 			ParseQuery<ParseObject> sorted = query.OrderBy("teamNumber");
 
@@ -89,6 +94,8 @@ namespace VitruvianApp2016
 				};
 				cell.GestureRecognizers.Add (tap);
 			}
+			busyIcon.IsVisible = false;
+			busyIcon.IsRunning = false;
 		}
 	}
 }

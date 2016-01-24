@@ -9,10 +9,13 @@ namespace VitruvianApp2016
 		public App ()
 		{
 			// 2015 App
-			ParseClient.Initialize("df6eih4fo22hNaYhb5IB6jo5AUqE5XykXkezyAtk", "5mk9AEUsOfW8bjtNUu6fmxxvXpOgoHBifY6k8uBz");
+			// ParseClient.Initialize("df6eih4fo22hNaYhb5IB6jo5AUqE5XykXkezyAtk", "5mk9AEUsOfW8bjtNUu6fmxxvXpOgoHBifY6k8uBz");
 
 			// 2016 App
-			//ParseClient.Initialize("efyheG3BwD7TagqRBxCvq377InnwhThDxrzo5iNS","znyJSWdN3xaV3ifTZLjSrNCy10vkJzkm3sv0v25Q");
+			ParseClient.Initialize("efyheG3BwD7TagqRBxCvq377InnwhThDxrzo5iNS","znyJSWdN3xaV3ifTZLjSrNCy10vkJzkm3sv0v25Q");
+
+			// TestBed
+			//ParseClient.Initialize("iZPoxkNpPDp9MqKs4mcVA8xh1dlkdevZu0uFnQsO","NlWGkk9FTMqmeQYVc0STn5i76NV7aTdHivcOTwk1");
 
 			MainPage = new MainMenuPage ();
 		}

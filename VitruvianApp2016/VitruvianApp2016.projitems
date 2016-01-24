@@ -12,37 +12,42 @@
     <Compile Include="$(MSBuildThisFileDirectory)VitruvianApp2016.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalVariables.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainMenuPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\AutoMatchScoutingPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\PostMatchScoutingPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\PreMatchScoutingPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\TeleOpMatchScoutingPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PitScouting\PitScoutingEditPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PitScouting\PitScoutingIndexPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RobotInfo\RobotInfoIndexPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RobotInfo\RobotInfoViewPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\TeamListCell.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataSelectPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\MatchNumberCell.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\TeamNumberCell.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataViewTeamPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestPages\MatchDataViewTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\ColumnCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\DataCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\AutoMatchScoutingPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\TeleOpMatchScoutingPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataSearchPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataDisplayPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.txt" />
     <None Include="$(MSBuildThisFileDirectory)Images\Placeholder_image_placeholder.png" />
-    <None Include="$(MSBuildThisFileDirectory)Debug Hold\TeleOpMatchScoutingPage2016.cs" />
     <None Include="$(MSBuildThisFileDirectory)Code Examples\C#Essentials.cs" />
     <None Include="$(MSBuildThisFileDirectory)Code Examples\FunctionExample.cs" />
     <None Include="$(MSBuildThisFileDirectory)Code Examples\ParseSaveExample.cs" />
     <None Include="$(MSBuildThisFileDirectory)Code Examples\XamarinObjects.cs" />
-    <None Include="$(MSBuildThisFileDirectory)MatchData\MatchDataViewMatchPage.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Depreciated\MatchDataViewTeamPage.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Depreciated\MatchDataViewMatchPage.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Depreciated\PitScoutEditPage2.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Depreciated\TeleOpMatchScoutingPage2016.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Depreciated\TeamNumberCell.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Depreciated\MatchNumberCell.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Depreciated\TeleOpMatchScoutingPage2.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)MatchInfo\" />
     <Folder Include="$(MSBuildThisFileDirectory)MatchData\" />
     <Folder Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\" />
     <Folder Include="$(MSBuildThisFileDirectory)TestPages\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Depreciated\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Debug Hold\" />
   </ItemGroup>
 </Project>

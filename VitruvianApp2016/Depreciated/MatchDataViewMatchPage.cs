@@ -16,30 +16,6 @@ namespace VitruvianApp2016
 		Grid dataGrid = new Grid(){
 			HorizontalOptions = LayoutOptions.FillAndExpand,
 			VerticalOptions = LayoutOptions.FillAndExpand,
-
-			RowDefinitions = {
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto }
-			},
-			ColumnDefinitions = {
-				new ColumnDefinition{ Width = GridLength.Auto},
-				new ColumnDefinition{ Width = GridLength.Auto},
-				new ColumnDefinition{ Width = GridLength.Auto}
-			}
-
 		};
 
 		public MatchDataViewMatchPage (IEnumerable<ParseObject> data)
@@ -62,8 +38,7 @@ namespace VitruvianApp2016
 					new ColumnDefinition{ Width = GridLength.Auto},
 				}
 			};
-
-
+					
 			//Refresh Button
 			Button refreshBtn = new Button () {
 				Text = "Refresh",

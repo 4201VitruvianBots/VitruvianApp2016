@@ -8,103 +8,45 @@ namespace VitruvianApp2016
 	{
 		ParseObject data;
 
-		Label TotalPoints = new Label ();
+		Grid layoutGrid = new Grid ();
 
-		int autoPoints = 0, robotSet = 0, containerSet = 0, toteSet =0, stackedToteSet = 0;
+		enum defA {Portcullis, Cheval_de_Frise};
+		enum defB {Moat, Ramparts};
+		enum defC {Drawbridge, Salley_Port};
+		enum defD {Rock_Wall, Rough_Terrain};
 
-		string errorString = "The following data was unable to be saved: ";
-		bool errorStatus = false;
+		const int N = 10;
+		int[] scoreValue = new int[N];
+		Button[] minus = new Button[N];
+		Button[] plus = new Button[N];
+		Label[] displayValue = new Label[N];
+		int[] def = new int[4]{-1, -1, -1, -1};
 
-		public AutoMatchScoutingPage (ParseObject MatchData)
-		{	
-			//Robot Set
-			Button RobotSetBtn = new Button(){
-				Text = "Robot Set",
-				BackgroundColor = Color.Gray,
-				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
-			};
-			RobotSetBtn.Clicked += (object sender, EventArgs e) => {
-				if(robotSet==0){
-					robotSet=1;
-					RobotSetBtn.BackgroundColor = Color.Green;
-					UpdateValues();
-				} else {
-					robotSet=0;
-					RobotSetBtn.BackgroundColor = Color.Gray;
-					UpdateValues();
-				}
-			};
+		const string errorStringDefault = "The Following Data Was Unable To Be Saved: ";
+		string errorString = errorStringDefault;
+		bool error = false;
 
-			//Container Set
-			Button ContainerSetBtn = new Button(){
-				Text = "Container Set",
-				BackgroundColor = Color.Gray,
-				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
-			};
-			ContainerSetBtn.Clicked += (object sender, EventArgs e) => {
-				if(containerSet==0){
-					containerSet=1;
-					ContainerSetBtn.BackgroundColor = Color.Green;
-					UpdateValues();
-				} else {
-					containerSet=0;
-					ContainerSetBtn.BackgroundColor = Color.Gray;
-					UpdateValues();
-				}
-			};
-
-			//Stacked Tote Set
-			Button StackedToteSetBtn = new Button(){
-				Text = "Stacked Tote Set",
-				BackgroundColor = Color.Red,
-				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
-			};
-			StackedToteSetBtn.Clicked += (object sender, EventArgs e) => {
-				if(stackedToteSet==0 && toteSet ==1){
-					stackedToteSet=1;
-					StackedToteSetBtn.BackgroundColor = Color.Green;
-					UpdateValues();
-				} else if(stackedToteSet==1 && stackedToteSet==1) {
-					stackedToteSet=0;
-					StackedToteSetBtn.BackgroundColor = Color.Gray;
-					UpdateValues();
-				}
-			};
-
-			//Tote Set
-			Button ToteSetBtn = new Button (){
-				Text = "Tote Set",
-				BackgroundColor = Color.Gray,
-				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
-			};
-			ToteSetBtn.Clicked += (object sender, EventArgs e) => {
-				if(toteSet==0){
-					toteSet=1;
-					ToteSetBtn.BackgroundColor = Color.Green;
-					StackedToteSetBtn.BackgroundColor = Color.Gray;
-					UpdateValues();
-				} else {
-					toteSet=0;
-					stackedToteSet=0;
-					ToteSetBtn.BackgroundColor = Color.Gray;
-					StackedToteSetBtn.BackgroundColor = Color.Red;
-					UpdateValues();
-				}
-			};
-
-			//Pull Can from Step
-			Label autoCansLabel = new Label {
-				Text = "Step Cans Pulled in Auto:"
-			};
-
-			Picker autoCans = new Picker();
-			for(int i = 1; i<=5; i++){
-				autoCans.Items.Add(Convert.ToString(i));
+		public AutoMatchScoutingPage (ParseObject MatchData, int[] def)
+		{
+			for(int i=0; i<N; i++){
+				scoreValue [i] = 0;
+				minus [i] = new Button ();
+				plus [i] = new Button ();
+				displayValue[i] = new Label ();
 			}
-			autoCans.Title = "0";
-			autoCans.SelectedIndexChanged += (sender, args) => {
-				autoCans.Title = Convert.ToString(autoCans.SelectedIndex+1);
+
+			Label pageTitle = new Label () {
+				Text = "Autonomous Mode",
+				FontSize = GlobalVariables.sizeTitle
 			};
+
+			defense (0, 0, 1, ((defA)def[0]).ToString());
+			defense (1, 3, 1, ((defB)def[1]).ToString());
+			defense (2, 6, 1, ((defC)def[2]).ToString());
+			defense (3, 9, 1, ((defD)def[3]).ToString());
+			defense (4, 12, 1, "Low Bar");
+			shoot (5, 0, 3, "Low Shot");
+			shoot (7, 3, 3, "High Shot");
 
 			data = MatchData;
 
@@ -112,65 +54,152 @@ namespace VitruvianApp2016
 				Text = "TeleOp",
 				BackgroundColor = Color.Yellow,
 				TextColor = Color.Black,
-				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
+				FontSize = GlobalVariables.sizeMedium
 			};
-			TeleopPage.Clicked += (object sender, EventArgs e) => {
-				UpdateValues();
-				errorHandling("autoPoints", autoPoints);
-				if(string.IsNullOrEmpty(autoCans.Title) == false)
-					errorHandling("autoStepCanPulls", Convert.ToInt32(autoCans.Title));
 
-				if(errorStatus == true){
+			TeleopPage.Clicked += (object sender, EventArgs e) => {
+				if(def[0] == 0)
+					errorHandling("autoA1", Convert.ToInt32(scoreValue[0]));
+				else if(def[0] == 1)
+					errorHandling("autoA2", Convert.ToInt32(scoreValue[0]));
+				if(def[1] == 0)
+					errorHandling("autoB1", Convert.ToInt32(scoreValue[1]));
+				else if(def[1] == 1)
+					errorHandling("autoB2", Convert.ToInt32(scoreValue[1]));
+				if(def[2] == 0)
+					errorHandling("autoC1", Convert.ToInt32(scoreValue[2]));
+				else if(def[2] == 1)
+					errorHandling("autoC2", Convert.ToInt32(scoreValue[2]));
+				if(def[3] == 0)
+					errorHandling("autoD1", Convert.ToInt32(scoreValue[3]));
+				else if(def[3] == 1)
+					errorHandling("autoD2", Convert.ToInt32(scoreValue[3]));
+				errorHandling("autoE", Convert.ToInt32(scoreValue[4]));
+				errorHandling("autoShotHighSuccess", Convert.ToInt32(scoreValue[5]));
+				errorHandling("autoShotHighTotal", Convert.ToInt32(scoreValue[5]+scoreValue[6]));
+				errorHandling("autoShotLowSuccess", Convert.ToInt32(scoreValue[7]));
+				errorHandling("autoShotLowTotal", Convert.ToInt32(scoreValue[7]+scoreValue[8]));
+
+				if(error == true){
 					errorString = errorString.Remove(errorString.Length - 2); 
 					DisplayAlert("Error:", errorString, "OK");
 					errorString = "The following data was unable to be saved: ";
+					errorString = errorStringDefault;
+					error = false;
 				} else {
-					Navigation.PushModalAsync(new TeleOpMatchScoutingPage(data));
+					Navigation.PushModalAsync(new TeleOpMatchScoutingPage(data, def));
 				}
-
-				/*
-				data["autoPoints"] = autoPoints;
-				if(string.IsNullOrEmpty(autoCans.Title)==false){
-					data["autoStepCanPulls"] = Convert.ToInt16(autoCans.Title);
-				}
-				SaveData();
-				Navigation.PushModalAsync(new TeleOpMatchScoutingPage(MatchData));
-				*/
 			};
+			layoutGrid.Children.Add (pageTitle, 0, 6, 0, 1);
+			layoutGrid.Children.Add (TeleopPage, 12, 15, 4, 5);
 
-			this.Content = new StackLayout {
+			this.Content = new StackLayout () {
 				Children = {
-					TotalPoints,
-					RobotSetBtn,
-					ContainerSetBtn,
-					ToteSetBtn,
-					StackedToteSetBtn,
-					autoCansLabel,
-					autoCans,
-					TeleopPage
+					layoutGrid
 				}
 			};
+			BackgroundColor = Color.Lime;
+		}
+
+		void defense(int arrayIndex, int x, int y, string title){
+			displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
+			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
+			minus [arrayIndex].Text = "-";
+			minus [arrayIndex].BackgroundColor = Color.Red;
+			plus [arrayIndex].Text = "+";
+			plus [arrayIndex].BackgroundColor = Color.Green;
+
+			minus[arrayIndex].Clicked += (object sender, EventArgs e) => {
+				if(scoreValue[arrayIndex] != 0){
+					scoreValue[arrayIndex]--;
+					displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
+				}
+			};
+			plus[arrayIndex].Clicked += (object sender, EventArgs e) => {
+				if(scoreValue[arrayIndex] != 1){
+					scoreValue[arrayIndex]++;
+					displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
+				}
+			};
+
+			Label defLabel = new Label () {
+				Text = title,
+				FontSize = GlobalVariables.sizeTitle,
+				HorizontalOptions = LayoutOptions.CenterAndExpand
+			};
+			layoutGrid.Children.Add (defLabel,x, x+3, y, y+1); // Picker 
+			layoutGrid.Children.Add (minus[arrayIndex],x, y+1); // Minus 
+			layoutGrid.Children.Add (displayValue[arrayIndex],x+1, y+1); // Minus  
+			layoutGrid.Children.Add (plus[arrayIndex],x+2, y+1); // Plus
+		}
+
+		void shoot(int arrayIndex, int x, int y, string title){
+			displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
+			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
+			displayValue [arrayIndex + 1].Text = scoreValue[arrayIndex+1].ToString();
+			displayValue [arrayIndex + 1].FontSize = GlobalVariables.sizeMedium;
+			minus [arrayIndex].Text = "-";
+			minus [arrayIndex].BackgroundColor = Color.Red;
+			minus [arrayIndex + 1].Text = "-";
+			minus [arrayIndex + 1].BackgroundColor = Color.Red;
+			plus [arrayIndex].Text = "+";
+			plus [arrayIndex].BackgroundColor = Color.Green;
+			plus [arrayIndex + 1].Text = "+";
+			plus [arrayIndex + 1].BackgroundColor = Color.Green;
+
+			minus[arrayIndex].Clicked += (object sender, EventArgs e) => {	// Hit
+				if(scoreValue[arrayIndex] != 0){
+					scoreValue[arrayIndex]--;							
+					displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
+				}
+			};
+			minus[arrayIndex+1].Clicked += (object sender, EventArgs e) => {	// Miss
+				if(scoreValue[arrayIndex+1] != 0){
+					scoreValue[arrayIndex+1]--;							
+					displayValue [arrayIndex+1].Text = scoreValue[arrayIndex+1].ToString();
+				}
+			};
+			plus[arrayIndex].Clicked += (object sender, EventArgs e) => {	// Hit
+				scoreValue[arrayIndex]++;
+				displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
+			};
+			plus[arrayIndex+1].Clicked += (object sender, EventArgs e) => {	// Miss
+				scoreValue[arrayIndex+1]++;
+				displayValue [arrayIndex+1].Text = scoreValue[arrayIndex+1].ToString();
+			};
+
+			Label titleLabel = new Label () {
+				Text = title,
+				FontSize = GlobalVariables.sizeTitle,
+				HorizontalOptions = LayoutOptions.CenterAndExpand
+
+			};
+			layoutGrid.Children.Add (titleLabel,x, x+3, y, y+1); // title 
+			layoutGrid.Children.Add (minus[arrayIndex],x, y+1); // Minus 
+			layoutGrid.Children.Add (minus[arrayIndex+1],x, y+2); // Minus 
+			layoutGrid.Children.Add (displayValue[arrayIndex],x+1, y+1); // value 
+			layoutGrid.Children.Add (displayValue[arrayIndex+1],x+1, y+2); // value 
+			layoutGrid.Children.Add (plus[arrayIndex],x+2, y+1); // Plus
+			layoutGrid.Children.Add (plus[arrayIndex+1],x+2, y+2); // Plus
+		}
+
+		void incrementor(int value, int x, int y){
+			
 		}
 
 		void errorHandling(string d, int i){
 			try{
-				data[d] = i;
+				data.Add(d, i);
 				SaveData();
 			} catch {
-				errorStatus = true;
+				error = true;
 				errorString += d + " , ";
 			}
 		}
-
 		async void SaveData(){
 			Console.WriteLine ("Saving...");
 			await data.SaveAsync ();
 			Console.WriteLine ("Done Saving");
-		}
-
-		async void UpdateValues(){
-			autoPoints = (robotSet*4)+(containerSet*8)+(toteSet*6)+(stackedToteSet*14);
-			TotalPoints.Text = autoPoints.ToString();
 		}
 	}
 }
