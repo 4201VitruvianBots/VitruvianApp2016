@@ -20,12 +20,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)RobotInfo\RobotInfoViewPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\TeamListCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestPages\MatchDataViewTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\ColumnCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\DataCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\AutoMatchScoutingPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\TeleOpMatchScoutingPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataSearchPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataDisplayPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestPages\ScrollViewTestPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\ColumnHeader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.txt" />

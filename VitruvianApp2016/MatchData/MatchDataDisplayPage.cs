@@ -9,7 +9,6 @@ namespace VitruvianApp2016
 {
 	public class MatchDataDisplayPage:ContentPage
 	{
-		StackLayout dataList = new StackLayout();
 
 		ActivityIndicator busyIcon = new ActivityIndicator ();
 
@@ -17,27 +16,45 @@ namespace VitruvianApp2016
 		ParseObject data;
 
 		int X = 0;
-		int Y = 1;
+		int Y = 0;
 
 		// autoD, autoS, teleOpD, teleOpS, other
 		bool[] filterArray = new bool[5]{true, true, true, true, true};
 
-		Grid dataGrid = new Grid(){
+
+		Grid headerGrid = new Grid(){
 			HorizontalOptions = LayoutOptions.FillAndExpand,
-			VerticalOptions = LayoutOptions.FillAndExpand,
+
 			BackgroundColor = Color.Black,
 			ColumnSpacing = 1,
 			RowSpacing = 1,
 		};
 
+		Grid dataGrid = new Grid(){
+			HorizontalOptions = LayoutOptions.FillAndExpand,
+			BackgroundColor = Color.Black,
+			ColumnSpacing = 1,
+			RowSpacing = 1,
+		};
+
+
+		ScrollView dataVerticalScroll = new ScrollView ();
+		ScrollView dataHorizontalScroll;
+
+		Grid dataHolder = new Grid(){
+			RowDefinitions = 
+			{
+				new RowDefinition { Height = new GridLength(20, GridUnitType.Absolute) }
+			}
+		};
+
 		public MatchDataDisplayPage (IEnumerable<ParseObject> data, int number)
 		{
-			for (int i = 0; i < 11; i++)
-				//dataGrid.ColumnDefinitions.Add (new ColumnDefinition { Width = 80 });
-				
 			dataSelect = data;
-			populateData ();
 
+			for (int i = 0; i < 30; i++)
+				dataGrid.RowDefinitions = new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute) };
+			
 			Grid layoutGrid = new Grid () {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
@@ -49,8 +66,8 @@ namespace VitruvianApp2016
 					new RowDefinition{ Height = GridLength.Auto },
 				},
 				ColumnDefinitions = {
-					new ColumnDefinition{ Width = GridLength.Auto},
-					new ColumnDefinition{ Width = GridLength.Auto},
+					new ColumnDefinition{ Width = new GridLength(150, GridUnitType.Absolute)},
+					new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) },
 				}
 			};
 					
@@ -180,43 +197,41 @@ namespace VitruvianApp2016
 				}
 			};
 
-			StackLayout dataStack = new StackLayout () {
-				Children = {
-					dataGrid
-				}
+			dataHorizontalScroll = new ScrollView () {
+				Orientation = ScrollOrientation.Horizontal,
+
+				Content = dataHolder
 			};
 
-			ScrollView dataVerticalScroll = new ScrollView () {
-				Orientation = ScrollOrientation.Vertical,
+			Console.WriteLine ("Scroll Size: " + dataVerticalScroll.ContentSize.ToString());
 
-				Content = dataGrid
-			};
-			ScrollView dataHorizontalScroll = new ScrollView () {
-				Content = dataVerticalScroll
-			};
-
+			layoutGrid.Children.Add (dataHorizontalScroll, 0, 2, 1, 2);
 			layoutGrid.Children.Add (titleLabel, 0, 0);
 			layoutGrid.Children.Add (busyIcon, 1, 0);
-			layoutGrid.Children.Add (dataHorizontalScroll, 0, 2, 1, 2);
 			layoutGrid.Children.Add (filterBtns, 0, 2, 2, 3);
 			layoutGrid.Children.Add (navigationBtns, 0, 2, 3, 4);
 
-			this.Content = new ScrollView {
+			this.Content = new StackLayout {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 
-				Content = layoutGrid
+				Children = {
+					layoutGrid
+				}
 			};
+
+			populateData ();
 		}
 
 		async void populateData(){
 			busyIcon.IsVisible = true;
 			busyIcon.IsRunning = true;
 
+			dataHolder.Children.Clear ();
+			headerGrid.Children.Clear ();
 			dataGrid.Children.Clear();
 			Y = 1;
 			X = 0;
-
 			addColumnHeaders ("Match No.", X++);
 			addColumnHeaders ("Team No.", X++);
 
@@ -260,7 +275,7 @@ namespace VitruvianApp2016
 				addColumnHeaders ("Scaled", X++);
 				addColumnHeaders ("Disabled", X++);
 			}
-
+				
 			foreach (ParseObject obj in dataSelect) {
 				await obj.FetchIfNeededAsync ();
 				data = obj;
@@ -313,18 +328,20 @@ namespace VitruvianApp2016
 
 				Y++;
 			}
+			dataVerticalScroll.Content = dataGrid;
 
-			dataList.Children.Add (dataGrid);
+			dataHolder.Children.Add (headerGrid, 0, 0);
+			dataHolder.Children.Add (dataVerticalScroll, 0, 1);
 
 			busyIcon.IsVisible = false;
 			busyIcon.IsRunning = false;
 		}
 
-		void addColumnHeaders(string columnName, int arrayIndex){
-			ColumnCell dataColumn = new ColumnCell ();
-			dataColumn.column.Text = columnName;
+		void addColumnHeaders(string headerName, int arrayIndex){
+			ColumnHeader dataHeader = new ColumnHeader ();
+			dataHeader.header.Text = headerName;
 
-			dataGrid.Children.Add (dataColumn, arrayIndex, 0);
+			headerGrid.Children.Add (dataHeader, arrayIndex, 0);
 		}
 
 		void addColumnData(ParseObject data, string parseString, int arrayIndex){
@@ -335,6 +352,10 @@ namespace VitruvianApp2016
 			catch{
 				cell.data.Text = "NULL";
 			}
+
+			if (Y % 2 == 0)
+				cell.BackgroundColor = Color.Gray;
+
 			dataGrid.Children.Add (cell, arrayIndex, Y);
 		}
 	}
