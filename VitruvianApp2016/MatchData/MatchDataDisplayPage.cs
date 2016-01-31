@@ -24,7 +24,6 @@ namespace VitruvianApp2016
 
 		Grid headerGrid = new Grid(){
 			HorizontalOptions = LayoutOptions.FillAndExpand,
-
 			BackgroundColor = Color.Black,
 			ColumnSpacing = 1,
 			RowSpacing = 1,
@@ -52,9 +51,6 @@ namespace VitruvianApp2016
 		{
 			dataSelect = data;
 
-			for (int i = 0; i < 30; i++)
-				dataGrid.RowDefinitions = new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute) };
-			
 			Grid layoutGrid = new Grid () {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
@@ -230,7 +226,9 @@ namespace VitruvianApp2016
 			dataHolder.Children.Clear ();
 			headerGrid.Children.Clear ();
 			dataGrid.Children.Clear();
-			Y = 1;
+			dataGrid.RowDefinitions.Clear ();
+
+			Y = 0;
 			X = 0;
 			addColumnHeaders ("Match No.", X++);
 			addColumnHeaders ("Team No.", X++);
@@ -249,6 +247,7 @@ namespace VitruvianApp2016
 			if (filterArray [1] == true) {
 				addColumnHeaders ("A. Shot H. S.", X++);
 				addColumnHeaders ("A. Shot H. T.", X++);
+				addColumnHeaders ("A. Shot H. Acc.", X++);
 				addColumnHeaders ("A. Shot L. S.", X++);
 				addColumnHeaders ("A. Shot L. T.", X++);
 			}
@@ -266,6 +265,7 @@ namespace VitruvianApp2016
 			if (filterArray [3] == true) {
 				addColumnHeaders ("T. Shot H. S.", X++);
 				addColumnHeaders ("T. Shot H. T.", X++);
+				addColumnHeaders ("T. Shot H. Acc.", X++);
 				addColumnHeaders ("T. Shot L. S.", X++);
 				addColumnHeaders ("T. Shot L. T.", X++);
 				addColumnHeaders ("Shots Denied", X++);
@@ -281,6 +281,8 @@ namespace VitruvianApp2016
 				data = obj;
 
 				X = 0;
+
+				dataGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)});
 
 				addColumnData (data, "matchNo", X++);
 				addColumnData (data, "teamNo", X++);
@@ -299,6 +301,7 @@ namespace VitruvianApp2016
 				if (filterArray [1] == true) {
 					addColumnData (data, "autoShotHighSuccess", X++);
 					addColumnData (data, "autoShotHighTotal", X++);
+					addColumnData (data, "autoShotHighAccuracy", X++);
 					addColumnData (data, "autoShotLowSuccess", X++);
 					addColumnData (data, "autoShotLowTotal", X++);
 				}
@@ -316,6 +319,7 @@ namespace VitruvianApp2016
 				if (filterArray [3] == true) {
 					addColumnData (data, "teleOpShotHighSuccess", X++);
 					addColumnData (data, "teleOpShotHighTotal", X++);
+					addColumnData (data, "teleOpShotHighAccuracy", X++);
 					addColumnData (data, "teleOpShotLowSuccess", X++);
 					addColumnData (data, "teleOpShotLowTotal", X++);
 					addColumnData (data, "shotsDenied", X++);
@@ -353,7 +357,7 @@ namespace VitruvianApp2016
 				cell.data.Text = "NULL";
 			}
 
-			if (Y % 2 == 0)
+			if (Y % 2 == 1)
 				cell.BackgroundColor = Color.Gray;
 
 			dataGrid.Children.Add (cell, arrayIndex, Y);

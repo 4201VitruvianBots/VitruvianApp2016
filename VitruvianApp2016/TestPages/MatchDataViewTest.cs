@@ -11,7 +11,6 @@ namespace VitruvianApp2016
 	{
 		StackLayout teamStack = new StackLayout();
 
-		int Z = 0;
 		Grid dataGrid = new Grid(){
 			HorizontalOptions = LayoutOptions.FillAndExpand,
 			VerticalOptions = LayoutOptions.FillAndExpand,

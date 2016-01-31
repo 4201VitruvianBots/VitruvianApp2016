@@ -17,7 +17,7 @@ namespace VitruvianApp2016
 		{
 			//Page Title
 			Label title = new Label () {
-				Text = "Robot Information",
+				Text = "Pit Scouting",
 				FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black

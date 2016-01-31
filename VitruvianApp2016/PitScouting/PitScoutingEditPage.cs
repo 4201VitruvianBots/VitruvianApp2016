@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Parse;
 using Xamarin.Media;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace VitruvianApp2016
 {
@@ -18,6 +19,7 @@ namespace VitruvianApp2016
 		bool error = false;
 
 		Image robotImage = new Image();
+		MediaFile robotImageFile;
 
 		public PitScoutingEditPage (ParseObject teamData)
 		{
@@ -39,32 +41,7 @@ namespace VitruvianApp2016
 				}
 			};
 
-			var imageTap = new TapGestureRecognizer ();
-			imageTap.Tapped += (s, e) => {
-				Console.WriteLine("Tapped");
-				OpenImagePicker();
-			};
-
-			// RobotImage
-			try {
-				if (teamData ["robotImage"].ToString() != null) {
-					ParseFile robotImageURL = (ParseFile)teamData ["robotImage"];
-					// Gets the image from parse and converts it to ParseFile
-					// robotImage.Source = "I"+teamData["teamNumber"]+".jpg"; //Must scale down images manually before upload, & all images must be .jpg
-					// How to write this so caching actually works?
-
-					robotImage.Source = new UriImageSource{
-						Uri = robotImageURL.Url,
-						CachingEnabled = true,
-						CacheValidity = new TimeSpan(7,0,0,0) // Caches Images onto your device for a week
-					};
-				} else {}
-			}
-			catch {
-				robotImage.Source = "Placeholder_image_placeholder.png";
-			}
-			robotImage.Aspect = Aspect.AspectFit; //Need better way to scale an image while keeping aspect ratio, but not overflowing everything else
-			robotImage.GestureRecognizers.Add (imageTap);
+			addRobotImage ();
 
 			string teamNo;
 			try{
@@ -229,7 +206,7 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Black
 			};
 			refreshBtn.Clicked += (object sender, EventArgs e) => {
-				Navigation.PushModalAsync(new PitScoutingEditPage(teamData));
+				Navigation.PushModalAsync(new PitScoutingEditPage(data));
 			};
 
 			//Back Button
@@ -339,22 +316,57 @@ namespace VitruvianApp2016
 			return buffer;
 		}
 
-		async void OpenImagePicker(){
+		async Task OpenImagePicker(){
 			//It works? Don't use gallery
-			MediaPicker imagePicker = new MediaPicker(Forms.Context);
-			try{
-				Console.WriteLine(".25: ");
-				MediaFile robotImagePath = await imagePicker.PickPhotoAsync();
-				//Console.WriteLine(robotImagePath.Path);
-				ParseFile temp = new ParseFile(data["teamNumber"].ToString()+".jpg", ImageToBinary(robotImagePath.Path));
-				data["robotImage"] = temp;
+			var robotImagePicker = new MediaPicker(Forms.Context);
 
-				SaveData();
-				await Navigation.PushModalAsync(new PitScoutingEditPage(data));
+			await robotImagePicker.TakePhotoAsync(new StoreCameraMediaOptions {
+				Name = data["teamNumber"].ToString() + ".jpg",
+				Directory = "Robot Images"
+			}).ContinueWith(t=>{
+				robotImageFile = t.Result;
+				Console.WriteLine("Robot Image Path: " + robotImageFile.Path);
+			},TaskScheduler.FromCurrentSynchronizationContext());
+
+			robotImage.Source = robotImageFile.Path;
+			try{
+				ParseFile image = new ParseFile(data["teamNumber"].ToString()+".jpg", ImageToBinary(robotImageFile.Path));
+
+				data["robotImage"] = image;
+				await data.SaveAsync();
 			}
 			catch{
-				Console.WriteLine ("Error");
+				Console.WriteLine ("Image Save Error");
 			}
+		}
+
+		void addRobotImage(){
+			var imageTap = new TapGestureRecognizer ();
+			imageTap.Tapped += (s, e) => {
+				Console.WriteLine ("Tapped");
+				OpenImagePicker ();
+			};
+
+			// RobotImage
+			try {
+				if (data ["robotImage"].ToString () != null) {
+					ParseFile robotImageURL = (ParseFile)data ["robotImage"];
+					// Gets the image from parse and converts it to ParseFile
+					// robotImage.Source = "I"+teamData["teamNumber"]+".jpg"; //Must scale down images manually before upload, & all images must be .jpg
+					// How to write this so caching actually works?
+
+					robotImage.Source = new UriImageSource {
+						Uri = robotImageURL.Url,
+						CachingEnabled = true,
+						CacheValidity = new TimeSpan (7, 0, 0, 0) // Caches Images onto your device for a week
+					};
+				} else {
+				}
+			} catch {
+				robotImage.Source = "Placeholder_image_placeholder.png";
+				robotImage.GestureRecognizers.Add (imageTap);
+			}
+			robotImage.Aspect = Aspect.AspectFit; //Need better way to scale an image while keeping aspect ratio, but not overflowing everything else
 		}
 	}
 }

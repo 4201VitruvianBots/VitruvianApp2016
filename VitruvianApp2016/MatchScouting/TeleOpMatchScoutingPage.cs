@@ -137,10 +137,14 @@ namespace VitruvianApp2016
 				else if(def[3] == 1)
 					errorHandling("teleOpD2", Convert.ToInt32(scoreValue[3]));
 				errorHandling("teleOpE", Convert.ToInt32(scoreValue[4]));
-				errorHandling("teleOpShotHighSuccess", Convert.ToInt32(scoreValue[5]));
-				errorHandling("teleOpShotHighTotal", Convert.ToInt32(scoreValue[5]+scoreValue[6]));
-				errorHandling("teleOpShotLowSuccess", Convert.ToInt32(scoreValue[7]));
-				errorHandling("teleOpShotLowTotal", Convert.ToInt32(scoreValue[7]+scoreValue[8]));
+				errorHandling("teleOpShotLowSuccess", Convert.ToInt32(scoreValue[5]));
+				errorHandling("teleOpShotLowTotal", Convert.ToInt32(scoreValue[5]+scoreValue[6]));
+				errorHandling("teleOpShotHighSuccess", Convert.ToInt32(scoreValue[7]));
+				errorHandling("teleOpShotHighTotal", Convert.ToInt32(scoreValue[7]+scoreValue[8]));
+				if(scoreValue[7]+scoreValue[8] == 0)
+					errorHandling("teleOpShotHighAccuracy", Convert.ToDouble(0));
+				else
+					errorHandling("teleOpShotHighAccuracy", Convert.ToDouble((double)scoreValue[7]/(double)(scoreValue[7]+scoreValue[8])));
 				errorHandling("shotsDenied", scoreValue[9]);
 				errorHandling("challenge", challenge);
 				errorHandling("scaled", scaled);
@@ -262,8 +266,8 @@ namespace VitruvianApp2016
 			points = 0;
 
 			/*
-			if (Convert.ToInt16(data ["autoA1"]) + Convert.ToInt16(data["autoA2"]) + scoreValue [0] < 2)
-				points += 10 * (Convert.ToInt16(data ["autoA1"]) + Convert.ToInt16(data["autoA2"])) + 5 * scoreValue[0];
+			if (Convert.ToInt16(data ["autoA1"].ToString()) + Convert.ToInt16(data["autoA2"].ToString()) + scoreValue [0] < 2)
+				points += 10 * (Convert.ToInt16(data ["autoA1"].ToString()) + Convert.ToInt16(data["autoA2"].ToString())) + 5 * scoreValue[0];
 			if (Convert.ToInt16(data ["autoB1"]) + Convert.ToInt16(data["autoB2"]) + scoreValue [1] < 2)
 				points += 10 * (Convert.ToInt16(data ["autoB1"]) + Convert.ToInt16(data["autoB2"])) + 5 * scoreValue[1];
 			if (Convert.ToInt16(data ["autoC1"]) + Convert.ToInt16(data["autoC2"]) + scoreValue [2] < 2)
@@ -285,16 +289,27 @@ namespace VitruvianApp2016
 
 		void errorHandling(string d, int i){
 			try{
-				data.Add(d, i);
+				data[d] = i;
 				SaveData();
 			} catch {
 				error = true;
 				errorString += d + " , ";
 			}
 		}
+
+		void errorHandling(string d, double i){
+			try{
+				data[d] = i;
+				SaveData();
+			} catch {
+				error = true;
+				errorString += d + " , ";
+			}
+		}
+
 		void errorHandling(string d, bool i){
 			try{
-				data.Add(d, i);
+				data[d] = i;
 				SaveData();
 			} catch {
 				error = true;

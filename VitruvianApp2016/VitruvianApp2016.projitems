@@ -27,6 +27,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataDisplayPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestPages\ScrollViewTestPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\ColumnHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchInfo\MatchInfoIndexPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchInfo\MatchInfoDisplayPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchInfo\MatchInfoSearchPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.txt" />

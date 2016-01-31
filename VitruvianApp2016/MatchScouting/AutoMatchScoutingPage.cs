@@ -75,10 +75,14 @@ namespace VitruvianApp2016
 				else if(def[3] == 1)
 					errorHandling("autoD2", Convert.ToInt32(scoreValue[3]));
 				errorHandling("autoE", Convert.ToInt32(scoreValue[4]));
-				errorHandling("autoShotHighSuccess", Convert.ToInt32(scoreValue[5]));
-				errorHandling("autoShotHighTotal", Convert.ToInt32(scoreValue[5]+scoreValue[6]));
-				errorHandling("autoShotLowSuccess", Convert.ToInt32(scoreValue[7]));
-				errorHandling("autoShotLowTotal", Convert.ToInt32(scoreValue[7]+scoreValue[8]));
+				errorHandling("autoShotLowSuccess", Convert.ToInt32(scoreValue[5]));
+				errorHandling("autoShotLowTotal", Convert.ToInt32(scoreValue[5]+scoreValue[6]));
+				errorHandling("autoShotHighSuccess", Convert.ToInt32(scoreValue[7]));
+				errorHandling("autoShotHighTotal", Convert.ToInt32(scoreValue[7]+scoreValue[8]));
+				if(scoreValue[7]+scoreValue[8] == 0)
+					errorHandling("autoShotHighAccuracy", Convert.ToDouble(0));
+				else
+					errorHandling("autoShotHighAccuracy", Convert.ToDouble((double)scoreValue[7]/(double)(scoreValue[7]+scoreValue[8])));
 
 				if(error == true){
 					errorString = errorString.Remove(errorString.Length - 2); 
@@ -98,7 +102,7 @@ namespace VitruvianApp2016
 					layoutGrid
 				}
 			};
-			BackgroundColor = Color.Lime;
+			BackgroundColor = Color.Gray;
 		}
 
 		void defense(int arrayIndex, int x, int y, string title){
@@ -183,13 +187,19 @@ namespace VitruvianApp2016
 			layoutGrid.Children.Add (plus[arrayIndex+1],x+2, y+2); // Plus
 		}
 
-		void incrementor(int value, int x, int y){
-			
+		void errorHandling(string d, double i){
+			try{
+				data[d] = i;
+				SaveData();
+			} catch {
+				error = true;
+				errorString += d + " , ";
+			}
 		}
 
 		void errorHandling(string d, int i){
 			try{
-				data.Add(d, i);
+				data[d] = i;
 				SaveData();
 			} catch {
 				error = true;

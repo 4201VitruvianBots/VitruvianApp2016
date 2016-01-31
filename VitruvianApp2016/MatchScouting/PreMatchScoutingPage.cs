@@ -9,7 +9,7 @@ namespace VitruvianApp2016
 	{
 		ParseObject MatchData = new ParseObject("MatchData");
 
-		enum alliance {red1, red2, red3, blue1, blue2, blue3};
+		enum Alliance {red1, red2, red3, blue1, blue2, blue3};
 		enum defA {Portcullis, Cheval_de_Frise};
 		enum defB {Moat, Ramparts};
 		enum defC {Drawbridge, Salley_Port};
@@ -40,7 +40,7 @@ namespace VitruvianApp2016
 			};
 			teamNo.Keyboard = Keyboard.Numeric;
 
-			// alliancePicker
+			// AlliancePicker
 			Label allianceLabel = new Label {
 				Text = "Alliance Position:",
 				FontSize = GlobalVariables.sizeMedium,
@@ -48,11 +48,12 @@ namespace VitruvianApp2016
 
 			Picker alliancePicker = new Picker();
 			alliancePicker.Title = "Choose an Option";
-			for (alliance i = alliance.red1; i <= alliance.blue3; i++) {
+			for (Alliance i = Alliance.red1; i <= Alliance.blue3; i++) {
 				alliancePicker.Items.Add (i.ToString ());
 			};
 			alliancePicker.SelectedIndexChanged += (sender, e) => {
-				alliancePicker.Title = alliancePicker.SelectedIndex.ToString ();
+				Alliance ally = (Alliance)alliancePicker.SelectedIndex;
+				alliancePicker.Title = ally.ToString();
 			};
 
 			// positionPicker
@@ -94,10 +95,17 @@ namespace VitruvianApp2016
 					DisplayAlert("Error", "Fill out all Fields", "Ok");
 				} else {
 					Console.WriteLine(matchNo.Text);
+					MatchData["teamNo"]=Convert.ToInt32(teamNo.Text);
+					MatchData["matchNo"]=Convert.ToInt32(matchNo.Text);
+					MatchData["alliance"]=Convert.ToString(alliancePicker.Title.ToString());
+					MatchData["startPosition"]=Convert.ToInt32(positionPicker.Title.ToString());
+
+					/*
 					MatchData.Add("teamNo", Convert.ToInt32(teamNo.Text));
 					MatchData.Add("matchNo", Convert.ToInt32(matchNo.Text));
-					MatchData.Add("alliance", Convert.ToString(positionPicker.Title.ToString()));
+					MatchData.Add("Alliance", Convert.ToString(alliancePicker.Title.ToString()));
 					MatchData.Add("startPosition", Convert.ToInt32(positionPicker.Title.ToString()));
+					*/
 					SaveData();
 					def[0]=defPicker[0].SelectedIndex;
 					def[1]=defPicker[1].SelectedIndex;

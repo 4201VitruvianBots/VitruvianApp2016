@@ -18,6 +18,7 @@ namespace VitruvianApp2016
 
 		public RobotInfoViewPage (ParseObject teamData)
 		{
+			data = teamData;
 			string teamNo;
 			try{
 				teamNo = teamData ["teamNo"].ToString ();
@@ -48,25 +49,7 @@ namespace VitruvianApp2016
 			};
 
 			// RobotImage
-			try {
-				if (teamData ["robotImage"].ToString() != null) {
-					ParseFile robotImageURL = (ParseFile)teamData ["robotImage"];
-					//Gets the image from parse and converts it to ParseFile
-					//robotImage.Source = "I"+teamData["teamNumber"]+".jpg"; //Must scale down images manually before upload, & all images must be .jpg
-					//How to write this so caching actually works?
-
-					robotImage.Source = new UriImageSource{
-						Uri = robotImageURL.Url,
-						CachingEnabled = true,
-						CacheValidity = new TimeSpan(7,0,0,0) //Caches Images onto your device for a week
-					};
-				} else {}
-			}
-			catch {
-				robotImage.Source = "Placeholder_image_placeholder.png";
-			}
-			robotImage.Aspect = Aspect.AspectFit; //Need better way to scale an image while keeping aspect ratio, but not overflowing everything else
-			//robotImage.GestureRecognizers.Add (imageTap);
+			addRobotImage();
 
 			ListView teamInfo = new ListView ();
 
@@ -181,6 +164,28 @@ namespace VitruvianApp2016
 			dataLabel [Z].FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
 
 			Z++;
+		}
+
+		void addRobotImage(){
+			try {
+				if (data ["robotImage"].ToString() != null) {
+					ParseFile robotImageURL = (ParseFile)data ["robotImage"];
+					//Gets the image from parse and converts it to ParseFile
+					//robotImage.Source = "I"+teamData["teamNumber"]+".jpg"; //Must scale down images manually before upload, & all images must be .jpg
+					//How to write this so caching actually works?
+
+					robotImage.Source = new UriImageSource{
+						Uri = robotImageURL.Url,
+						CachingEnabled = true,
+						CacheValidity = new TimeSpan(7,0,0,0) //Caches Images onto your device for a week
+					};
+				} else {}
+			}
+			catch {
+				robotImage.Source = "Placeholder_image_placeholder.png";
+			}
+			robotImage.Aspect = Aspect.AspectFit; //Need better way to scale an image while keeping aspect ratio, but not overflowing everything else
+			//robotImage.GestureRecognizers.Add (imageTap);
 		}
 	}
 }

@@ -78,7 +78,8 @@ namespace VitruvianApp2016
 					errorHandling("interference", true);
 				else
 					errorHandling("interference", false);
-				errorHandling("matchNotes", noteEditor.Text);
+				if(noteEditor.Text != "[notes]" || string.IsNullOrEmpty(noteEditor.Text) || string.IsNullOrWhiteSpace(noteEditor.Text))
+					errorHandling("matchNotes", noteEditor.Text);
 				if(rolePicker.Title.ToString() != "Choose an Option")
 					errorHandling("robotRole", rolePicker.Title.ToString());
 
@@ -122,7 +123,7 @@ namespace VitruvianApp2016
 
 		void errorHandling(string d, string i){
 			try{
-				data.Add(d, i);
+				data[d] = i;
 				SaveData();
 			} catch {
 				errorStatus = true;
@@ -132,7 +133,7 @@ namespace VitruvianApp2016
 
 		void errorHandling(string d, int i){
 			try{
-				data.Add(d, i);
+				data[d] = i;
 				SaveData();
 			} catch {
 				errorStatus = true;
@@ -142,7 +143,7 @@ namespace VitruvianApp2016
 
 		void errorHandling(string d, bool i){
 			try{
-				data.Add(d, i);
+				data[d] = i;
 				SaveData();
 			} catch {
 				errorStatus = true;
