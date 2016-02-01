@@ -11,6 +11,9 @@ namespace VitruvianApp2016
 	{
 		StackLayout dataList = new StackLayout();
 
+		int spanYi=0;
+		int spanYf=1;
+
 		public MatchDataSearchPage ()
 		{
 			Grid layoutGrid = new Grid () {
@@ -96,6 +99,13 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium
 			};
+
+			Label allMatchesWarning = new Label(){
+				Text = "Warning: Can be slow",
+				TextColor = Color.White,
+				FontSize = GlobalVariables.sizeMedium,
+				HorizontalOptions = LayoutOptions.Center
+			};
 			allMatchesBtn.Clicked += (object sender, EventArgs e) => {
 				try{
 					filterMatches(3, -4201);
@@ -126,15 +136,16 @@ namespace VitruvianApp2016
 				}
 			};
 
-			layoutGrid.Children.Add (title, 0, 2, 0, 1);
-			layoutGrid.Children.Add (teamSearch, 0, 1, 1, 2);
-			layoutGrid.Children.Add (teamSearchEntry, 0, 1, 2, 3);
-			layoutGrid.Children.Add (teamSearchBtn, 1, 2, 2, 3);
-			layoutGrid.Children.Add (matchSearch, 0, 1, 3, 4);
-			layoutGrid.Children.Add (matchSearchEntry, 0, 1, 4, 5);
-			layoutGrid.Children.Add (matchSearchBtn, 1, 2, 4, 5);
-			layoutGrid.Children.Add (allMatchesBtn, 1, 2, 5, 6);
-			layoutGrid.Children.Add (navigationBtns, 0, 2, 7, 8);
+			layoutGrid.Children.Add (title, 0, 2, spanYi++, spanYf++);
+			layoutGrid.Children.Add (teamSearch, 0, 1, spanYi++, spanYf++);
+			layoutGrid.Children.Add (teamSearchEntry, 0, 1, spanYi, spanYf);
+			layoutGrid.Children.Add (teamSearchBtn, 1, 2, spanYi++, spanYf++);
+			layoutGrid.Children.Add (matchSearch, 0, 1, spanYi++, spanYf++);
+			layoutGrid.Children.Add (matchSearchEntry, 0, 1, spanYi, spanYf);
+			layoutGrid.Children.Add (matchSearchBtn, 1, 2, spanYi++, spanYf++);
+			layoutGrid.Children.Add (allMatchesBtn, 1, 2, spanYi++, spanYf++);
+			layoutGrid.Children.Add (allMatchesWarning, 1, 2, spanYi++, spanYf++);
+			layoutGrid.Children.Add (navigationBtns, 0, 2, spanYi++, spanYf++);
 
 			this.Content = new ScrollView () {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -148,18 +159,34 @@ namespace VitruvianApp2016
 			ParseQuery<ParseObject> query = ParseObject.GetQuery("MatchData");
 			ParseQuery<ParseObject> sorted = query.OrderBy("matchNo");
 			ParseQuery<ParseObject> filter;
+			IEnumerable<ParseObject> dataSelect = null;
 
 			if (searchType == 1) {
 				filter = sorted.WhereEqualTo ("teamNo", number);			
-				var dataSelect = await filter.FindAsync();
-				await Navigation.PushModalAsync(new MatchDataDisplayPage(dataSelect, number));
+				dataSelect = await filter.FindAsync();
+				try{
+					await Navigation.PushModalAsync(new MatchDataDisplayPage(dataSelect, number));
+				}
+				catch{
+					DisplayAlert("Error:", "Invalid search query", "OK");
+				}
 			} else if (searchType == 2) {
 				filter = query.WhereEqualTo ("matchNo", number);
-				var dataSelect = await filter.FindAsync();
-				await Navigation.PushModalAsync(new MatchDataDisplayPage(dataSelect, number));
+				dataSelect = await filter.FindAsync();
+				try{
+					await Navigation.PushModalAsync(new MatchDataDisplayPage(dataSelect, number));
+				}
+				catch{
+					DisplayAlert("Error:", "Invalid search query", "OK");
+				}
 			} else if (searchType == 3){
-				var dataSelect = await sorted.FindAsync();
-				await Navigation.PushModalAsync(new MatchDataDisplayPage(dataSelect, number));
+				dataSelect = await sorted.FindAsync();
+				try{
+					await Navigation.PushModalAsync(new MatchDataDisplayPage(dataSelect, number));
+				}
+				catch{
+					DisplayAlert("Error:", "Invalid search query", "OK");
+				}
 			}
 		}
 	}

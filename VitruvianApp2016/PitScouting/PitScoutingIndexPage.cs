@@ -84,7 +84,7 @@ namespace VitruvianApp2016
 			var allTeams = await sorted.FindAsync();
 			teamStack.Children.Clear();
 			foreach (ParseObject obj in allTeams) {
-				await obj.FetchAsync ();
+				await obj.FetchIfNeededAsync ();
 				TeamListCell cell = new TeamListCell ();
 				cell.teamName.Text = "Team " + obj ["teamNumber"];
 				teamStack.Children.Add (cell);

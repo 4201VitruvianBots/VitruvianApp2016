@@ -60,6 +60,7 @@ namespace VitruvianApp2016
 				FontSize = GlobalVariables.sizeMedium
 			};
 			teamSearchBtn.Clicked += (object sender, EventArgs e) => {
+				DisplayAlert("Error:", "Functionality not added", "OK");
 				try{
 					//filterMatches(1, Convert.ToInt32(teamSearchEntry.Text));
 				} catch{
@@ -147,24 +148,37 @@ namespace VitruvianApp2016
 		}
 
 		async void filterMatches(int searchType, int number){
+			
 			ParseQuery<ParseObject> query = ParseObject.GetQuery("MatchList");
 			ParseQuery<ParseObject> sorted = query.OrderBy("matchNo");
 			ParseQuery<ParseObject> filter;
+			ParseObject selectMatch = null;
+			IEnumerable<ParseObject> dataSelect = null;
 
 			if (searchType == 1) {
 				//Search multiple columns except matchNo for a teamNo ?
-				filter = sorted.WhereEqualTo ("teamNo", number);			
-				var dataSelect = await filter.FindAsync();
-				await Navigation.PushModalAsync(new MatchInfoIndexPage(dataSelect));
+				filter = sorted.WhereEqualTo ("red", number);			
+				dataSelect = await filter.FindAsync();
+				try{
+					await Navigation.PushModalAsync(new MatchInfoIndexPage(dataSelect));
+				}
+				catch{
+					DisplayAlert("Error:", "Invalid search query", "OK");
+				}
 			} else if (searchType == 2) {
 				filter = query.WhereEqualTo ("matchNo", number);
-				var dataSelect = await filter.FindAsync();
+				dataSelect = await filter.FindAsync();
 				foreach (ParseObject obj in dataSelect) {
 					selectMatch = obj;
 				}
-				await Navigation.PushModalAsync(new MatchInfoDisplayPage(selectMatch));
+				try{
+					await Navigation.PushModalAsync(new MatchInfoDisplayPage(selectMatch));
+				}
+				catch{
+					DisplayAlert("Error:", "Invalid search query", "OK");
+				}
 			} else if (searchType == 3){
-				var dataSelect = await sorted.FindAsync();
+				dataSelect = await sorted.FindAsync();
 				await Navigation.PushModalAsync(new MatchInfoIndexPage(dataSelect));
 			}
 		}
