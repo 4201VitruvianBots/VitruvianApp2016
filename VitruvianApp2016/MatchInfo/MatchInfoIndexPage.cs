@@ -50,8 +50,8 @@ namespace VitruvianApp2016
 
 		ScrollView matchScroll = new ScrollView();
 
-		int X = 0;
-		int Y = 0;
+		int gridX = 0;
+		int gridY = 0;
 
 		public MatchInfoIndexPage (IEnumerable<ParseObject> matchListGet)
 		{
@@ -122,15 +122,16 @@ namespace VitruvianApp2016
 
 			matchGrid.Children.Clear();
 			matchGrid.RowDefinitions.Clear ();
-			Y = 0;
-			X = 0;
-			addColumnHeaders ("Match No.", X++);
-			addColumnHeaders ("Red 1", X++);
-			addColumnHeaders ("Red 2", X++);
-			addColumnHeaders ("Red 3", X++);
-			addColumnHeaders ("Blue 1", X++);
-			addColumnHeaders ("Blue 2", X++);
-			addColumnHeaders ("Blue 3", X++);
+			gridY = 0;
+			gridX = 0;
+
+			addColumnHeaders ("Match No.", gridX++);
+			addColumnHeaders ("Red 1", gridX++);
+			addColumnHeaders ("Red 2", gridX++);
+			addColumnHeaders ("Red 3", gridX++);
+			addColumnHeaders ("Blue 1", gridX++);
+			addColumnHeaders ("Blue 2", gridX++);
+			addColumnHeaders ("Blue 3", gridX++);
 
 			foreach (ParseObject obj in matchList) {
 				await obj.FetchIfNeededAsync ();
@@ -138,17 +139,17 @@ namespace VitruvianApp2016
 
 				matchGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength (50, GridUnitType.Absolute)});
 
-				X = 0;
+				gridX = 0;
 
-				addColumnData (data, "matchNo", X++);
-				addColumnData (data, "red1", X++);
-				addColumnData (data, "red2", X++);
-				addColumnData (data, "red3", X++);
-				addColumnData (data, "blue1", X++);
-				addColumnData (data, "blue2", X++);
-				addColumnData (data, "blue3", X++);
+				addColumnData (data, "matchNo", gridX++);
+				addColumnData (data, "red1", gridX++);
+				addColumnData (data, "red2", gridX++);
+				addColumnData (data, "red3", gridX++);
+				addColumnData (data, "blue1", gridX++);
+				addColumnData (data, "blue2", gridX++);
+				addColumnData (data, "blue3", gridX++);
 
-				Y++;
+				gridY++;
 			}
 			matchScroll.Content = matchGrid;
 
@@ -160,7 +161,7 @@ namespace VitruvianApp2016
 		}
 
 		void addColumnHeaders(string headerName, int arrayIndex){
-			ColumnHeader dataHeader = new ColumnHeader ();
+			ColumnHeaderCell dataHeader = new ColumnHeaderCell ();
 			dataHeader.header.Text = headerName;
 
 			headerGrid.Children.Add (dataHeader, arrayIndex, 0);
@@ -175,9 +176,9 @@ namespace VitruvianApp2016
 				cell.data.Text = "NULL";
 			}
 
-			if (Y % 2 == 1)
+			if (gridY % 2 == 1)
 				cell.BackgroundColor = Color.Gray;
-			if (X == 1)
+			if (gridX == 1)
 				cell.BackgroundColor = Color.Green;
 
 			if (arrayIndex == 0) {
@@ -188,7 +189,7 @@ namespace VitruvianApp2016
 				cell.GestureRecognizers.Add (tap);
 			}
 
-			matchGrid.Children.Add (cell, arrayIndex, Y);
+			matchGrid.Children.Add (cell, arrayIndex, gridY);
 
 
 			busyIcon.IsVisible = false;

@@ -20,16 +20,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)RobotInfo\RobotInfoViewPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\TeamListCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestPages\MatchDataViewTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\DataCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\AutoMatchScoutingPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchScouting\TeleOpMatchScoutingPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataSearchPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataDisplayPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestPages\ScrollViewTestPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\ColumnHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchInfo\MatchInfoIndexPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchInfo\MatchInfoDisplayPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchInfo\MatchInfoSearchPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CellViews\ColumnHeaderCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CellViews\DataCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.txt" />
@@ -49,7 +49,6 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)MatchInfo\" />
     <Folder Include="$(MSBuildThisFileDirectory)MatchData\" />
-    <Folder Include="$(MSBuildThisFileDirectory)MatchData\MatchDataCells\" />
     <Folder Include="$(MSBuildThisFileDirectory)TestPages\" />
     <Folder Include="$(MSBuildThisFileDirectory)Depreciated\" />
     <Folder Include="$(MSBuildThisFileDirectory)Debug Hold\" />

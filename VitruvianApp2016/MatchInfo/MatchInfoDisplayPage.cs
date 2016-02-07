@@ -12,7 +12,6 @@ namespace VitruvianApp2016
 		ParseObject data;
 		ParseObject teamData;
 
-
 		ScrollView[] teamView = new ScrollView[6];
 		StackLayout[] teamStack = new StackLayout[6];
 		Image[] robotImage = new Image[6];
@@ -146,7 +145,7 @@ namespace VitruvianApp2016
 		}
 
 		void addColumnHeaders(string headerName, int arrayIndexX){
-			ColumnHeader teamNumber = new ColumnHeader ();
+			ColumnHeaderCell teamNumber = new ColumnHeaderCell ();
 			teamNumber.header.Text = headerName;
 
 			headerGrid.Children.Add (teamNumber, arrayIndexX, 0);

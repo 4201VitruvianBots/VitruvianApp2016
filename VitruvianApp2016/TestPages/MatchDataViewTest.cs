@@ -101,7 +101,7 @@ namespace VitruvianApp2016
 				}
 			};
 		}
-		async Task UpdateTeamList(){
+		async void UpdateTeamList(){
 			ParseQuery<ParseObject> query = ParseObject.GetQuery("MatchData");
 			ParseQuery<ParseObject> sorted = query.OrderBy("teamNo");
 			ParseQuery<ParseObject> filter = sorted.WhereEqualTo ("teamNo", 41);

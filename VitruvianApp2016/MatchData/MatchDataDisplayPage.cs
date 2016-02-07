@@ -9,14 +9,13 @@ namespace VitruvianApp2016
 {
 	public class MatchDataDisplayPage:ContentPage
 	{
-
 		ActivityIndicator busyIcon = new ActivityIndicator ();
 
 		IEnumerable<ParseObject> dataSelect;
 		ParseObject data;
 
-		int X = 0;
-		int Y = 0;
+		int gridX = 0;
+		int gridY = 0;
 
 		// autoD, autoS, teleOpD, teleOpS, other
 		bool[] filterArray = new bool[5]{true, true, true, true, true};
@@ -228,109 +227,109 @@ namespace VitruvianApp2016
 			dataGrid.Children.Clear();
 			dataGrid.RowDefinitions.Clear ();
 
-			Y = 0;
-			X = 0;
-			addColumnHeaders ("Match No.", X++);
-			addColumnHeaders ("Team No.", X++);
+			gridY = 0;
+			gridX = 0;
+			addColumnHeaders ("Match No.", gridX++);
+			addColumnHeaders ("Team No.", gridX++);
 
 			if (filterArray [0] == true) {
-				addColumnHeaders ("Auto A1", X++);
-				addColumnHeaders ("Auto A2", X++);
-				addColumnHeaders ("Auto B1", X++);
-				addColumnHeaders ("Auto B2", X++);
-				addColumnHeaders ("Auto C1", X++);
-				addColumnHeaders ("Auto C2", X++);
-				addColumnHeaders ("Auto D1", X++);
-				addColumnHeaders ("Auto D2", X++);
-				addColumnHeaders ("Auto E", X++);
+				addColumnHeaders ("Auto A1", gridX++);
+				addColumnHeaders ("Auto A2", gridX++);
+				addColumnHeaders ("Auto B1", gridX++);
+				addColumnHeaders ("Auto B2", gridX++);
+				addColumnHeaders ("Auto C1", gridX++);
+				addColumnHeaders ("Auto C2", gridX++);
+				addColumnHeaders ("Auto D1", gridX++);
+				addColumnHeaders ("Auto D2", gridX++);
+				addColumnHeaders ("Auto E", gridX++);
 			}
 			if (filterArray [1] == true) {
-				addColumnHeaders ("A. Shot H. S.", X++);
-				addColumnHeaders ("A. Shot H. T.", X++);
-				addColumnHeaders ("A. Shot H. Acc.", X++);
-				addColumnHeaders ("A. Shot L. S.", X++);
-				addColumnHeaders ("A. Shot L. T.", X++);
+				addColumnHeaders ("A. Shot H. S.", gridX++);
+				addColumnHeaders ("A. Shot H. T.", gridX++);
+				addColumnHeaders ("A. Shot H. Acc.", gridX++);
+				addColumnHeaders ("A. Shot L. S.", gridX++);
+				addColumnHeaders ("A. Shot L. T.", gridX++);
 			}
 			if (filterArray [2] == true) {
-				addColumnHeaders ("TeleOp A1", X++);
-				addColumnHeaders ("TeleOp A2", X++);
-				addColumnHeaders ("TeleOp B1", X++);
-				addColumnHeaders ("TeleOp B2", X++);
-				addColumnHeaders ("TeleOp C1", X++);
-				addColumnHeaders ("TeleOp C2", X++);
-				addColumnHeaders ("TeleOp D1", X++);
-				addColumnHeaders ("TeleOp D2", X++);
-				addColumnHeaders ("TeleOp E", X++);
+				addColumnHeaders ("TeleOp A1", gridX++);
+				addColumnHeaders ("TeleOp A2", gridX++);
+				addColumnHeaders ("TeleOp B1", gridX++);
+				addColumnHeaders ("TeleOp B2", gridX++);
+				addColumnHeaders ("TeleOp C1", gridX++);
+				addColumnHeaders ("TeleOp C2", gridX++);
+				addColumnHeaders ("TeleOp D1", gridX++);
+				addColumnHeaders ("TeleOp D2", gridX++);
+				addColumnHeaders ("TeleOp E", gridX++);
 			}
 			if (filterArray [3] == true) {
-				addColumnHeaders ("T. Shot H. S.", X++);
-				addColumnHeaders ("T. Shot H. T.", X++);
-				addColumnHeaders ("T. Shot H. Acc.", X++);
-				addColumnHeaders ("T. Shot L. S.", X++);
-				addColumnHeaders ("T. Shot L. T.", X++);
-				addColumnHeaders ("Shots Denied", X++);
+				addColumnHeaders ("T. Shot H. S.", gridX++);
+				addColumnHeaders ("T. Shot H. T.", gridX++);
+				addColumnHeaders ("T. Shot H. Acc.", gridX++);
+				addColumnHeaders ("T. Shot L. S.", gridX++);
+				addColumnHeaders ("T. Shot L. T.", gridX++);
+				addColumnHeaders ("Shots Denied", gridX++);
 			}
 			if (filterArray [4] == true) {
-				addColumnHeaders ("Challenged", X++);
-				addColumnHeaders ("Scaled", X++);
-				addColumnHeaders ("Disabled", X++);
+				addColumnHeaders ("Challenged", gridX++);
+				addColumnHeaders ("Scaled", gridX++);
+				addColumnHeaders ("Disabled", gridX++);
 			}
 				
 			foreach (ParseObject obj in dataSelect) {
 				await obj.FetchIfNeededAsync ();
 				data = obj;
 
-				X = 0;
+				gridX = 0;
 
 				dataGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)});
 
-				addColumnData (data, "matchNo", X++);
-				addColumnData (data, "teamNo", X++);
+				addColumnData (data, "matchNo", gridX++);
+				addColumnData (data, "teamNo", gridX++);
 
 				if (filterArray [0] == true) {
-					addColumnData (data, "autoA1", X++);
-					addColumnData (data, "autoA2", X++);
-					addColumnData (data, "autoB1", X++);
-					addColumnData (data, "autoB2", X++);
-					addColumnData (data, "autoC1", X++);
-					addColumnData (data, "autoC2", X++);
-					addColumnData (data, "autoD1", X++);
-					addColumnData (data, "autoD2", X++);
-					addColumnData (data, "autoE", X++);
+					addColumnData (data, "autoA1", gridX++);
+					addColumnData (data, "autoA2", gridX++);
+					addColumnData (data, "autoB1", gridX++);
+					addColumnData (data, "autoB2", gridX++);
+					addColumnData (data, "autoC1", gridX++);
+					addColumnData (data, "autoC2", gridX++);
+					addColumnData (data, "autoD1", gridX++);
+					addColumnData (data, "autoD2", gridX++);
+					addColumnData (data, "autoE", gridX++);
 				}
 				if (filterArray [1] == true) {
-					addColumnData (data, "autoShotHighSuccess", X++);
-					addColumnData (data, "autoShotHighTotal", X++);
-					addColumnData (data, "autoShotHighAccuracy", X++);
-					addColumnData (data, "autoShotLowSuccess", X++);
-					addColumnData (data, "autoShotLowTotal", X++);
+					addColumnData (data, "autoShotHighSuccess", gridX++);
+					addColumnData (data, "autoShotHighTotal", gridX++);
+					addColumnData (data, "autoShotHighAccuracy", gridX++);
+					addColumnData (data, "autoShotLowSuccess", gridX++);
+					addColumnData (data, "autoShotLowTotal", gridX++);
 				}
 				if (filterArray [2] == true) {
-					addColumnData (data, "teleOpA1", X++);
-					addColumnData (data, "teleOpA2", X++);
-					addColumnData (data, "teleOpB1", X++);
-					addColumnData (data, "teleOpB2", X++);
-					addColumnData (data, "teleOpC1", X++);
-					addColumnData (data, "teleOpC2", X++);
-					addColumnData (data, "teleOpD1", X++);
-					addColumnData (data, "teleOpD2", X++);
-					addColumnData (data, "teleOpE", X++);
+					addColumnData (data, "teleOpA1", gridX++);
+					addColumnData (data, "teleOpA2", gridX++);
+					addColumnData (data, "teleOpB1", gridX++);
+					addColumnData (data, "teleOpB2", gridX++);
+					addColumnData (data, "teleOpC1", gridX++);
+					addColumnData (data, "teleOpC2", gridX++);
+					addColumnData (data, "teleOpD1", gridX++);
+					addColumnData (data, "teleOpD2", gridX++);
+					addColumnData (data, "teleOpE", gridX++);
 				}
 				if (filterArray [3] == true) {
-					addColumnData (data, "teleOpShotHighSuccess", X++);
-					addColumnData (data, "teleOpShotHighTotal", X++);
-					addColumnData (data, "teleOpShotHighAccuracy", X++);
-					addColumnData (data, "teleOpShotLowSuccess", X++);
-					addColumnData (data, "teleOpShotLowTotal", X++);
-					addColumnData (data, "shotsDenied", X++);
+					addColumnData (data, "teleOpShotHighSuccess", gridX++);
+					addColumnData (data, "teleOpShotHighTotal", gridX++);
+					addColumnData (data, "teleOpShotHighAccuracy", gridX++);
+					addColumnData (data, "teleOpShotLowSuccess", gridX++);
+					addColumnData (data, "teleOpShotLowTotal", gridX++);
+					addColumnData (data, "shotsDenied", gridX++);
 				}
 				if (filterArray [4] == true) {
-					addColumnData (data, "challenged", X++);
-					addColumnData (data, "scaled", X++);
-					addColumnData (data, "disabled", X++);
+					addColumnData (data, "challenged", gridX++);
+					addColumnData (data, "scaled", gridX++);
+					addColumnData (data, "disabled", gridX++);
 				}
 
-				Y++;
+				gridY++;
 			}
 			dataVerticalScroll.Content = dataGrid;
 
@@ -342,7 +341,7 @@ namespace VitruvianApp2016
 		}
 
 		void addColumnHeaders(string headerName, int arrayIndex){
-			ColumnHeader dataHeader = new ColumnHeader ();
+			ColumnHeaderCell dataHeader = new ColumnHeaderCell ();
 			dataHeader.header.Text = headerName;
 
 			headerGrid.Children.Add (dataHeader, arrayIndex, 0);
@@ -357,10 +356,10 @@ namespace VitruvianApp2016
 				cell.data.Text = "NULL";
 			}
 
-			if (Y % 2 == 1)
+			if (gridY % 2 == 1)
 				cell.BackgroundColor = Color.Gray;
 
-			dataGrid.Children.Add (cell, arrayIndex, Y);
+			dataGrid.Children.Add (cell, arrayIndex, gridY);
 		}
 	}
 }

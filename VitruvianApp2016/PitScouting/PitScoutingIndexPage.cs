@@ -75,7 +75,7 @@ namespace VitruvianApp2016
 				}
 			};
 		}
-		async Task UpdateTeamList(){
+		async void UpdateTeamList(){
 			busyIcon.IsVisible = true;
 			busyIcon.IsRunning = true;
 			ParseQuery<ParseObject> query = ParseObject.GetQuery("TeamData");

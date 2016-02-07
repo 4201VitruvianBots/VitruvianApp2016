@@ -4,6 +4,7 @@ using Parse;
 using Xamarin.Media;
 using System.IO;
 using System.Threading.Tasks;
+using Android.App;
 
 namespace VitruvianApp2016
 {
@@ -316,7 +317,7 @@ namespace VitruvianApp2016
 			return buffer;
 		}
 
-		async Task OpenImagePicker(){
+		async void OpenImagePicker(){
 			//It works? Don't use gallery
 			var robotImagePicker = new MediaPicker(Forms.Context);
 

@@ -9,6 +9,7 @@ namespace VitruvianApp2016
 {
 	public class RobotInfoIndexPage : ContentPage
 	{
+
 		StackLayout teamStack = new StackLayout();
 
 		ActivityIndicator busyIcon = new ActivityIndicator ();
@@ -17,6 +18,7 @@ namespace VitruvianApp2016
 		{
 			//Page Title
 			Label title = new Label () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Robot Information",
 				FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
 				TextColor = Color.Green,
@@ -75,7 +77,7 @@ namespace VitruvianApp2016
 				}
 			};
 		}
-		async Task UpdateTeamList(){
+		async void UpdateTeamList(){
 			busyIcon.IsVisible = true;
 			busyIcon.IsRunning = true;
 			ParseQuery<ParseObject> query = ParseObject.GetQuery("TeamData");

@@ -7,8 +7,6 @@ namespace VitruvianApp2016
 {
 	public class MainMenuPage : ContentPage
 	{
-		ParseObject obj;
-
 		public MainMenuPage ()
 		{
 			//Title

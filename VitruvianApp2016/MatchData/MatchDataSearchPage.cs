@@ -9,6 +9,8 @@ namespace VitruvianApp2016
 {
 	public class MatchDataSearchPage:ContentPage
 	{
+		ActivityIndicator busyIcon = new ActivityIndicator ();
+
 		StackLayout dataList = new StackLayout();
 
 		int spanYi=0;
@@ -136,7 +138,8 @@ namespace VitruvianApp2016
 				}
 			};
 
-			layoutGrid.Children.Add (title, 0, 2, spanYi++, spanYf++);
+			layoutGrid.Children.Add (title, 0, 1, spanYi, spanYf);
+			layoutGrid.Children.Add (busyIcon, 1, 2, spanYi++, spanYf++);
 			layoutGrid.Children.Add (teamSearch, 0, 1, spanYi++, spanYf++);
 			layoutGrid.Children.Add (teamSearchEntry, 0, 1, spanYi, spanYf);
 			layoutGrid.Children.Add (teamSearchBtn, 1, 2, spanYi++, spanYf++);
@@ -155,7 +158,10 @@ namespace VitruvianApp2016
 			};
 		}
 
-		async Task filterMatches(int searchType, int number){
+		async void filterMatches(int searchType, int number){
+			busyIcon.IsVisible = true;
+			busyIcon.IsRunning = true;
+
 			ParseQuery<ParseObject> query = ParseObject.GetQuery("MatchData");
 			ParseQuery<ParseObject> sorted = query.OrderBy("matchNo");
 			ParseQuery<ParseObject> filter;
@@ -188,6 +194,9 @@ namespace VitruvianApp2016
 					DisplayAlert("Error:", "Invalid search query", "OK");
 				}
 			}
+
+			busyIcon.IsVisible = false;
+			busyIcon.IsRunning = false;
 		}
 	}
 }

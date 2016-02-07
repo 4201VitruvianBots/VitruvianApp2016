@@ -9,9 +9,12 @@ namespace VitruvianApp2016
 {
 	public class MatchInfoSearchPage:ContentPage
 	{
-		ParseObject selectMatch;
+		ActivityIndicator busyIcon = new ActivityIndicator ();
 
 		StackLayout dataList = new StackLayout();
+
+		int spanYi=0;
+		int spanYf=1;
 
 		public MatchInfoSearchPage ()
 		{
@@ -25,10 +28,9 @@ namespace VitruvianApp2016
 					new RowDefinition{ Height = GridLength.Auto },
 					new RowDefinition{ Height = GridLength.Auto },
 					new RowDefinition{ Height = GridLength.Auto },
-					new RowDefinition{ Height = GridLength.Auto },
+					new RowDefinition{ Height = GridLength.Auto }, 
 					new RowDefinition{ Height = new GridLength(1, GridUnitType.Star) },
 					new RowDefinition{ Height = GridLength.Auto },
-
 				},
 				ColumnDefinitions = {
 					new ColumnDefinition{ Width = GridLength.Auto },
@@ -49,7 +51,7 @@ namespace VitruvianApp2016
 			};
 
 			Entry teamSearchEntry = new Entry () {
-				Placeholder = "[To be Added]",  // CUrrently Broken
+				Placeholder = "[Enter a Team Number]",  // Currently Non-functional
 				Keyboard = Keyboard.Numeric
 			};
 
@@ -60,11 +62,10 @@ namespace VitruvianApp2016
 				FontSize = GlobalVariables.sizeMedium
 			};
 			teamSearchBtn.Clicked += (object sender, EventArgs e) => {
-				DisplayAlert("Error:", "Functionality not added", "OK");
 				try{
-					//filterMatches(1, Convert.ToInt32(teamSearchEntry.Text));
+					filterMatches(1, Convert.ToInt32(teamSearchEntry.Text));
 				} catch{
-					//DisplayAlert("Error:", "Invalid search query", "OK");
+					DisplayAlert("Error:", "Invalid search query", "OK");
 				}
 			};
 
@@ -75,7 +76,7 @@ namespace VitruvianApp2016
 			};
 
 			Entry matchSearchEntry = new Entry () {
-				Placeholder = "[Enter a match Number]",
+				Placeholder = "[Enter a Match Number]",
 				Keyboard = Keyboard.Numeric
 			};
 
@@ -129,15 +130,16 @@ namespace VitruvianApp2016
 				}
 			};
 
-			layoutGrid.Children.Add (title, 0, 2, 0, 1);
-			layoutGrid.Children.Add (teamSearch, 0, 1, 1, 2);
-			layoutGrid.Children.Add (teamSearchEntry, 0, 1, 2, 3);
-			layoutGrid.Children.Add (teamSearchBtn, 1, 2, 2, 3);
-			layoutGrid.Children.Add (matchSearch, 0, 1, 3, 4);
-			layoutGrid.Children.Add (matchSearchEntry, 0, 1, 4, 5);
-			layoutGrid.Children.Add (matchSearchBtn, 1, 2, 4, 5);
-			layoutGrid.Children.Add (allMatchesBtn, 1, 2, 5, 6);
-			layoutGrid.Children.Add (navigationBtns, 0, 2, 7, 8);
+			layoutGrid.Children.Add (title, 0, 1, spanYi, spanYf);
+			layoutGrid.Children.Add (busyIcon, 1, 2, spanYi++, spanYf++);
+			layoutGrid.Children.Add (teamSearch, 0, 1, spanYi++, spanYf++);
+			layoutGrid.Children.Add (teamSearchEntry, 0, 1, spanYi, spanYf);
+			layoutGrid.Children.Add (teamSearchBtn, 1, 2, spanYi++, spanYf++);
+			layoutGrid.Children.Add (matchSearch, 0, 1, spanYi++, spanYf++);
+			layoutGrid.Children.Add (matchSearchEntry, 0, 1, spanYi, spanYf);
+			layoutGrid.Children.Add (matchSearchBtn, 1, 2, spanYi++, spanYf++);
+			layoutGrid.Children.Add (allMatchesBtn, 1, 2, spanYi++, spanYf++);
+			layoutGrid.Children.Add (navigationBtns, 0, 2, spanYi+1, spanYf+1);
 
 			this.Content = new ScrollView () {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -148,17 +150,25 @@ namespace VitruvianApp2016
 		}
 
 		async void filterMatches(int searchType, int number){
+			busyIcon.IsVisible = true;
+			busyIcon.IsRunning = true;
 			
 			ParseQuery<ParseObject> query = ParseObject.GetQuery("MatchList");
 			ParseQuery<ParseObject> sorted = query.OrderBy("matchNo");
-			ParseQuery<ParseObject> filter;
+			ParseQuery<ParseObject>[] filter = new ParseQuery<ParseObject>[6];
 			ParseObject selectMatch = null;
 			IEnumerable<ParseObject> dataSelect = null;
 
 			if (searchType == 1) {
 				//Search multiple columns except matchNo for a teamNo ?
-				filter = sorted.WhereEqualTo ("red", number);			
-				dataSelect = await filter.FindAsync();
+				filter[0] = query.WhereEqualTo("red1", number);
+				filter[1] = filter[0].Or(query.WhereEqualTo("red2", number));
+				filter[2] = filter[1].Or(query.WhereEqualTo("red3", number));
+				filter[3] = filter[2].Or(query.WhereEqualTo("blue1", number));
+				filter[4] = filter[3].Or(query.WhereEqualTo("blue2", number));
+				filter[5] = filter[4].Or(query.WhereEqualTo("blue3", number));
+
+				dataSelect = await filter[5].FindAsync ();
 				try{
 					await Navigation.PushModalAsync(new MatchInfoIndexPage(dataSelect));
 				}
@@ -166,8 +176,8 @@ namespace VitruvianApp2016
 					DisplayAlert("Error:", "Invalid search query", "OK");
 				}
 			} else if (searchType == 2) {
-				filter = query.WhereEqualTo ("matchNo", number);
-				dataSelect = await filter.FindAsync();
+				filter[0] = query.WhereEqualTo ("matchNo", number);
+				dataSelect = await filter[0].FindAsync();
 				foreach (ParseObject obj in dataSelect) {
 					selectMatch = obj;
 				}
@@ -181,6 +191,8 @@ namespace VitruvianApp2016
 				dataSelect = await sorted.FindAsync();
 				await Navigation.PushModalAsync(new MatchInfoIndexPage(dataSelect));
 			}
+			busyIcon.IsVisible = false;
+			busyIcon.IsRunning = false;
 		}
 	}
 }

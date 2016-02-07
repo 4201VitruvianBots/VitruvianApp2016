@@ -3,11 +3,11 @@ using Xamarin.Forms;
 
 namespace VitruvianApp2016
 {
-	public class ColumnHeader:ContentView
+	public class ColumnHeaderCell:ContentView
 	{
 		public Label header; 
 
-		public ColumnHeader ()
+		public ColumnHeaderCell ()
 		{
 			header = new Label ();
 			HeightRequest = 10;
