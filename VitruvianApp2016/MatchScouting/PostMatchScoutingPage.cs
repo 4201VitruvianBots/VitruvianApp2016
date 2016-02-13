@@ -88,6 +88,7 @@ namespace VitruvianApp2016
 					DisplayAlert("Error:", errorString, "OK");
 					errorString = "The following data was unable to be saved: ";
 				} else {
+					// Navigation.InsertPageBefore(new PreMatchScoutingPage(), AutoMatchScoutingPage);
 					Navigation.PushModalAsync(new PreMatchScoutingPage());
 				}
 			};
@@ -109,7 +110,7 @@ namespace VitruvianApp2016
 					noteLabel,
 					noteEditor,
 					submit,
-					keyboardPadding
+					//keyboardPadding
 				}
 			};
 

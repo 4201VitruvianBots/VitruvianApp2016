@@ -160,7 +160,6 @@ namespace VitruvianApp2016
 			IEnumerable<ParseObject> dataSelect = null;
 
 			if (searchType == 1) {
-				//Search multiple columns except matchNo for a teamNo ?
 				filter[0] = query.WhereEqualTo("red1", number);
 				filter[1] = filter[0].Or(query.WhereEqualTo("red2", number));
 				filter[2] = filter[1].Or(query.WhereEqualTo("red3", number));

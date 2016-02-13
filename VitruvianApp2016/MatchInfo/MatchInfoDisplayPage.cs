@@ -171,6 +171,7 @@ namespace VitruvianApp2016
 			addRobotImage(teamData, arrayIndex);
 			listedItem ("Drive Train", "driveType", teamData, arrayIndex);
 			listedItem ("Low Bar Capable", "lowBarAccess", teamData, arrayIndex);
+			//Z2 = Z;
 
 			teamView [arrayIndex].Content = teamStack [arrayIndex];
 			dataGrid.Children.Add (teamView [arrayIndex], arrayIndex, 0);

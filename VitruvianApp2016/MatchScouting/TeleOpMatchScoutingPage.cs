@@ -29,9 +29,9 @@ namespace VitruvianApp2016
 		bool scaled = false;
 		int points = 0;
 
-		Label score = new Label () {
-			Text = "0",
-			FontSize = GlobalVariables.sizeMedium
+		Label scoreLabel = new Label () {
+			Text = "Points: 0",
+			FontSize = GlobalVariables.sizeTitle
 		};
 
 		public TeleOpMatchScoutingPage (ParseObject MatchData, int[] def)
@@ -89,11 +89,6 @@ namespace VitruvianApp2016
 				}
 			};
 
-			Label scoreLabel = new Label () {
-				Text = "Points Scored",
-				FontSize = GlobalVariables.sizeMedium
-			};
-
 			// score
 
 			Button disabledBtn = new Button () {
@@ -112,6 +107,7 @@ namespace VitruvianApp2016
 			};
 
 			data = MatchData;
+			pointsScored ();
 
 			Button endMatch = new Button (){
 				Text = "End Match",
@@ -163,6 +159,7 @@ namespace VitruvianApp2016
 				}
 			};
 			layoutGrid.Children.Add (pageTitle, 0, 6, 0, 1);
+			layoutGrid.Children.Add (scoreLabel, 12, 15, 0, 1);
 			layoutGrid.Children.Add (challengeBtn, 9, 12, 4, 5);
 			layoutGrid.Children.Add (scaleBtn, 9, 12, 5, 6);
 			layoutGrid.Children.Add (disabledBtn, 12, 15, 4, 5);
@@ -253,7 +250,7 @@ namespace VitruvianApp2016
 				HorizontalOptions = LayoutOptions.CenterAndExpand
 
 			};
-			layoutGrid.Children.Add (titleLabel,x, x+3, y, y+1); // title 
+			layoutGrid.Children.Add (titleLabel, x, x+3, y, y+1); // title 
 			layoutGrid.Children.Add (minus[arrayIndex],x, y+1); // Minus 
 			layoutGrid.Children.Add (minus[arrayIndex+1],x, y+2); // Minus 
 			layoutGrid.Children.Add (displayValue[arrayIndex],x+1, y+1); // value 
@@ -265,26 +262,92 @@ namespace VitruvianApp2016
 		void pointsScored(){
 			points = 0;
 
-			/*
-			if (Convert.ToInt16(data ["autoA1"].ToString()) + Convert.ToInt16(data["autoA2"].ToString()) + scoreValue [0] < 2)
-				points += 10 * (Convert.ToInt16(data ["autoA1"].ToString()) + Convert.ToInt16(data["autoA2"].ToString())) + 5 * scoreValue[0];
-			if (Convert.ToInt16(data ["autoB1"]) + Convert.ToInt16(data["autoB2"]) + scoreValue [1] < 2)
-				points += 10 * (Convert.ToInt16(data ["autoB1"]) + Convert.ToInt16(data["autoB2"])) + 5 * scoreValue[1];
-			if (Convert.ToInt16(data ["autoC1"]) + Convert.ToInt16(data["autoC2"]) + scoreValue [2] < 2)
-				points += 10 * (Convert.ToInt16(data ["autoC1"]) + Convert.ToInt16(data["autoC2"])) + 5 * scoreValue[2];
-			if (Convert.ToInt16(data ["autoD1"]) + Convert.ToInt16(data["autoD2"]) + scoreValue [3] < 2)
-				points += 10 * (Convert.ToInt16(data ["autoD1"]) + Convert.ToInt16(data["autoD2"])) + 5 * scoreValue[3];
-			if (Convert.ToInt16(data ["autoE"]) + scoreValue[4] < 2)
-				points += 10 * Convert.ToInt16(data ["autoE"]) + 5 * scoreValue[4];
-			points += 5 * Convert.ToInt16(data ["teleOpShotHighSuccess"]) + 2 * scoreValue[5];
+			double A = 0;
+			double B = 0;
+			double C = 0;
+			double D = 0;
+			double E = 0;
+			try{
+				A += Convert.ToDouble(data["autoA1"].ToString());
+			}catch{}
+			try{
+				A += Convert.ToDouble(data["autoA2"].ToString());
+			} catch{}
+			if (A == 0 && scoreValue [0] < 2)
+				points += 5 * scoreValue [0];
+			else if (A == 0 && scoreValue [0] == 2)
+				points += 10;
+			else if (A != 0 && scoreValue [0] == 0)
+				points += (int)(10 * A);
+			else if (A != 0 && scoreValue[0] == 1)
+				points += (int)(10*A+5);
+			
+			try{
+				B += Convert.ToDouble(data["autoB1"].ToString());
+			}catch{}
+			try{
+				B += Convert.ToDouble(data["autoB2"].ToString());
+			} catch{}
+			if (B == 0 && scoreValue [1] < 2)
+				points += 5 * scoreValue [1];
+			else if (B == 0 && scoreValue [1] == 2)
+				points += 10;
+			else if (B != 0 && scoreValue [1] == 0)
+				points += (int)(10 * B);
+			else if (B != 0 && scoreValue[1] == 1)
+				points += (int)(10 * B + 5);
+			
+			try{
+				C += Convert.ToDouble(data["autoC1"].ToString());
+			}catch{}
+			try{
+				C += Convert.ToDouble(data["autoC2"].ToString());
+			} catch{}
+			if (C == 0 && scoreValue [2] < 2)
+				points += 5 * scoreValue [2];
+			else if (C == 0 && scoreValue [2] == 2)
+				points += 10;
+			else if (C != 0 && scoreValue [2] == 0)
+				points += (int)(10 * C);
+			else if (C != 0 && scoreValue[2] == 1)
+				points += (int)(10 * C+5);
+			
+			try{
+				D += Convert.ToDouble(data["autoD1"].ToString());
+			}catch{}
+			try{
+				D += Convert.ToDouble(data["autoD2"].ToString());
+			} catch{}
+			if (D == 0 && scoreValue [3] < 2)
+				points += 5 * scoreValue [3];
+			else if (D == 0 && scoreValue [3] == 2)
+				points += 10;
+			else if (D != 0 && scoreValue [3] == 0)
+				points += (int)(10 * D);
+			else if (D != 0 && scoreValue[3] == 1)
+				points += (int)(10 * D+5);
+			
+			try{
+				E += Convert.ToDouble(data["autoE"].ToString());
+			}catch{}
+			if (E == 0 && scoreValue [4] < 2)
+				points += 5 * scoreValue [4];
+			else if (E == 0 && scoreValue [4] == 2)
+				points += 10;
+			else if (E != 0 && scoreValue [4] == 0)
+				points += (int)(10 * E);
+			else if (E != 0 && scoreValue[4] == 1)
+				points += (int)(10 * E+5);
+			
+			points += 5 * Convert.ToInt16(data ["autoShotLowSuccess"]) + 2 * scoreValue[5];
 			points += 10 * Convert.ToInt16(data ["autoShotHighSuccess"]) + 5 * scoreValue[7];
+
 			if (scaled == true)
 				points += 15;
 			else if (challenge == true)
 				points += 5;
-			*/
 
-			score.Text = points.ToString();
+			scoreLabel.Text = "Points: " + points.ToString();
 		}
 
 		void errorHandling(string d, int i){

@@ -82,7 +82,7 @@ namespace VitruvianApp2016
 				FontSize = GlobalVariables.sizeMedium
 			};
 			testBtn.Clicked += (object sender, EventArgs e) => {
-				Navigation.PushModalAsync (new ScrollViewTestPage());
+				Navigation.PushModalAsync (new NullTest());
 			};
 			//Page Layout
 			StackLayout pageStack = new StackLayout (){

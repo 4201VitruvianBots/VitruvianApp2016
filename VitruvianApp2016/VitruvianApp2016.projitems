@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MatchInfo\MatchInfoSearchPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CellViews\ColumnHeaderCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CellViews\DataCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestPages\NullTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.txt" />

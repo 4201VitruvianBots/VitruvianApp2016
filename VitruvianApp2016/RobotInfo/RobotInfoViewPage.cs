@@ -15,6 +15,7 @@ namespace VitruvianApp2016
 		int Z=0;
 		Label[]	descriptionLabel = new Label[99];
 		Label[]	dataLabel = new Label[99];
+		int Z2=0;
 
 		public RobotInfoViewPage (ParseObject teamData)
 		{
@@ -81,6 +82,23 @@ namespace VitruvianApp2016
 			listedItem("Auto Strategy:", "autoStrategy");
 			listedItem("TeleOp Strategy:", "teleOpStrategy");
 			listedItem("Additional Notes:", "notes");
+			Z2 = Z;
+			listedItem("Highest Score:", "highScore1");
+			listedItem("Second Highest Score:", "highScore2");
+			listedItem("Third Highest Score:", "highScore3");
+			listedItem("Thrid Lowest Score:", "lowScore3");
+			listedItem("Second Lowest Score:", "lowScore2");
+			listedItem("Lowest Score:", "lowScore1");
+			listedItem("Portcullis Successes:", "totalA1");
+			listedItem("Cheval de Frise Sccesses:", "totalA2");
+			listedItem("Moat Successes:", "totalB1");
+			listedItem("Rampart Successes:", "totalB2");
+			listedItem("Drawbridge Successes:", "totalC1");
+			listedItem("Sally Port Successes:", "totalC2");
+			listedItem("Rock Wall Successes:", "totalD1");
+			listedItem("Rough Terrain Successes:", "totalD2");
+			listedItem("Low Bar Successes:", "totalE");
+
 
 			//Refresh Button
 			Button refreshBtn = new Button () {
@@ -113,15 +131,35 @@ namespace VitruvianApp2016
 			};
 
 
-			StackLayout info = new StackLayout () {
+			StackLayout pitInfo = new StackLayout () {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 			};
 
-			for(int i=0; i<Z; i++){
-				info.Children.Add(descriptionLabel[i]);
-				info.Children.Add (dataLabel [i]);
+			for(int i=0; i<Z2; i++){
+				pitInfo.Children.Add(descriptionLabel[i]);
+				pitInfo.Children.Add (dataLabel [i]);
 			}
+
+			StackLayout stats = new StackLayout () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.FillAndExpand,
+				BackgroundColor = Color.Aqua
+			};
+			for(int i=Z2; i<Z; i++){
+				stats.Children.Add(descriptionLabel[i]);
+				stats.Children.Add (dataLabel [i]);
+			}
+
+			StackLayout allInfo = new StackLayout () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.FillAndExpand,
+
+				Children = {
+					pitInfo,
+					stats
+				}
+			};
 
 			StackLayout navigationBtns = new StackLayout () {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -136,7 +174,7 @@ namespace VitruvianApp2016
 
 			grid.Children.Add (robotImage, 0, 0);
 			grid.Children.Add (side, 1, 0);
-			grid.Children.Add (info, 0, 2, 1, 2);
+			grid.Children.Add (allInfo, 0, 2, 1, 2);
 			grid.Children.Add (navigationBtns, 0, 2, 2, 3);
 
 			this.Content = new ScrollView {
