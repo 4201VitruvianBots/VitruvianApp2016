@@ -30,7 +30,8 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Black,
 
 				RowDefinitions = {
-					new RowDefinition{ Height = new GridLength(150, GridUnitType.Absolute) },
+					new RowDefinition{ Height = GridLength.Auto },
+					new RowDefinition{ Height = new GridLength(130, GridUnitType.Absolute) },
 				},
 				ColumnDefinitions = {
 					new ColumnDefinition{ Width = new GridLength(150, GridUnitType.Absolute) },
@@ -71,7 +72,6 @@ namespace VitruvianApp2016
 
 			// Team Name Label
 			Label teamName = new Label (){
-				HorizontalOptions =LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				FontSize = GlobalVariables.sizeMedium,
 				BackgroundColor = Color.Black
@@ -86,11 +86,14 @@ namespace VitruvianApp2016
 
 			// Drive Type Picker
 			Label driveTypeLabel = new Label {
-				Text = "Drive Type",
+				Text = "Drive Type:",
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
 			};
 
-			Picker driveTypePicker = new Picker ();
+			Picker driveTypePicker = new Picker (){ 
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+			};
 			try{
 				if(teamData["driveType"] != null)
 					driveTypePicker.Title = teamData["driveType"].ToString();
@@ -109,10 +112,13 @@ namespace VitruvianApp2016
 			// Low Bar Picker
 			Label lowBarLabel = new Label {
 				Text = "Can you go under the low bar?:",
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
 			};
 
-			Picker lowBarPicker = new Picker();
+			Picker lowBarPicker = new Picker(){ 
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+			};
 			try{
 				if(teamData["lowBarAccess"] != null)
 					lowBarPicker.Title = teamData["lowBarAccess"].ToString();
@@ -131,12 +137,13 @@ namespace VitruvianApp2016
 			// Auto Strategy Editor
 			Label autoStrategyLabel = new Label {
 				Text = "Auto Strategy",
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
 			};
 
 			Editor autoStrategyEditor = new Editor(){
 				HeightRequest = 200,
-				BackgroundColor = Color.Gray
+				BackgroundColor = Color.Silver
 			};
 			try{
 				if(teamData["autoStrategy"] != null)
@@ -148,12 +155,13 @@ namespace VitruvianApp2016
 			// TeleOp Strategy Editor
 			Label teleOpStrategyLabel = new Label {
 				Text = "TeleOp Strategy",
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
 			};
 
 			Editor teleOpStrategyEditor = new Editor(){
 				HeightRequest = 200,
-				BackgroundColor = Color.Gray
+				BackgroundColor = Color.Silver
 			};
 			try{
 				if(teamData["teleOpStrategy"] != null)
@@ -165,12 +173,13 @@ namespace VitruvianApp2016
 			// Additional Notes Editor
 			Label notesLabel = new Label {
 				Text = "Additional Notes",
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
 			};
 
 			Editor notesEditor = new Editor(){
 				HeightRequest = 200,
-				BackgroundColor = Color.Gray
+				BackgroundColor = Color.Silver
 			};
 			try{
 				if(teamData["notes"] != null)
@@ -213,6 +222,7 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Black
 			};
 			refreshBtn.Clicked += (object sender, EventArgs e) => {
+				//Change this
 				Navigation.PushModalAsync(new PitScoutingEditPage(data));
 			};
 
@@ -227,20 +237,12 @@ namespace VitruvianApp2016
 				Navigation.PopModalAsync();
 			};
 
-			StackLayout side = new StackLayout () {
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
-
-				Children = {
-					teamNumber,
-					teamName
-				}
-			};
-
 			StackLayout info = new StackLayout () {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
-				//BackgroundColor = Color.White,
+				BackgroundColor = Color.Gray,
+				Padding = 3,
+
 
 				Children = {
 					driveTypeLabel,
@@ -275,8 +277,9 @@ namespace VitruvianApp2016
 				}
 			};
 
-			topGrid.Children.Add (robotImage, 0, 0);
-			topGrid.Children.Add (side, 1, 0);
+			topGrid.Children.Add (robotImage, 0, 1,0,2);
+			topGrid.Children.Add (teamNumber, 1, 2, 0, 1);
+			topGrid.Children.Add (teamName, 1, 2, 1, 2);
 			grid.Children.Add (infoScroll, 0, 1);
 			grid.Children.Add (topGrid, 0, 0);
 			grid.Children.Add (navigationBtns, 0, 2);
@@ -345,7 +348,6 @@ namespace VitruvianApp2016
 				robotImageFile = t.Result;
 				Console.WriteLine("Robot Image Path: " + robotImageFile.Path);
 			},TaskScheduler.FromCurrentSynchronizationContext());
-
 			robotImage.Source = robotImageFile.Path;
 			try{
 				ParseFile image = new ParseFile(data["teamNumber"].ToString()+".jpg", ImageToBinary(robotImageFile.Path));

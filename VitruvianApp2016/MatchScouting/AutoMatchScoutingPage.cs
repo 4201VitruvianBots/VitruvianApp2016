@@ -26,8 +26,12 @@ namespace VitruvianApp2016
 		int points = 0;
 
 		Label scoreLabel = new Label () {
+			HorizontalOptions = LayoutOptions.FillAndExpand,
 			Text = "Points: 0",
-			FontSize = GlobalVariables.sizeTitle
+			TextColor = Color.White,
+			BackgroundColor = Color.Black,
+			FontSize = GlobalVariables.sizeTitle,
+			FontAttributes = FontAttributes.Bold
 		};
 
 		const string errorStringDefault = "The Following Data Was Unable To Be Saved: ";
@@ -47,8 +51,10 @@ namespace VitruvianApp2016
 					autoDef [i, j] = false;
 
 			Label pageTitle = new Label () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Autonomous Mode",
 				TextColor = Color.White,
+				BackgroundColor = Color.Black,
 				FontSize = GlobalVariables.sizeTitle,
 				FontAttributes = FontAttributes.Bold
 			};
@@ -111,7 +117,7 @@ namespace VitruvianApp2016
 					Navigation.PushModalAsync(new TeleOpMatchScoutingPage(data, def));
 				}
 			};
-			layoutGrid.Children.Add (pageTitle, 0, 6, 0, 1);
+			layoutGrid.Children.Add (pageTitle, 0, 13, 0, 1);
 			layoutGrid.Children.Add (scoreLabel, 12, 15, 0, 1);
 			layoutGrid.Children.Add (TeleopPage, 12, 15, 4, 5);
 
@@ -120,11 +126,12 @@ namespace VitruvianApp2016
 					layoutGrid
 				}
 			};
-			BackgroundColor = Color.Gray;
+			BackgroundColor = Color.Teal;
 		}
 
 		void defense(int arrayIndex, int x, int y, string title){
 			displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
+			displayValue [arrayIndex].TextColor = Color.Black;
 			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
 			minus [arrayIndex].Text = "Reach";
 			minus [arrayIndex].BackgroundColor = Color.Red;
@@ -174,7 +181,8 @@ namespace VitruvianApp2016
 
 			Label defLabel = new Label () {
 				Text = title,
-				FontSize = GlobalVariables.sizeTitle,
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
 				HorizontalOptions = LayoutOptions.CenterAndExpand
 			};
 			layoutGrid.Children.Add (defLabel,x, x+3, y, y+1); // Picker 
@@ -184,8 +192,10 @@ namespace VitruvianApp2016
 
 		void shoot(int arrayIndex, int x, int y, string title){
 			displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
+			displayValue [arrayIndex].TextColor = Color.Black;
 			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
 			displayValue [arrayIndex + 1].Text = scoreValue[arrayIndex+1].ToString();
+			displayValue [arrayIndex + 1].TextColor = Color.Black;
 			displayValue [arrayIndex + 1].FontSize = GlobalVariables.sizeMedium;
 			minus [arrayIndex].Text = "-";
 			minus [arrayIndex].BackgroundColor = Color.Red;
@@ -223,7 +233,8 @@ namespace VitruvianApp2016
 
 			Label titleLabel = new Label () {
 				Text = title,
-				FontSize = GlobalVariables.sizeTitle,
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
 				HorizontalOptions = LayoutOptions.CenterAndExpand
 
 			};

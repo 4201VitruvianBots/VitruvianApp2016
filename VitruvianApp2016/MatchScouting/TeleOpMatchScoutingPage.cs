@@ -30,8 +30,12 @@ namespace VitruvianApp2016
 		int points = 0;
 
 		Label scoreLabel = new Label () {
+			HorizontalOptions = LayoutOptions.FillAndExpand,
 			Text = "Points: 0",
-			FontSize = GlobalVariables.sizeTitle
+			TextColor = Color.White,
+			BackgroundColor = Color.Black,
+			FontSize = GlobalVariables.sizeTitle,
+			FontAttributes = FontAttributes.Bold
 		};
 
 		public TeleOpMatchScoutingPage (ParseObject MatchData, int[] def)
@@ -46,8 +50,10 @@ namespace VitruvianApp2016
 			}
 
 			Label pageTitle = new Label () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "TeleOp Mode",
 				TextColor = Color.White,
+				BackgroundColor = Color.Black,
 				FontSize = GlobalVariables.sizeTitle,
 				FontAttributes = FontAttributes.Bold
 			};
@@ -68,7 +74,7 @@ namespace VitruvianApp2016
 			};
 			challengeBtn.Clicked += (object sender, EventArgs e) => {
 				if(challenge==false){
-					challengeBtn.BackgroundColor = Color.Red;
+					challengeBtn.BackgroundColor = Color.Green;
 					challenge = true;
 				} else {
 					challengeBtn.BackgroundColor = Color.Gray;
@@ -83,7 +89,7 @@ namespace VitruvianApp2016
 			};
 			scaleBtn.Clicked += (object sender, EventArgs e) => {
 				if(scaled==false){
-					scaleBtn.BackgroundColor = Color.Red;
+					scaleBtn.BackgroundColor = Color.Green;
 					scaled = true;
 				} else {
 					scaleBtn.BackgroundColor = Color.Gray;
@@ -160,7 +166,7 @@ namespace VitruvianApp2016
 					Navigation.PushModalAsync(new PostMatchScoutingPage(data));
 				}
 			};
-			layoutGrid.Children.Add (pageTitle, 0, 6, 0, 1);
+			layoutGrid.Children.Add (pageTitle, 0, 13, 0, 1);
 			layoutGrid.Children.Add (scoreLabel, 12, 15, 0, 1);
 			layoutGrid.Children.Add (challengeBtn, 9, 12, 4, 5);
 			layoutGrid.Children.Add (scaleBtn, 9, 12, 5, 6);
@@ -172,11 +178,12 @@ namespace VitruvianApp2016
 					layoutGrid
 				}
 			};
-			BackgroundColor = Color.Silver;
+			BackgroundColor = Color.White;
 		}
 
 		void defense(int arrayIndex, int x, int y, string title){
 			displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
+			displayValue [arrayIndex].TextColor = Color.Black;
 			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
 			minus [arrayIndex].Text = "-";
 			minus [arrayIndex].BackgroundColor = Color.Red;
@@ -198,7 +205,8 @@ namespace VitruvianApp2016
 
 			Label defLabel = new Label () {
 				Text = title,
-				FontSize = GlobalVariables.sizeTitle,
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
 				HorizontalOptions = LayoutOptions.CenterAndExpand
 			};
 			layoutGrid.Children.Add (defLabel,x, x+3, y, y+1); // Picker 
@@ -209,8 +217,10 @@ namespace VitruvianApp2016
 
 		void shoot(int arrayIndex, int x, int y, string title){
 			displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
+			displayValue [arrayIndex].TextColor = Color.Black;
 			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
 			displayValue [arrayIndex + 1].Text = scoreValue[arrayIndex+1].ToString();
+			displayValue [arrayIndex + 1].TextColor = Color.Black;
 			displayValue [arrayIndex + 1].FontSize = GlobalVariables.sizeMedium;
 			minus [arrayIndex].Text = "-";
 			minus [arrayIndex].BackgroundColor = Color.Red;
@@ -248,7 +258,8 @@ namespace VitruvianApp2016
 
 			Label titleLabel = new Label () {
 				Text = title,
-				FontSize = GlobalVariables.sizeTitle,
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
 				HorizontalOptions = LayoutOptions.CenterAndExpand
 
 			};

@@ -12,7 +12,7 @@ namespace VitruvianApp2016
 			//Title
 			Label title = new Label () {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = "Main Menu",
+				Text = "Team 4201 Scouting App",
 				TextColor = Color.White,
 				BackgroundColor = Color.Black,
 				FontSize = GlobalVariables.sizeTitle,

@@ -217,7 +217,6 @@ namespace VitruvianApp2016
 					layoutGrid
 				}
 			};
-
 			populateData ();
 		}
 

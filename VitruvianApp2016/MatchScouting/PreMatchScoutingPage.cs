@@ -30,6 +30,7 @@ namespace VitruvianApp2016
 			};
 			Label matchNoLabel = new Label {
 				Text = "Match Number:",
+				TextColor = Color.Black,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
 			};
 
@@ -40,6 +41,7 @@ namespace VitruvianApp2016
 
 			Label teamNoLabel = new Label {
 				Text = "Team Number:",
+				TextColor = Color.Black,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
 			};
 
@@ -51,6 +53,7 @@ namespace VitruvianApp2016
 			// AlliancePicker
 			Label allianceLabel = new Label {
 				Text = "Alliance Position:",
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
 			};
 
@@ -67,6 +70,7 @@ namespace VitruvianApp2016
 			// positionPicker
 			Label positionLabel = new Label {
 				Text = "Starting Position:",
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
 			};
 
@@ -177,6 +181,7 @@ namespace VitruvianApp2016
 
 				Content=pageLayout
 			};
+			BackgroundColor = Color.Gray;
 		}
 
 		async void SaveData(){
@@ -187,6 +192,7 @@ namespace VitruvianApp2016
 
 		void defFunction(string title, int arrayIndex){
 			defLabel [arrayIndex].Text = title;
+			defLabel [arrayIndex].TextColor = Color.Black;
 			defLabel [arrayIndex].FontSize = GlobalVariables.sizeMedium;
 
 			defPicker [arrayIndex].Title = "Choose an Option";

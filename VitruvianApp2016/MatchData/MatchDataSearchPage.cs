@@ -18,6 +18,9 @@ namespace VitruvianApp2016
 
 		public MatchDataSearchPage ()
 		{
+			busyIcon.IsVisible = false;
+			busyIcon.IsRunning = false;
+
 			Grid layoutGrid = new Grid () {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
@@ -35,7 +38,6 @@ namespace VitruvianApp2016
 				},
 				ColumnDefinitions = {
 					new ColumnDefinition{ Width = GridLength.Auto },
-					new ColumnDefinition{ Width = GridLength.Auto },
 				}
 			};
 
@@ -43,13 +45,14 @@ namespace VitruvianApp2016
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Match Data Search",
 				TextColor = Color.White,
+				BackgroundColor = Color.Black,
 				FontSize = GlobalVariables.sizeTitle,
 				FontAttributes = FontAttributes.Bold
 			};
 
 			Label teamSearch = new Label () {
 				Text = "Search Team Matches",
-				TextColor = Color.Green,
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium
 			};
 
@@ -74,7 +77,7 @@ namespace VitruvianApp2016
 
 			Label matchSearch = new Label () {
 				Text = "Search Match Number",
-				TextColor = Color.Green,
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium
 			};
 
@@ -106,7 +109,7 @@ namespace VitruvianApp2016
 
 			Label allMatchesWarning = new Label(){
 				Text = "Warning: Can be slow",
-				TextColor = Color.White,
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
 				HorizontalOptions = LayoutOptions.Center
 			};
@@ -141,8 +144,8 @@ namespace VitruvianApp2016
 				}
 			};
 
-			layoutGrid.Children.Add (title, 0, 1, spanYi, spanYf);
-			layoutGrid.Children.Add (busyIcon, 1, 2, spanYi++, spanYf++);
+			//layoutGrid.Children.Add (title, 0, 2, spanYi, spanYf);
+			//layoutGrid.Children.Add (busyIcon, 1, 2, spanYi, spanYf);
 			layoutGrid.Children.Add (teamSearch, 0, 1, spanYi++, spanYf++);
 			layoutGrid.Children.Add (teamSearchEntry, 0, 1, spanYi, spanYf);
 			layoutGrid.Children.Add (teamSearchBtn, 1, 2, spanYi++, spanYf++);
@@ -151,14 +154,27 @@ namespace VitruvianApp2016
 			layoutGrid.Children.Add (matchSearchBtn, 1, 2, spanYi++, spanYf++);
 			layoutGrid.Children.Add (allMatchesBtn, 1, 2, spanYi++, spanYf++);
 			layoutGrid.Children.Add (allMatchesWarning, 1, 2, spanYi++, spanYf++);
-			layoutGrid.Children.Add (navigationBtns, 0, 2, spanYi++, spanYf++);
+			//layoutGrid.Children.Add (navigationBtns, 0, 2, spanYi++, spanYf++);
 
-			this.Content = new ScrollView () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+			StackLayout pageStack = new StackLayout () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 
-				Content = layoutGrid
+				Children = {
+					title,
+					busyIcon,
+					layoutGrid,
+					navigationBtns
+				}
 			};
+
+			this.Content = new ScrollView () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.FillAndExpand,
+
+				Content = pageStack
+			};
+			BackgroundColor = Color.Gray;
 		}
 
 		async void filterMatches(int searchType, int number){

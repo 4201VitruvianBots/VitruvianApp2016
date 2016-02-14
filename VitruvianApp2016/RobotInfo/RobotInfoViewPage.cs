@@ -25,7 +25,8 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Black,
 
 				RowDefinitions = {
-					new RowDefinition{ Height = new GridLength(150, GridUnitType.Absolute) },
+					new RowDefinition{ Height = GridLength.Auto },
+					new RowDefinition{ Height = new GridLength(130, GridUnitType.Absolute) },
 				},
 				ColumnDefinitions = {
 					new ColumnDefinition{ Width = new GridLength(150, GridUnitType.Absolute) },
@@ -130,16 +131,6 @@ namespace VitruvianApp2016
 				Navigation.PopModalAsync();
 			};
 
-			StackLayout side = new StackLayout () {
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
-
-				Children = {
-					teamNumber,
-					teamName
-				}
-			};
-
 			StackLayout pitInfo = new StackLayout () {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
@@ -187,8 +178,9 @@ namespace VitruvianApp2016
 				Content = allInfo
 			};
 					
-			topGrid.Children.Add (robotImage, 0, 0);
-			topGrid.Children.Add (side, 1, 0);
+			topGrid.Children.Add (robotImage, 0, 1, 0, 2);
+			topGrid.Children.Add (teamNumber, 1, 2, 0, 1);
+			topGrid.Children.Add (teamName, 1, 2, 1, 2);
 			grid.Children.Add (infoScroll, 0, 1);
 			grid.Children.Add (topGrid, 0, 0);
 			grid.Children.Add (navigationBtns, 0, 2);

@@ -19,12 +19,28 @@ namespace VitruvianApp2016
 			Label pageTitle = new Label () {
 				Text = "Post Match Info",
 				TextColor = Color.White,
+				BackgroundColor = Color.Black,
 				FontSize = GlobalVariables.sizeTitle,
 				FontAttributes = FontAttributes.Bold
+			};
+					
+			Label roleLabel = new Label () {
+				Text = "What role did this robot generally perform?:",
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium
+			};
+			Picker rolePicker = new Picker ();
+			rolePicker.Title = "Choose an Option";
+			for (RobotRole i = RobotRole.Shooter; i <= RobotRole.Other; i++) {
+				rolePicker.Items.Add (i.ToString ());
+			};
+			rolePicker.SelectedIndexChanged += (sender, e) => {
+				rolePicker.Title = rolePicker.SelectedIndex.ToString ();
 			};
 
 			Label interferenceLabel = new Label {
 				Text = "Did the team interfere with their alliance members?",
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
 			};
 
@@ -40,21 +56,9 @@ namespace VitruvianApp2016
 				interferencePicker.Title = stringValue;
 			};
 
-			Label roleLabel = new Label () {
-				Text = "What role did this robot generally perform?:",
-				FontSize = GlobalVariables.sizeMedium
-			};
-			Picker rolePicker = new Picker();
-			rolePicker.Title = "Choose an Option";
-			for (RobotRole i = RobotRole.Shooter; i <= RobotRole.Other; i++) {
-				rolePicker.Items.Add (i.ToString ());
-			};
-			rolePicker.SelectedIndexChanged += (sender, e) => {
-				rolePicker.Title = rolePicker.SelectedIndex.ToString ();
-			};
-
 			Label techFoulLabel = new Label {
 				Text = "How many tech fouls did this team commit?:",
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium
 			};
 
@@ -65,20 +69,22 @@ namespace VitruvianApp2016
 
 			Label noteLabel = new Label {
 				Text = "Match comments/notes:",
+				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium
 			};
 
 			Editor noteEditor = new Editor{
 				HeightRequest = 100,
-				Text = "[notes]"
+				Text = "[notes]",
+				BackgroundColor = Color.Silver
 			};
-
 			data = matchData;
 
 			Button submit = new Button {
 				Text = "Submit",
 				TextColor = Color.Green,
-				BackgroundColor = Color.Black
+				BackgroundColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium
 			};
 			submit.Clicked += (object sender, EventArgs e) => {
 				if(interferencePicker.Title == "Yes")
@@ -104,7 +110,7 @@ namespace VitruvianApp2016
 			keyboardPadding.HeightRequest = 300;
 
 			StackLayout stack = new StackLayout {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 
 				Children = {
@@ -123,11 +129,12 @@ namespace VitruvianApp2016
 			};
 
 			this.Content = new ScrollView {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 
 				Content = stack
 			};
+			BackgroundColor = Color.Gray;
 		}
 
 		void errorHandling(string d, string i){
