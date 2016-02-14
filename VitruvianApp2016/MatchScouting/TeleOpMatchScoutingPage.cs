@@ -47,7 +47,9 @@ namespace VitruvianApp2016
 
 			Label pageTitle = new Label () {
 				Text = "TeleOp Mode",
-				FontSize = GlobalVariables.sizeTitle
+				TextColor = Color.White,
+				FontSize = GlobalVariables.sizeTitle,
+				FontAttributes = FontAttributes.Bold
 			};
 
 			defense (0, 0, 1, ((defA)def[0]).ToString());

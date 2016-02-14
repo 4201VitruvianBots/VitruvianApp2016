@@ -26,51 +26,56 @@ namespace VitruvianApp2016
 		{
 			data = teamData;
 
+			Grid topGrid = new Grid () {
+				BackgroundColor = Color.Black,
+
+				RowDefinitions = {
+					new RowDefinition{ Height = new GridLength(150, GridUnitType.Absolute) },
+				},
+				ColumnDefinitions = {
+					new ColumnDefinition{ Width = new GridLength(150, GridUnitType.Absolute) },
+					new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) }
+				}
+			};
 			Grid grid = new Grid () {
-				//Padding = new Thickness(0,20,0,0), 
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 
 				RowDefinitions = {
-					new RowDefinition{ Height = new GridLength(160, GridUnitType.Absolute) },
 					new RowDefinition{ Height = GridLength.Auto },
-					new RowDefinition{ Height = GridLength.Auto }
+					new RowDefinition{ Height = new GridLength(1, GridUnitType.Star) },
+					new RowDefinition{ Height = GridLength.Auto },
 				},
 				ColumnDefinitions = {
-					new ColumnDefinition{ Width = new GridLength(160, GridUnitType.Absolute) },
 					new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) }
 				}
 			};
 
 			addRobotImage ();
-
-			string teamNo;
-			try{
-				teamNo = teamData ["teamNo"].ToString ();
-			}
-			catch{
-				teamNo = "<No Data Recorded>";
-			}
-			Label title = new Label {
-				Text = teamNo + "'s Stats"
-			};
-
-			Title = title.Text;
-
+				
 			// Team Number Label
-			Label teamNumber = new Label ();
+			Label teamNumber = new Label (){
+				VerticalOptions = LayoutOptions.FillAndExpand,
+				TextColor = Color.White,
+				BackgroundColor = Color.Black,
+				FontSize = GlobalVariables.sizeTitle
+			};
 			try {
 				if (teamData ["teamNumber"] != null) {
-					teamNumber.Text = teamData ["teamNumber"].ToString();
+					teamNumber.Text = "Team " + teamData ["teamNumber"].ToString();
 				} else {}
 			}
 			catch {
 				teamNumber.Text = "<No Team Number>";
 			}
-			teamNumber.FontSize = GlobalVariables.sizeTitle;
 
 			// Team Name Label
-			Label teamName = new Label ();
+			Label teamName = new Label (){
+				HorizontalOptions =LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.FillAndExpand,
+				FontSize = GlobalVariables.sizeMedium,
+				BackgroundColor = Color.Black
+			};
 			try {
 				if (teamData ["teamName"] != null) {
 					teamName.Text = teamData ["teamName"].ToString();
@@ -78,7 +83,6 @@ namespace VitruvianApp2016
 			} catch {
 				teamName.Text = "<No Team Name>";
 			}
-			teamName.FontSize = GlobalVariables.sizeMedium;
 
 			// Drive Type Picker
 			Label driveTypeLabel = new Label {
@@ -86,7 +90,7 @@ namespace VitruvianApp2016
 				FontSize = GlobalVariables.sizeMedium,
 			};
 
-			Picker driveTypePicker = new Picker();
+			Picker driveTypePicker = new Picker ();
 			try{
 				if(teamData["driveType"] != null)
 					driveTypePicker.Title = teamData["driveType"].ToString();
@@ -143,7 +147,7 @@ namespace VitruvianApp2016
 
 			// TeleOp Strategy Editor
 			Label teleOpStrategyLabel = new Label {
-				Text = "teleOp Strategy",
+				Text = "TeleOp Strategy",
 				FontSize = GlobalVariables.sizeMedium,
 			};
 
@@ -178,6 +182,7 @@ namespace VitruvianApp2016
 			data = teamData;
 
 			Button updateBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Update Button",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -202,6 +207,7 @@ namespace VitruvianApp2016
 			};
 
 			Button refreshBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Refresh",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -212,6 +218,7 @@ namespace VitruvianApp2016
 
 			//Back Button
 			Button backBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Back",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -229,10 +236,11 @@ namespace VitruvianApp2016
 					teamName
 				}
 			};
-			StackLayout info = new StackLayout () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
-				VerticalOptions = LayoutOptions.FillAndExpand,
 
+			StackLayout info = new StackLayout () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.FillAndExpand,
+				//BackgroundColor = Color.White,
 
 				Children = {
 					driveTypeLabel,
@@ -249,10 +257,16 @@ namespace VitruvianApp2016
 
 			};
 
+
+			ScrollView infoScroll = new ScrollView () {
+				Content = info
+			};
+
 			StackLayout navigationBtns = new StackLayout () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Orientation = StackOrientation.Horizontal,
 				BackgroundColor = Color.Green,
+				Padding = 5,
 
 				Children = {
 					backBtn,
@@ -261,16 +275,19 @@ namespace VitruvianApp2016
 				}
 			};
 
-			grid.Children.Add (robotImage, 0, 0);
-			grid.Children.Add (side, 1, 0);
-			grid.Children.Add (info, 0, 2, 1, 2);
-			grid.Children.Add (navigationBtns, 0, 2, 2, 3);
+			topGrid.Children.Add (robotImage, 0, 0);
+			topGrid.Children.Add (side, 1, 0);
+			grid.Children.Add (infoScroll, 0, 1);
+			grid.Children.Add (topGrid, 0, 0);
+			grid.Children.Add (navigationBtns, 0, 2);
 
-			this.Content = new ScrollView {
+			this.Content = new StackLayout () {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 
-				Content=grid
+				Children = {
+					grid
+				}
 			};
 		}
 

@@ -20,6 +20,14 @@ namespace VitruvianApp2016
 
 		public PreMatchScoutingPage ()
 		{
+			Label matchScoutingLabel = new Label () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				Text = "Match Scouting",
+				TextColor = Color.White,
+				FontSize = GlobalVariables.sizeTitle,
+				FontAttributes = FontAttributes.Bold,
+				BackgroundColor = Color.Black,
+			};
 			Label matchNoLabel = new Label {
 				Text = "Match Number:",
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
@@ -85,6 +93,7 @@ namespace VitruvianApp2016
 
 			//Start Match Scout
 			Button beginScoutBtn = new Button {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Begin Match",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black,
@@ -118,6 +127,7 @@ namespace VitruvianApp2016
 
 			//Back Button
 			Button backBtn = new Button (){
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Back",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black,
@@ -128,9 +138,10 @@ namespace VitruvianApp2016
 			};
 
 			StackLayout navigationBtns = new StackLayout () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Orientation = StackOrientation.Horizontal,
 				BackgroundColor = Color.Green,
+				Padding = 5,
 
 				Children = {
 					backBtn,
@@ -138,11 +149,12 @@ namespace VitruvianApp2016
 				}
 			};
 
-			 StackLayout pageLayout = new StackLayout () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+			StackLayout pageLayout = new StackLayout () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 
 				Children = {
+					matchScoutingLabel,
 					matchNoLabel,
 					matchNo,
 					teamNoLabel,
@@ -160,8 +172,8 @@ namespace VitruvianApp2016
 			pageLayout.Children.Add(navigationBtns);
 
 			this.Content = new ScrollView(){
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
-				VerticalOptions = LayoutOptions.Fill,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.FillAndExpand,
 
 				Content=pageLayout
 			};

@@ -28,9 +28,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)MatchInfo\MatchInfoIndexPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchInfo\MatchInfoDisplayPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchInfo\MatchInfoSearchPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CellViews\ColumnHeaderCell.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CellViews\DataCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestPages\NullTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ColumnHeaderCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\DataCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.txt" />
@@ -53,5 +53,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)TestPages\" />
     <Folder Include="$(MSBuildThisFileDirectory)Depreciated\" />
     <Folder Include="$(MSBuildThisFileDirectory)Debug Hold\" />
+    <Folder Include="$(MSBuildThisFileDirectory)CellViews\" />
   </ItemGroup>
 </Project>

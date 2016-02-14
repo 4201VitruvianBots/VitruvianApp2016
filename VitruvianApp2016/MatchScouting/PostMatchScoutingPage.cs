@@ -16,6 +16,13 @@ namespace VitruvianApp2016
 
 		public PostMatchScoutingPage (ParseObject matchData)
 		{
+			Label pageTitle = new Label () {
+				Text = "Post Match Info",
+				TextColor = Color.White,
+				FontSize = GlobalVariables.sizeTitle,
+				FontAttributes = FontAttributes.Bold
+			};
+
 			Label interferenceLabel = new Label {
 				Text = "Did the team interfere with their alliance members?",
 				FontSize = GlobalVariables.sizeMedium,
@@ -101,6 +108,7 @@ namespace VitruvianApp2016
 				VerticalOptions = LayoutOptions.FillAndExpand,
 
 				Children = {
+					pageTitle,
 					roleLabel,
 					rolePicker,
 					interferenceLabel,

@@ -20,13 +20,15 @@ namespace VitruvianApp2016
 			Label title = new Label () {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Robot Information",
-				FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
-				TextColor = Color.Green,
-				BackgroundColor = Color.Black
+				TextColor = Color.White,
+				BackgroundColor = Color.Black,
+				FontSize = GlobalVariables.sizeTitle,
+				FontAttributes = FontAttributes.Bold
 			};
 
 			//Refresh Button
 			Button refreshBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Refresh",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black,
@@ -38,6 +40,7 @@ namespace VitruvianApp2016
 
 			//Back Button
 			Button backBtn = new Button (){
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Back",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black,
@@ -54,7 +57,7 @@ namespace VitruvianApp2016
 			};
 
 			StackLayout navigationBtns = new StackLayout () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Orientation = StackOrientation.Horizontal,
 				BackgroundColor = Color.Green,
 				Padding = 5,
@@ -76,6 +79,7 @@ namespace VitruvianApp2016
 					navigationBtns
 				}
 			};
+			BackgroundColor = Color.White;
 		}
 		async void UpdateTeamList(){
 			busyIcon.IsVisible = true;

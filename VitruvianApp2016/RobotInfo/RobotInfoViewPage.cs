@@ -20,31 +20,31 @@ namespace VitruvianApp2016
 		public RobotInfoViewPage (ParseObject teamData)
 		{
 			data = teamData;
-			string teamNo;
-			try{
-				teamNo = teamData ["teamNo"].ToString ();
-			}
-			catch{
-				teamNo = "<No Data Recorded>";
-			}
-			Label title = new Label {
-				Text = teamNo + "'s Stats"
+
+			Grid topGrid = new Grid () {
+				BackgroundColor = Color.Black,
+
+				RowDefinitions = {
+					new RowDefinition{ Height = new GridLength(150, GridUnitType.Absolute) },
+				},
+				ColumnDefinitions = {
+					new ColumnDefinition{ Width = new GridLength(150, GridUnitType.Absolute) },
+					new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) }
+				}
 			};
-
-			Title = title.Text;
-
 			Grid grid = new Grid () {
 				//Padding = new Thickness(0,20,0,0), 
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
+				BackgroundColor = Color.Black,
 
 				RowDefinitions = {
-					new RowDefinition{ Height = new GridLength(160, GridUnitType.Absolute) },
 					new RowDefinition{ Height = GridLength.Auto },
-					new RowDefinition{ Height = GridLength.Auto }
+					new RowDefinition{ Height = new GridLength(1, GridUnitType.Star) },
+					new RowDefinition{ Height = GridLength.Auto },
 				},
 				ColumnDefinitions = {
-					new ColumnDefinition{ Width = new GridLength(160, GridUnitType.Absolute) },
+					//new ColumnDefinition{ Width = new GridLength(150, GridUnitType.Absolute) },
 					new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) }
 				}
 			};
@@ -54,18 +54,27 @@ namespace VitruvianApp2016
 
 			ListView teamInfo = new ListView ();
 
-			Label teamNumber = new Label ();
+			Label teamNumber = new Label () {
+				VerticalOptions = LayoutOptions.FillAndExpand,
+				FontSize = GlobalVariables.sizeTitle,
+				BackgroundColor = Color.Black,
+				TextColor = Color.White,
+			};
 			try {
 				if (teamData ["teamNumber"] != null) {
-					teamNumber.Text = teamData ["teamNumber"].ToString();
+					teamNumber.Text = "Team " + teamData ["teamNumber"].ToString();
 				} else {}
 			}
 			catch {
 				teamNumber.Text = "<No Team Number>";
 			}
-			teamNumber.FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label));
 
-			Label teamName = new Label ();
+			Label teamName = new Label () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.FillAndExpand,
+				FontSize = GlobalVariables.sizeTitle,
+				BackgroundColor = Color.Black,
+			};
 			try {
 				if (teamData ["teamName"] != null) {
 					teamName.Text = teamData ["teamName"].ToString();
@@ -73,7 +82,6 @@ namespace VitruvianApp2016
 			} catch {
 				teamName.Text = "<No Team Name>";
 			}
-			teamName.FontSize = Device.GetNamedSize(NamedSize.Large,typeof(Label));
 
 			data = teamData;
 
@@ -102,6 +110,7 @@ namespace VitruvianApp2016
 
 			//Refresh Button
 			Button refreshBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Refresh",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -112,6 +121,7 @@ namespace VitruvianApp2016
 
 			//Back Button
 			Button backBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Back",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -129,7 +139,6 @@ namespace VitruvianApp2016
 					teamName
 				}
 			};
-
 
 			StackLayout pitInfo = new StackLayout () {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -154,6 +163,7 @@ namespace VitruvianApp2016
 			StackLayout allInfo = new StackLayout () {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
+				BackgroundColor = Color.White,
 
 				Children = {
 					pitInfo,
@@ -162,9 +172,10 @@ namespace VitruvianApp2016
 			};
 
 			StackLayout navigationBtns = new StackLayout () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Orientation = StackOrientation.Horizontal,
 				BackgroundColor = Color.Green,
+				Padding = 5,
 
 				Children = {
 					backBtn,
@@ -172,27 +183,37 @@ namespace VitruvianApp2016
 				}
 			};
 
-			grid.Children.Add (robotImage, 0, 0);
-			grid.Children.Add (side, 1, 0);
-			grid.Children.Add (allInfo, 0, 2, 1, 2);
-			grid.Children.Add (navigationBtns, 0, 2, 2, 3);
+			ScrollView infoScroll = new ScrollView () {
+				Content = allInfo
+			};
+					
+			topGrid.Children.Add (robotImage, 0, 0);
+			topGrid.Children.Add (side, 1, 0);
+			grid.Children.Add (infoScroll, 0, 1);
+			grid.Children.Add (topGrid, 0, 0);
+			grid.Children.Add (navigationBtns, 0, 2);
 
-			this.Content = new ScrollView {
+			this.Content = new StackLayout {
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 
-				Content=grid
+				Children = {
+					grid
+				}
 			};
 		}
 
 		void listedItem(string description, string parseString){
 			descriptionLabel[Z] = new Label {
 				Text = description,
-				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
-				TextColor = Color.Green
+				FontSize = GlobalVariables.sizeMedium,
+				TextColor = Color.Black
 			};
 
-			dataLabel[Z] = new Label();
+			dataLabel [Z] = new Label (){ 
+				FontSize = GlobalVariables.sizeSmall,
+				TextColor = Color.Gray
+			};
 			try{
 				if(data[parseString] != null)
 					dataLabel[Z].Text = data [parseString].ToString();

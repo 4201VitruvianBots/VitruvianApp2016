@@ -13,6 +13,7 @@ namespace VitruvianApp2016
 			WidthRequest = 100;
 			HeightRequest = 50;
 			teamName.FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label));
+			teamName.TextColor = Color.Black;
 
 			Content = teamName;
 		}

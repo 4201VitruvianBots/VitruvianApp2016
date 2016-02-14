@@ -26,7 +26,6 @@ namespace VitruvianApp2016
 				new RowDefinition{ Height = GridLength.Auto },
 				new RowDefinition{ Height = new GridLength(1, GridUnitType.Star) },
 				new RowDefinition{ Height = GridLength.Auto },
-				new RowDefinition{ Height = GridLength.Auto },
 			},
 			ColumnDefinitions = {
 				new ColumnDefinition{ Width = new GridLength(150, GridUnitType.Absolute)},
@@ -65,13 +64,16 @@ namespace VitruvianApp2016
 			data = matchInfo;
 
 			Label pageTitle = new Label () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Match " + matchInfo["matchNo"].ToString(),
-				BackgroundColor = Color.Black,
-				FontSize = GlobalVariables.sizeTitle
+				TextColor = Color.White,
+				FontSize = GlobalVariables.sizeTitle,
+				FontAttributes = FontAttributes.Bold
 			};
 
 			//Refresh Button
 			Button refreshBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Refresh",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -82,6 +84,7 @@ namespace VitruvianApp2016
 
 			//Back Button
 			Button backBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Back",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -92,7 +95,7 @@ namespace VitruvianApp2016
 
 			// Navigation Panel
 			StackLayout navigationBtns = new StackLayout () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Orientation = StackOrientation.Horizontal,
 				BackgroundColor = Color.Green,
 				Padding = 5,
@@ -103,20 +106,25 @@ namespace VitruvianApp2016
 				}
 			};
 
-			layoutGrid.Children.Add (dataLayoutGrid, 0, 2, 1, 2);
+			PopulateData (matchInfo);
+
+			ScrollView dataLayoutScroll = new ScrollView () {
+				Content = dataLayoutGrid
+			};
+
+			layoutGrid.Children.Add (dataLayoutScroll, 0, 2, 1, 2);
 			layoutGrid.Children.Add (pageTitle, 0, 0);
 			layoutGrid.Children.Add (busyIcon, 1, 0);
 			layoutGrid.Children.Add (navigationBtns, 0, 2, 2, 3);
 
 			this.Content = new StackLayout () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 
 				Children = {
 					layoutGrid
 				}
 			};
-			PopulateData (matchInfo);
 		}
 
 		void PopulateData(ParseObject matchData){
@@ -169,8 +177,9 @@ namespace VitruvianApp2016
 
 			// Add team data, should be similar to RobotInfoViewPage
 			addRobotImage(teamData, arrayIndex);
-			listedItem ("Drive Train", "driveType", teamData, arrayIndex);
-			listedItem ("Low Bar Capable", "lowBarAccess", teamData, arrayIndex);
+			listedItem ("Drive Train:", "driveType", teamData, arrayIndex);
+			listedItem ("Low Bar Capable:", "lowBarAccess", teamData, arrayIndex);
+			listedItem ("Notes:", "notes", teamData, arrayIndex);
 			//Z2 = Z;
 
 			teamView [arrayIndex].Content = teamStack [arrayIndex];

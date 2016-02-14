@@ -67,9 +67,10 @@ namespace VitruvianApp2016
 			};
 					
 			Label titleLabel = new Label {
-				BackgroundColor = Color.Black,
-				TextColor = Color.Green,
-				FontSize = GlobalVariables.sizeTitle
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				TextColor = Color.White,
+				FontSize = GlobalVariables.sizeTitle,
+				FontAttributes = FontAttributes.Bold
 			};
 			if (number == -4201)
 				titleLabel.Text = "All Matches";
@@ -161,6 +162,7 @@ namespace VitruvianApp2016
 
 			//Refresh Button
 			Button refreshBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Refresh",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -171,6 +173,7 @@ namespace VitruvianApp2016
 
 			//Back Button
 			Button backBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Back",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -181,7 +184,7 @@ namespace VitruvianApp2016
 
 			// Navigation Panel
 			StackLayout navigationBtns = new StackLayout () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Orientation = StackOrientation.Horizontal,
 				BackgroundColor = Color.Green,
 				Padding = 5,

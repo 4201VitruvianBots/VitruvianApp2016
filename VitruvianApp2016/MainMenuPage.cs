@@ -11,52 +11,46 @@ namespace VitruvianApp2016
 		{
 			//Title
 			Label title = new Label () {
-				TextColor = Color.Green,
-				HorizontalOptions = LayoutOptions.Center,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Main Menu",
-				FontSize = GlobalVariables.sizeTitle
+				TextColor = Color.White,
+				BackgroundColor = Color.Black,
+				FontSize = GlobalVariables.sizeTitle,
+				FontAttributes = FontAttributes.Bold
 			};
 
 			//Robot Info Tab Navigation
 			Button infoBtn = new Button () {
-				Text = "Robot Information",
-				TextColor = Color.Green,
-				BackgroundColor = Color.Black,
-				FontSize = GlobalVariables.sizeMedium
+				Text = "Robot Information"
 			};
+			buttonSettings (infoBtn);
 			infoBtn.Clicked += (object sender, EventArgs e) => {
 				Navigation.PushModalAsync (new RobotInfoIndexPage ());
 			};
 
 			//Pit Scouting Navigation
 			Button pitBtn = new Button () {
-				Text = "Pit Scouting",
-				TextColor = Color.Green,
-				BackgroundColor = Color.Black,
-				FontSize = GlobalVariables.sizeMedium
+				Text = "Pit Scouting"
 			};
+			buttonSettings (pitBtn);
 			pitBtn.Clicked += (object sender, EventArgs e) => {
 				Navigation.PushModalAsync (new PitScoutingIndexPage ());
 			};
 
 			//Match Scouting Tab Navigation
 			Button matchBtn = new Button (){
-				Text = "Match Scouting",
-				TextColor = Color.Green,
-				BackgroundColor = Color.Black,
-				FontSize = GlobalVariables.sizeMedium
+				Text = "Match Scouting"
 			};
+			buttonSettings (matchBtn);
 			matchBtn.Clicked += (object sender, EventArgs e) => {
 				Navigation.PushModalAsync (new PreMatchScoutingPage ());
 			};
 
 			//Match Data
 			Button matchDataBtn = new Button (){
-				Text = "Match Data",
-				TextColor = Color.Green,
-				BackgroundColor = Color.Black,
-				FontSize = GlobalVariables.sizeMedium
+				Text = "Match Data"
 			};
+			buttonSettings (matchDataBtn);
 			matchDataBtn.Clicked += (object sender, EventArgs e) => {
 				Navigation.PushModalAsync (new MatchDataSearchPage());
 			};
@@ -64,10 +58,8 @@ namespace VitruvianApp2016
 			//Match Overview
 			Button overviewBtn = new Button (){
 				Text = "Match Overview",
-				TextColor = Color.Green,
-				BackgroundColor = Color.Black,
-				FontSize = GlobalVariables.sizeMedium
 			};
+			buttonSettings (overviewBtn);
 			overviewBtn.Clicked += (object sender, EventArgs e) => {
 				Navigation.PushModalAsync (new MatchInfoSearchPage());
 			};
@@ -76,18 +68,17 @@ namespace VitruvianApp2016
 
 			//Test Page Button
 			Button testBtn = new Button (){
-				Text = "Test Button",
-				TextColor = Color.Green,
-				BackgroundColor = Color.Black,
-				FontSize = GlobalVariables.sizeMedium
+				Text = "Test Button"
 			};
+			buttonSettings (testBtn);
 			testBtn.Clicked += (object sender, EventArgs e) => {
 				Navigation.PushModalAsync (new NullTest());
 			};
 			//Page Layout
 			StackLayout pageStack = new StackLayout (){
-				VerticalOptions = LayoutOptions.CenterAndExpand,
-				Padding = 20, Spacing = 20, //new Thickness (5, 10, 5, 10); Use this to control padding or spacing on the Left, Right, Top, Bottom
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.FillAndExpand,
+				Spacing = 20,
 
 				Children = {
 					title,
@@ -103,6 +94,15 @@ namespace VitruvianApp2016
 			this.Content = new ScrollView(){
 				Content = pageStack
 			};
+			BackgroundColor = Color.White;
+
+		}
+
+		void buttonSettings(Button btn){
+			btn.BackgroundColor = Color.Green;
+			btn.FontAttributes = FontAttributes.Bold;
+			btn.TextColor = Color.White;
+			btn.FontSize = GlobalVariables.sizeMedium;
 		}
 	}
 }

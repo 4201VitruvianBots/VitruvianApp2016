@@ -58,13 +58,16 @@ namespace VitruvianApp2016
 			matchList = matchListGet;	
 
 			Label pageTitle = new Label () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Match List",
-				BackgroundColor = Color.Black,
-				FontSize = GlobalVariables.sizeTitle
+				TextColor = Color.White,
+				FontSize = GlobalVariables.sizeTitle,
+				FontAttributes = FontAttributes.Bold
 			};
 
 			//Refresh Button
 			Button refreshBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Refresh",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -75,6 +78,7 @@ namespace VitruvianApp2016
 
 			//Back Button
 			Button backBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Back",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -85,7 +89,7 @@ namespace VitruvianApp2016
 
 			// Navigation Panel
 			StackLayout navigationBtns = new StackLayout () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Orientation = StackOrientation.Horizontal,
 				BackgroundColor = Color.Green,
 				Padding = 5,

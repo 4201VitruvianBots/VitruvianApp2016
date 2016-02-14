@@ -40,9 +40,11 @@ namespace VitruvianApp2016
 			};
 
 			Label title = new Label () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Match Data Search",
-				TextColor = Color.Green,
-				FontSize = GlobalVariables.sizeTitle
+				TextColor = Color.White,
+				FontSize = GlobalVariables.sizeTitle,
+				FontAttributes = FontAttributes.Bold
 			};
 
 			Label teamSearch = new Label () {
@@ -118,6 +120,7 @@ namespace VitruvianApp2016
 
 			//Back Button
 			Button backBtn = new Button () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Text = "Back",
 				TextColor = Color.Green,
 				BackgroundColor = Color.Black
@@ -128,7 +131,7 @@ namespace VitruvianApp2016
 
 			// Navigation Panel
 			StackLayout navigationBtns = new StackLayout () {
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
 				Orientation = StackOrientation.Horizontal,
 				BackgroundColor = Color.Green,
 				Padding = 5,
