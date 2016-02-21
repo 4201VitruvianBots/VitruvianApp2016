@@ -13,6 +13,7 @@ namespace VitruvianApp2016
 		ParseObject data;
 
 		enum DriveTypes {Tank, WestCoast, Holonomic, Omni, Mechanum, Other};
+		enum Intake {None, Front, Back};
 		enum Choice {Yes, No};
 
 		const string errorStringDefault = "The Following Data Was Unable To Be Saved: ";
@@ -134,6 +135,31 @@ namespace VitruvianApp2016
 				lowBarPicker.Title = type.ToString();
 			};
 
+			// Intake Picker
+			Label intakeLabel = new Label {
+				Text = "Intake Position:",
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
+			};
+
+			Picker intakePicker = new Picker(){ 
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+			};
+			try{
+				if(teamData["intakePos"] != null)
+					intakePicker.Title = teamData["intakePos"].ToString();
+			}
+			catch{
+				intakePicker.Title = "Choose an Option";
+			}
+			for (Intake i = Intake.None; i <= Intake.Back; i++) {
+				intakePicker.Items.Add (i.ToString ());
+			};
+			intakePicker.SelectedIndexChanged += (sender, e) => {
+				Intake type = (Intake)lowBarPicker.SelectedIndex;
+				intakePicker.Title = type.ToString();
+			};
+
 			// Auto Strategy Editor
 			Label autoStrategyLabel = new Label {
 				Text = "Auto Strategy",
@@ -200,6 +226,7 @@ namespace VitruvianApp2016
 				// UpdateBtn
 				errorHandling("driveType", driveTypePicker.Title);
 				errorHandling("lowBarAccess", lowBarPicker.Title);
+				errorHandling("intakePos", intakePicker.Title);
 				errorHandling("autoStrategy", autoStrategyEditor.Text.ToString());
 				errorHandling("teleOpStrategy", teleOpStrategyEditor.Text.ToString());
 				errorHandling("notes", notesEditor.Text.ToString());
@@ -249,6 +276,8 @@ namespace VitruvianApp2016
 					driveTypePicker,
 					lowBarLabel,
 					lowBarPicker,
+					intakeLabel,
+					intakePicker,
 					autoStrategyLabel,
 					autoStrategyEditor,
 					teleOpStrategyLabel,

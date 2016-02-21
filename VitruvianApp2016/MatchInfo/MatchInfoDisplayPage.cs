@@ -179,6 +179,7 @@ namespace VitruvianApp2016
 			addRobotImage(teamData, arrayIndex);
 			listedItem ("Drive Train:", "driveType", teamData, arrayIndex);
 			listedItem ("Low Bar Capable:", "lowBarAccess", teamData, arrayIndex);
+			listedItem ("Intake Position:", "intakePos", teamData, arrayIndex);
 			listedItem ("Notes:", "notes", teamData, arrayIndex);
 			//Z2 = Z;
 

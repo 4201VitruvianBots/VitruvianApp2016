@@ -88,6 +88,7 @@ namespace VitruvianApp2016
 
 			listedItem("Drive Type:", "driveType");
 			listedItem("Can use the low bar?:", "lowBarAccess");
+			listedItem("Intake Position:", "intakePos");
 			listedItem("Auto Strategy:", "autoStrategy");
 			listedItem("TeleOp Strategy:", "teleOpStrategy");
 			listedItem("Additional Notes:", "notes");
