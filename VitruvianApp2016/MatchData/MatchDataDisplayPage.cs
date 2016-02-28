@@ -168,7 +168,8 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Black
 			};
 			refreshBtn.Clicked += (object sender, EventArgs e) => {
-				populateData();
+				if (new CheckInternetConnectivity().InternetStatus())
+					populateData();
 			};
 
 			//Back Button
@@ -217,7 +218,8 @@ namespace VitruvianApp2016
 					layoutGrid
 				}
 			};
-			populateData ();
+			if (new CheckInternetConnectivity().InternetStatus())
+				populateData ();
 		}
 
 		async void populateData(){

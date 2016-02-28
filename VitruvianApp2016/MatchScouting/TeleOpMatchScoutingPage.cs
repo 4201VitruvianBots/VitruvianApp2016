@@ -20,6 +20,8 @@ namespace VitruvianApp2016
 		Button[] minus = new Button[N];
 		Button[] plus = new Button[N];
 		Label[] displayValue = new Label[N];
+		Label[] shotDisplay = new Label[4];
+		int shotDisplayInt = 0;
 
 		const string errorStringDefault = "The Following Data Was Unable To Be Saved: ";
 		string errorString = errorStringDefault;
@@ -124,54 +126,56 @@ namespace VitruvianApp2016
 				FontSize = GlobalVariables.sizeMedium
 			};
 			endMatch.Clicked += (object sender, EventArgs e) => {
-				if(def[0] == 0)
-					errorHandling("teleOpA1", Convert.ToInt32(scoreValue[0]));
-				else if(def[0] == 1)
-					errorHandling("teleOpA2", Convert.ToInt32(scoreValue[0]));
-				if(def[1] == 0)
-					errorHandling("teleOpB1", Convert.ToInt32(scoreValue[1]));
-				else if(def[1] == 1)
-					errorHandling("teleOpB2", Convert.ToInt32(scoreValue[1]));
-				if(def[2] == 0)
-					errorHandling("teleOpC1", Convert.ToInt32(scoreValue[2]));
-				else if(def[2] == 1)
-					errorHandling("teleOpC2", Convert.ToInt32(scoreValue[2]));
-				if(def[3] == 0)
-					errorHandling("teleOpD1", Convert.ToInt32(scoreValue[3]));
-				else if(def[3] == 1)
-					errorHandling("teleOpD2", Convert.ToInt32(scoreValue[3]));
-				errorHandling("teleOpE", Convert.ToInt32(scoreValue[4]));
-				errorHandling("teleOpShotLowSuccess", Convert.ToInt32(scoreValue[5]));
-				errorHandling("teleOpShotLowTotal", Convert.ToInt32(scoreValue[5]+scoreValue[6]));
-				errorHandling("teleOpShotHighSuccess", Convert.ToInt32(scoreValue[7]));
-				errorHandling("teleOpShotHighTotal", Convert.ToInt32(scoreValue[7]+scoreValue[8]));
-				if(scoreValue[7]+scoreValue[8] == 0)
-					errorHandling("teleOpShotHighAccuracy", Convert.ToDouble(0));
-				else
-					errorHandling("teleOpShotHighAccuracy", Convert.ToDouble((double)scoreValue[7]/(double)(scoreValue[7]+scoreValue[8])));
-				errorHandling("shotsDenied", scoreValue[9]);
-				errorHandling("challenge", challenge);
-				errorHandling("scaled", scaled);
-				errorHandling("disabled", disabled);
-				pointsScored();
-				errorHandling("score", points);
+				if (new CheckInternetConnectivity().InternetStatus()){
+					if(def[0] == 0)
+						errorHandling("teleOpA1", Convert.ToInt32(scoreValue[0]));
+					else if(def[0] == 1)
+						errorHandling("teleOpA2", Convert.ToInt32(scoreValue[0]));
+					if(def[1] == 0)
+						errorHandling("teleOpB1", Convert.ToInt32(scoreValue[1]));
+					else if(def[1] == 1)
+						errorHandling("teleOpB2", Convert.ToInt32(scoreValue[1]));
+					if(def[2] == 0)
+						errorHandling("teleOpC1", Convert.ToInt32(scoreValue[2]));
+					else if(def[2] == 1)
+						errorHandling("teleOpC2", Convert.ToInt32(scoreValue[2]));
+					if(def[3] == 0)
+						errorHandling("teleOpD1", Convert.ToInt32(scoreValue[3]));
+					else if(def[3] == 1)
+						errorHandling("teleOpD2", Convert.ToInt32(scoreValue[3]));
+					errorHandling("teleOpE", Convert.ToInt32(scoreValue[4]));
+					errorHandling("teleOpShotLowSuccess", Convert.ToInt32(scoreValue[5]));
+					errorHandling("teleOpShotLowTotal", Convert.ToInt32(scoreValue[5]+scoreValue[6]));
+					errorHandling("teleOpShotHighSuccess", Convert.ToInt32(scoreValue[7]));
+					errorHandling("teleOpShotHighTotal", Convert.ToInt32(scoreValue[7]+scoreValue[8]));
+					if(scoreValue[7]+scoreValue[8] == 0)
+						errorHandling("teleOpShotHighAccuracy", Convert.ToDouble(0));
+					else
+						errorHandling("teleOpShotHighAccuracy", Convert.ToDouble((double)scoreValue[7]/(double)(scoreValue[7]+scoreValue[8])));
+					errorHandling("shotsDenied", scoreValue[9]);
+					errorHandling("challenge", challenge);
+					errorHandling("scaled", scaled);
+					errorHandling("disabled", disabled);
+					pointsScored();
+					errorHandling("score", points);
 
-				if(error == true){	
-					errorString = errorString.Remove(errorString.Length - 2); 
-					DisplayAlert("Error:", errorString, "OK");
-					errorString = "The following data was unable to be saved: ";
-					errorString = errorStringDefault;
-					error = false;
-				} else {
-					Navigation.PushModalAsync(new PostMatchScoutingPage(data));
+					if(error == true){	
+						errorString = errorString.Remove(errorString.Length - 2); 
+						DisplayAlert("Error:", errorString, "OK");
+						errorString = "The following data was unable to be saved: ";
+						errorString = errorStringDefault;
+						error = false;
+					} else {
+						Navigation.PushModalAsync(new PostMatchScoutingPage(data));
+					}
 				}
 			};
 			layoutGrid.Children.Add (pageTitle, 0, 13, 0, 1);
 			layoutGrid.Children.Add (scoreLabel, 12, 15, 0, 1);
-			layoutGrid.Children.Add (challengeBtn, 9, 12, 4, 5);
-			layoutGrid.Children.Add (scaleBtn, 9, 12, 5, 6);
-			layoutGrid.Children.Add (disabledBtn, 12, 15, 4, 5);
-			layoutGrid.Children.Add (endMatch, 12, 15, 5, 6);
+			layoutGrid.Children.Add (challengeBtn, 9, 12, 6, 7);
+			layoutGrid.Children.Add (scaleBtn, 9, 12, 7, 8);
+			layoutGrid.Children.Add (disabledBtn, 12, 15, 6, 7);
+			layoutGrid.Children.Add (endMatch, 12, 15, 7, 8);
 
 			this.Content = new StackLayout () {
 				Children = {
@@ -184,7 +188,7 @@ namespace VitruvianApp2016
 		void defense(int arrayIndex, int x, int y, string title){
 			displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
 			displayValue [arrayIndex].TextColor = Color.Black;
-			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
+			displayValue [arrayIndex].FontSize = GlobalVariables.sizeTitle;
 			minus [arrayIndex].Text = "-";
 			minus [arrayIndex].BackgroundColor = Color.Red;
 			plus [arrayIndex].Text = "+";
@@ -207,6 +211,7 @@ namespace VitruvianApp2016
 				Text = title,
 				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
+				FontAttributes = FontAttributes.Bold,
 				HorizontalOptions = LayoutOptions.CenterAndExpand
 			};
 			layoutGrid.Children.Add (defLabel,x, x+3, y, y+1); // Picker 
@@ -218,10 +223,23 @@ namespace VitruvianApp2016
 		void shoot(int arrayIndex, int x, int y, string title){
 			displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
 			displayValue [arrayIndex].TextColor = Color.Black;
-			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
+			displayValue [arrayIndex].FontSize = GlobalVariables.sizeTitle;
 			displayValue [arrayIndex + 1].Text = scoreValue[arrayIndex+1].ToString();
 			displayValue [arrayIndex + 1].TextColor = Color.Black;
 			displayValue [arrayIndex + 1].FontSize = GlobalVariables.sizeMedium;
+			shotDisplay [shotDisplayInt] = new Label {
+				Text = "Hits",
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
+				HorizontalOptions = LayoutOptions.CenterAndExpand
+			};
+			shotDisplay [shotDisplayInt + 1] = new Label {
+				Text = "Misses",
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
+				HorizontalOptions = LayoutOptions.CenterAndExpand
+			};
+
 			minus [arrayIndex].Text = "-";
 			minus [arrayIndex].BackgroundColor = Color.Red;
 			minus [arrayIndex + 1].Text = "-";
@@ -260,16 +278,20 @@ namespace VitruvianApp2016
 				Text = title,
 				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
+				FontAttributes = FontAttributes.Bold,
 				HorizontalOptions = LayoutOptions.CenterAndExpand
 
 			};
-			layoutGrid.Children.Add (titleLabel, x, x+3, y, y+1); // title 
-			layoutGrid.Children.Add (minus[arrayIndex],x, y+1); // Minus 
-			layoutGrid.Children.Add (minus[arrayIndex+1],x, y+2); // Minus 
-			layoutGrid.Children.Add (displayValue[arrayIndex],x+1, y+1); // value 
-			layoutGrid.Children.Add (displayValue[arrayIndex+1],x+1, y+2); // value 
-			layoutGrid.Children.Add (plus[arrayIndex],x+2, y+1); // Plus
-			layoutGrid.Children.Add (plus[arrayIndex+1],x+2, y+2); // Plus
+			layoutGrid.Children.Add (titleLabel,x, x+3, y, y+1); // title 
+			layoutGrid.Children.Add (shotDisplay[shotDisplayInt], x, x + 3, y + 1, y + 2); // Hits 
+			layoutGrid.Children.Add (minus[arrayIndex],x, y + 2); // Minus 
+			layoutGrid.Children.Add (displayValue[arrayIndex],x + 1, y + 2); // value 
+			layoutGrid.Children.Add (plus[arrayIndex],x + 2, y + 2); // Plus
+			layoutGrid.Children.Add (shotDisplay[shotDisplayInt + 1], x, x + 3, y + 3, y + 4); // Misses 
+			layoutGrid.Children.Add (minus[arrayIndex+1],x, y + 4); // Minus 
+			layoutGrid.Children.Add (displayValue[arrayIndex+1],x + 1, y+ 4); // value 
+			layoutGrid.Children.Add (plus[arrayIndex+1],x + 2, y + 4); // Plus
+			shotDisplayInt += 2;
 		}
 
 		void pointsScored(){

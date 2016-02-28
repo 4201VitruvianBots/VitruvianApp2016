@@ -113,7 +113,8 @@ namespace VitruvianApp2016
 					layoutGrid
 				}
 			};
-			populateData ();
+			if (new CheckInternetConnectivity().InternetStatus())
+				populateData ();
 		}
 
 		async void populateData(){
@@ -188,7 +189,8 @@ namespace VitruvianApp2016
 			if (arrayIndex == 0) {
 				TapGestureRecognizer tap = new TapGestureRecognizer ();
 				tap.Tapped += (object sender, EventArgs e) => {
-					Navigation.PushModalAsync (new MatchInfoDisplayPage (data));
+					if (new CheckInternetConnectivity().InternetStatus())
+						Navigation.PushModalAsync (new MatchInfoDisplayPage (data));
 				};
 				cell.GestureRecognizers.Add (tap);
 			}

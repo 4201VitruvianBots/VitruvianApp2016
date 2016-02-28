@@ -79,7 +79,8 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Black
 			};
 			refreshBtn.Clicked += (object sender, EventArgs e) => {
-				PopulateData(matchInfo);
+				if (new CheckInternetConnectivity().InternetStatus())
+					PopulateData(matchInfo);
 			};
 
 			//Back Button
@@ -106,7 +107,8 @@ namespace VitruvianApp2016
 				}
 			};
 
-			PopulateData (matchInfo);
+			if (new CheckInternetConnectivity().InternetStatus())
+				PopulateData (matchInfo);
 
 			ScrollView dataLayoutScroll = new ScrollView () {
 				Content = dataLayoutGrid

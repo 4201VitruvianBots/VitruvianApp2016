@@ -4,7 +4,6 @@ using Parse;
 using Xamarin.Media;
 using System.IO;
 using System.Threading.Tasks;
-using Android.App;
 
 namespace VitruvianApp2016
 {
@@ -223,22 +222,24 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Black
 			};
 			updateBtn.Clicked += (object sender, EventArgs e) => {
-				// UpdateBtn
-				errorHandling("driveType", driveTypePicker.Title);
-				errorHandling("lowBarAccess", lowBarPicker.Title);
-				errorHandling("intakePos", intakePicker.Title);
-				errorHandling("autoStrategy", autoStrategyEditor.Text.ToString());
-				errorHandling("teleOpStrategy", teleOpStrategyEditor.Text.ToString());
-				errorHandling("notes", notesEditor.Text.ToString());
+				if (new CheckInternetConnectivity().InternetStatus()){
+					// UpdateBtn
+					errorHandling("driveType", driveTypePicker.Title);
+					errorHandling("lowBarAccess", lowBarPicker.Title);
+					errorHandling("intakePos", intakePicker.Title);
+					errorHandling("autoStrategy", autoStrategyEditor.Text.ToString());
+					errorHandling("teleOpStrategy", teleOpStrategyEditor.Text.ToString());
+					errorHandling("notes", notesEditor.Text.ToString());
 
-				// DisplayAlert if save did not go through
-				if(error == true){
-					errorString.Remove(errorString.Length - 2);
-					DisplayAlert("Error", errorString, "OK");
-					errorString = errorStringDefault;
-					error = false;
-				} else{
-					Navigation.PopModalAsync();
+					// DisplayAlert if save did not go through
+					if(error == true){
+						errorString.Remove(errorString.Length - 2);
+						DisplayAlert("Error", errorString, "OK");
+						errorString = errorStringDefault;
+						error = false;
+					} else{
+						Navigation.PopModalAsync();
+					}
 				}
 			};
 
@@ -250,7 +251,8 @@ namespace VitruvianApp2016
 			};
 			refreshBtn.Clicked += (object sender, EventArgs e) => {
 				//Change this
-				Navigation.PushModalAsync(new PitScoutingEditPage(data));
+				if (new CheckInternetConnectivity().InternetStatus())
+					Navigation.PushModalAsync(new PitScoutingEditPage(data));
 			};
 
 			//Back Button

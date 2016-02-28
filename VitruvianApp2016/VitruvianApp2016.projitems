@@ -31,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)TestPages\NullTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\ColumnHeaderCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\DataCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CheckInternetConnectivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.txt" />

@@ -87,22 +87,24 @@ namespace VitruvianApp2016
 				FontSize = GlobalVariables.sizeMedium
 			};
 			submit.Clicked += (object sender, EventArgs e) => {
-				if(interferencePicker.Title == "Yes")
-					errorHandling("interference", true);
-				else
-					errorHandling("interference", false);
-				if(noteEditor.Text != "[notes]" || string.IsNullOrEmpty(noteEditor.Text) || string.IsNullOrWhiteSpace(noteEditor.Text))
-					errorHandling("matchNotes", noteEditor.Text);
-				if(rolePicker.Title.ToString() != "Choose an Option")
-					errorHandling("robotRole", rolePicker.Title.ToString());
+				if (new CheckInternetConnectivity().InternetStatus()){
+					if(interferencePicker.Title == "Yes")
+						errorHandling("interference", true);
+					else
+						errorHandling("interference", false);
+					if(noteEditor.Text != "[notes]" || string.IsNullOrEmpty(noteEditor.Text) || string.IsNullOrWhiteSpace(noteEditor.Text))
+						errorHandling("matchNotes", noteEditor.Text);
+					if(rolePicker.Title.ToString() != "Choose an Option")
+						errorHandling("robotRole", rolePicker.Title.ToString());
 
-				if(errorStatus == true){
-					errorString = errorString.Remove(errorString.Length - 2); 
-					DisplayAlert("Error:", errorString, "OK");
-					errorString = "The following data was unable to be saved: ";
-				} else {
-					// Navigation.InsertPageBefore(new PreMatchScoutingPage(), AutoMatchScoutingPage);
-					Navigation.PushModalAsync(new PreMatchScoutingPage());
+					if(errorStatus == true){
+						errorString = errorString.Remove(errorString.Length - 2); 
+						DisplayAlert("Error:", errorString, "OK");
+						errorString = "The following data was unable to be saved: ";
+					} else {
+						// Navigation.InsertPageBefore(new PreMatchScoutingPage(), AutoMatchScoutingPage);
+						Navigation.PushModalAsync(new PreMatchScoutingPage());
+					}
 				}
 			};
 

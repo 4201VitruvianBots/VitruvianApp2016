@@ -104,28 +104,30 @@ namespace VitruvianApp2016
 				FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label))
 			};
 			beginScoutBtn.Clicked += (object sender, EventArgs e) => {
-				if(string.IsNullOrEmpty(matchNo.Text) || string.IsNullOrEmpty(teamNo.Text) ||positionPicker.Title.ToString() == "Choose an Option" || defPicker[0].Title.ToString() == "Choose an Option" || defPicker[1].Title.ToString() == "Choose an Option" || defPicker[2].Title.ToString() == "Choose an Option" || defPicker[3].Title.ToString() == "Choose an Option"){
-					DisplayAlert("Error", "Fill out all Fields", "Ok");
-				} else {
-					Console.WriteLine(matchNo.Text);
-					MatchData["teamNo"]=Convert.ToInt32(teamNo.Text);
-					MatchData["matchNo"]=Convert.ToInt32(matchNo.Text);
-					MatchData["alliance"]=Convert.ToString(alliancePicker.Title.ToString());
-					MatchData["startPosition"]=Convert.ToInt32(positionPicker.Title.ToString());
+				if (new CheckInternetConnectivity().InternetStatus()){
+					if(string.IsNullOrEmpty(matchNo.Text) || string.IsNullOrEmpty(teamNo.Text) ||positionPicker.Title.ToString() == "Choose an Option" || defPicker[0].Title.ToString() == "Choose an Option" || defPicker[1].Title.ToString() == "Choose an Option" || defPicker[2].Title.ToString() == "Choose an Option" || defPicker[3].Title.ToString() == "Choose an Option"){
+						DisplayAlert("Error", "Fill out all Fields", "Ok");
+					} else {
+						Console.WriteLine(matchNo.Text);
+						MatchData["teamNo"]=Convert.ToInt32(teamNo.Text);
+						MatchData["matchNo"]=Convert.ToInt32(matchNo.Text);
+						MatchData["alliance"]=Convert.ToString(alliancePicker.Title.ToString());
+						MatchData["startPosition"]=Convert.ToInt32(positionPicker.Title.ToString());
 
-					/*
-					MatchData.Add("teamNo", Convert.ToInt32(teamNo.Text));
-					MatchData.Add("matchNo", Convert.ToInt32(matchNo.Text));
-					MatchData.Add("Alliance", Convert.ToString(alliancePicker.Title.ToString()));
-					MatchData.Add("startPosition", Convert.ToInt32(positionPicker.Title.ToString()));
-					*/
-					SaveData();
-					def[0]=defPicker[0].SelectedIndex;
-					def[1]=defPicker[1].SelectedIndex;
-					def[2]=defPicker[2].SelectedIndex;
-					def[3]=defPicker[3].SelectedIndex;
+						/*
+						MatchData.Add("teamNo", Convert.ToInt32(teamNo.Text));
+						MatchData.Add("matchNo", Convert.ToInt32(matchNo.Text));
+						MatchData.Add("Alliance", Convert.ToString(alliancePicker.Title.ToString()));
+						MatchData.Add("startPosition", Convert.ToInt32(positionPicker.Title.ToString()));
+						*/
+						SaveData();
+						def[0]=defPicker[0].SelectedIndex;
+						def[1]=defPicker[1].SelectedIndex;
+						def[2]=defPicker[2].SelectedIndex;
+						def[3]=defPicker[3].SelectedIndex;
 
-					Navigation.PushModalAsync(new AutoMatchScoutingPage(MatchData, def));
+						Navigation.PushModalAsync(new AutoMatchScoutingPage(MatchData, def));
+					}
 				}
 			};
 

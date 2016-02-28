@@ -87,7 +87,7 @@ namespace VitruvianApp2016
 					matchBtn,
 					matchDataBtn,
 					overviewBtn,
-					testBtn
+					//testBtn
 				}
 			};
 

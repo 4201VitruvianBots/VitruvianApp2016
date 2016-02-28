@@ -118,7 +118,8 @@ namespace VitruvianApp2016
 				BackgroundColor = Color.Black
 			};
 			refreshBtn.Clicked += (object sender, EventArgs e) => {
-				Navigation.PushModalAsync(new RobotInfoViewPage(teamData));
+				if (new CheckInternetConnectivity().InternetStatus())
+					Navigation.PushModalAsync(new RobotInfoViewPage(teamData));
 			};
 
 			//Back Button

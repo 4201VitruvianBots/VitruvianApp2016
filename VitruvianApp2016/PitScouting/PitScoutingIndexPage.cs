@@ -34,7 +34,8 @@ namespace VitruvianApp2016
 				FontSize = GlobalVariables.sizeMedium
 			};
 			refreshBtn.Clicked += (object sender, EventArgs e) => {
-				UpdateTeamList();
+				if (new CheckInternetConnectivity().InternetStatus())
+					UpdateTeamList();
 			};
 
 			//Back Button
@@ -52,7 +53,8 @@ namespace VitruvianApp2016
 			ScrollView teamList = new ScrollView ();
 			teamList.Content = teamStack;
 			this.Appearing += (object sender, EventArgs e) => {
-				UpdateTeamList();
+				if (new CheckInternetConnectivity().InternetStatus())
+					UpdateTeamList();
 			};
 
 			StackLayout navigationBtns = new StackLayout () {

@@ -37,6 +37,8 @@ namespace VitruvianApp2016
 
 				},
 				ColumnDefinitions = {
+					new ColumnDefinition{ Width = GridLength.Auto},
+					new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) },
 					new ColumnDefinition{ Width = GridLength.Auto },
 				}
 			};
@@ -68,10 +70,12 @@ namespace VitruvianApp2016
 				FontSize = GlobalVariables.sizeMedium
 			};
 			teamSearchBtn.Clicked += (object sender, EventArgs e) => {
-				try{
-					filterMatches(1, Convert.ToInt32(teamSearchEntry.Text));
-				} catch{
-					DisplayAlert("Error:", "Invalid search query", "OK");
+				if (new CheckInternetConnectivity().InternetStatus()){
+					try{
+						filterMatches(1, Convert.ToInt32(teamSearchEntry.Text));
+					} catch{
+						DisplayAlert("Error:", "Invalid search query", "OK");
+					}
 				}
 			};
 
@@ -93,10 +97,12 @@ namespace VitruvianApp2016
 				FontSize = GlobalVariables.sizeMedium
 			};
 			matchSearchBtn.Clicked += (object sender, EventArgs e) => {
-				try{
-					filterMatches(2, Convert.ToInt32(matchSearchEntry.Text));
-				} catch{
-					DisplayAlert("Error:", "Invalid search query", "OK");
+				if (new CheckInternetConnectivity().InternetStatus()){
+					try{
+						filterMatches(2, Convert.ToInt32(matchSearchEntry.Text));
+					} catch{
+						DisplayAlert("Error:", "Invalid search query", "OK");
+					}
 				}
 			};
 
@@ -114,10 +120,12 @@ namespace VitruvianApp2016
 				HorizontalOptions = LayoutOptions.Center
 			};
 			allMatchesBtn.Clicked += (object sender, EventArgs e) => {
-				try{
-					filterMatches(3, -4201);
-				} catch{
-					DisplayAlert("Error:", "Unknown Error", "OK");
+				if (new CheckInternetConnectivity().InternetStatus()){
+					try{
+						filterMatches(3, -4201);
+					} catch{
+						DisplayAlert("Error:", "Unknown Error", "OK");
+					}
 				}
 			};
 
@@ -148,12 +156,12 @@ namespace VitruvianApp2016
 			//layoutGrid.Children.Add (busyIcon, 1, 2, spanYi, spanYf);
 			layoutGrid.Children.Add (teamSearch, 0, 1, spanYi++, spanYf++);
 			layoutGrid.Children.Add (teamSearchEntry, 0, 1, spanYi, spanYf);
-			layoutGrid.Children.Add (teamSearchBtn, 1, 2, spanYi++, spanYf++);
+			layoutGrid.Children.Add (teamSearchBtn, 2, 3, spanYi++, spanYf++);
 			layoutGrid.Children.Add (matchSearch, 0, 1, spanYi++, spanYf++);
 			layoutGrid.Children.Add (matchSearchEntry, 0, 1, spanYi, spanYf);
-			layoutGrid.Children.Add (matchSearchBtn, 1, 2, spanYi++, spanYf++);
-			layoutGrid.Children.Add (allMatchesBtn, 1, 2, spanYi++, spanYf++);
-			layoutGrid.Children.Add (allMatchesWarning, 1, 2, spanYi++, spanYf++);
+			layoutGrid.Children.Add (matchSearchBtn, 2, 3, spanYi++, spanYf++);
+			layoutGrid.Children.Add (allMatchesBtn, 2, 3, spanYi++, spanYf++);
+			layoutGrid.Children.Add (allMatchesWarning, 2, 3, spanYi++, spanYf++);
 			//layoutGrid.Children.Add (navigationBtns, 0, 2, spanYi++, spanYf++);
 
 			StackLayout pageStack = new StackLayout () {
