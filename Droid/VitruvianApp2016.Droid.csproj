@@ -16,6 +16,7 @@
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <AssemblyName>VitruvianApp2016.Droid</AssemblyName>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <ReleaseVersion>1.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,6 +28,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -36,6 +38,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -86,6 +89,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
     <AndroidResource Include="..\VitruvianApp2016\Images\Placeholder_image_placeholder.png">
       <Link>Resources\drawable\Placeholder_image_placeholder.png</Link>
+    </AndroidResource>
+    <AndroidResource Include="..\VitruvianApp2016\Images\AppIcon.png">
+      <Link>Resources\drawable\AppIcon.png</Link>
     </AndroidResource>
   </ItemGroup>
   <Import Project="..\VitruvianApp2016\VitruvianApp2016.projitems" Label="Shared" Condition="Exists('..\VitruvianApp2016\VitruvianApp2016.projitems')" />

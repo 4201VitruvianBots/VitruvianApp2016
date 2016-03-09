@@ -9,7 +9,10 @@ namespace VitruvianApp2016
 {
 	public class RobotInfoViewPage:ContentPage
 	{
+		ActivityIndicator busyIcon = new ActivityIndicator ();
+
 		ParseObject data;
+		ParseObject data2;
 		Image robotImage = new Image();
 
 		int Z=0;
@@ -20,6 +23,7 @@ namespace VitruvianApp2016
 		public RobotInfoViewPage (ParseObject teamData)
 		{
 			data = teamData;
+			new CalculateAverageData(Convert.ToInt16(data ["teamNumber"].ToString()));
 
 			Grid topGrid = new Grid () {
 				BackgroundColor = Color.Black,
@@ -99,16 +103,19 @@ namespace VitruvianApp2016
 			listedItem("Thrid Lowest Score:", "lowScore3");
 			listedItem("Second Lowest Score:", "lowScore2");
 			listedItem("Lowest Score:", "lowScore1");
-			listedItem("Portcullis Successes:", "totalA1");
-			listedItem("Cheval de Frise Sccesses:", "totalA2");
-			listedItem("Moat Successes:", "totalB1");
-			listedItem("Rampart Successes:", "totalB2");
-			listedItem("Drawbridge Successes:", "totalC1");
-			listedItem("Sally Port Successes:", "totalC2");
-			listedItem("Rock Wall Successes:", "totalD1");
-			listedItem("Rough Terrain Successes:", "totalD2");
-			listedItem("Low Bar Successes:", "totalE");
-
+			listedItem("Total High Goal Acc", "totalTeleOpHighAccuracy");
+			listedItem("Best High Goal Acc", "bestTeleOpHighAccuracy");
+			listedItem("Total Low Goal Acc", "totalTeleOpLowAccuracy");
+			listedItem("Best Low Goal Acc", "bestTeleOpLowAccuracy");
+			listedItem("Portcullis Successes:", "A1");
+			listedItem("Cheval de Frise Sccesses:", "A2");
+			listedItem("Moat Successes:", "B1");
+			listedItem("Rampart Successes:", "B2");
+			listedItem("Drawbridge Successes:", "C1");
+			listedItem("Sally Port Successes:", "C2");
+			listedItem("Rock Wall Successes:", "D1");
+			listedItem("Rough Terrain Successes:", "D2");
+			listedItem("Low Bar Successes:", "E");
 
 			//Refresh Button
 			Button refreshBtn = new Button () {
@@ -119,7 +126,7 @@ namespace VitruvianApp2016
 			};
 			refreshBtn.Clicked += (object sender, EventArgs e) => {
 				if (new CheckInternetConnectivity().InternetStatus())
-					Navigation.PushModalAsync(new RobotInfoViewPage(teamData));
+					refreshPage();
 			};
 
 			//Back Button
@@ -183,6 +190,7 @@ namespace VitruvianApp2016
 			topGrid.Children.Add (robotImage, 0, 1, 0, 2);
 			topGrid.Children.Add (teamNumber, 1, 2, 0, 1);
 			topGrid.Children.Add (teamName, 1, 2, 1, 2);
+			topGrid.Children.Add (busyIcon, 2, 3, 0, 1);
 			grid.Children.Add (infoScroll, 0, 1);
 			grid.Children.Add (topGrid, 0, 0);
 			grid.Children.Add (navigationBtns, 0, 2);
@@ -218,6 +226,66 @@ namespace VitruvianApp2016
 
 			Z++;
 		}
+
+		void listedItem2(string description, string parseString){
+			descriptionLabel[Z] = new Label {
+				Text = description,
+				FontSize = GlobalVariables.sizeMedium,
+				TextColor = Color.Black
+			};
+
+			dataLabel [Z] = new Label (){ 
+				FontSize = GlobalVariables.sizeSmall,
+				TextColor = Color.Gray
+			};
+			try{
+				Console.WriteLine(data2.ClassName.ToString());
+				if(data2[parseString] != null)
+					dataLabel[Z].Text = data2 [parseString].ToString();
+			} catch {
+				dataLabel[Z].Text = "<No Data Recorded>";
+			}
+			dataLabel [Z].FontSize = Device.GetNamedSize (NamedSize.Small, typeof(Label));
+
+			Z++;
+		}
+
+		async void refreshPage(){
+			busyIcon.IsVisible = true;
+			busyIcon.IsRunning = true;
+
+			new CalculateAverageData(Convert.ToInt16(data ["teamNumber"].ToString()));
+			ParseQuery<ParseObject> refresh = ParseObject.GetQuery ("TeamData");
+			ParseQuery<ParseObject> sorted = refresh.WhereEqualTo ("teamNumber", data ["teamNumber"]);
+
+			var allTeams = await sorted.FindAsync();
+			foreach (ParseObject obj in allTeams)
+				data = obj;
+
+			busyIcon.IsVisible = false;
+			busyIcon.IsRunning = false;
+			await Navigation.PushModalAsync(new RobotInfoViewPage(data));
+		}
+
+		/*
+		async void getTeamStats(){
+			ParseQuery<ParseObject> query = ParseObject.GetQuery("TeamStats");
+			ParseQuery<ParseObject> sorted = query.OrderBy("teamNumber");
+			ParseQuery<ParseObject> filter = sorted.WhereEqualTo("teamNumber", Convert.ToInt16 (data ["teamNumber"].ToString ()));
+			IEnumerable<ParseObject> teamSelect = await filter.FindAsync();
+
+			foreach (ParseObject obj in teamSelect)
+				data2 = obj;
+
+			new CalculateAverageData (Convert.ToInt16 (data ["teamNumber"].ToString ()));
+			Console.WriteLine(data2["highScore1"].ToString());
+			SaveData2 ();
+		}
+
+		async void SaveData2(){
+			await data2.SaveAsync ();
+		}
+		*/
 
 		void addRobotImage(){
 			try {

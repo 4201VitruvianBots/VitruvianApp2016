@@ -237,15 +237,15 @@ namespace VitruvianApp2016
 			addColumnHeaders ("Team No.", gridX++);
 
 			if (filterArray [0] == true) {
-				addColumnHeaders ("Auto A1", gridX++);
-				addColumnHeaders ("Auto A2", gridX++);
-				addColumnHeaders ("Auto B1", gridX++);
-				addColumnHeaders ("Auto B2", gridX++);
-				addColumnHeaders ("Auto C1", gridX++);
-				addColumnHeaders ("Auto C2", gridX++);
-				addColumnHeaders ("Auto D1", gridX++);
-				addColumnHeaders ("Auto D2", gridX++);
-				addColumnHeaders ("Auto E", gridX++);
+				addColumnHeaders ("A. Portcullis", gridX++);
+				addColumnHeaders ("A. Cheval de Frise", gridX++);
+				addColumnHeaders ("A. Moat", gridX++);
+				addColumnHeaders ("A. Ramparts", gridX++);
+				addColumnHeaders ("A. Drawbridge", gridX++);
+				addColumnHeaders ("A. Sally Port", gridX++);
+				addColumnHeaders ("A. Rock Wall", gridX++);
+				addColumnHeaders ("A. Rough Terrain", gridX++);
+				addColumnHeaders ("A. Low Bar", gridX++);
 			}
 			if (filterArray [1] == true) {
 				addColumnHeaders ("A. Shot H. S.", gridX++);
@@ -255,15 +255,15 @@ namespace VitruvianApp2016
 				addColumnHeaders ("A. Shot L. T.", gridX++);
 			}
 			if (filterArray [2] == true) {
-				addColumnHeaders ("TeleOp A1", gridX++);
-				addColumnHeaders ("TeleOp A2", gridX++);
-				addColumnHeaders ("TeleOp B1", gridX++);
-				addColumnHeaders ("TeleOp B2", gridX++);
-				addColumnHeaders ("TeleOp C1", gridX++);
-				addColumnHeaders ("TeleOp C2", gridX++);
-				addColumnHeaders ("TeleOp D1", gridX++);
-				addColumnHeaders ("TeleOp D2", gridX++);
-				addColumnHeaders ("TeleOp E", gridX++);
+				addColumnHeaders ("T. Portcullis", gridX++);
+				addColumnHeaders ("T. Cheval de Frise", gridX++);
+				addColumnHeaders ("T. Moat", gridX++);
+				addColumnHeaders ("T. Ramparts", gridX++);
+				addColumnHeaders ("T. Drawbridge", gridX++);
+				addColumnHeaders ("T. Sally Port", gridX++);
+				addColumnHeaders ("T. Rock Wall", gridX++);
+				addColumnHeaders ("T. Rough Terrain", gridX++);
+				addColumnHeaders ("T. Low Bar", gridX++);
 			}
 			if (filterArray [3] == true) {
 				addColumnHeaders ("T. Shot H. S.", gridX++);

@@ -72,7 +72,8 @@ namespace VitruvianApp2016
 			};
 			buttonSettings (testBtn);
 			testBtn.Clicked += (object sender, EventArgs e) => {
-				Navigation.PushModalAsync (new NullTest());
+				new CalculateAverageData(4);
+				//Navigation.PushModalAsync (new CalculateAverageData(4));
 			};
 			//Page Layout
 			StackLayout pageStack = new StackLayout (){
@@ -87,7 +88,7 @@ namespace VitruvianApp2016
 					matchBtn,
 					matchDataBtn,
 					overviewBtn,
-					//testBtn
+					testBtn
 				}
 			};
 

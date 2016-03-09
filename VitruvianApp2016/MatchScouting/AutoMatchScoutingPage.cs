@@ -119,7 +119,7 @@ namespace VitruvianApp2016
 						errorString = errorStringDefault;
 						error = false;
 					} else {
-						Navigation.PushModalAsync(new TeleOpMatchScoutingPage(data, def));
+						Navigation.PushModalAsync(new TeleOpMatchScoutingPage(data, def, scoreValue));
 					}
 				}
 			};

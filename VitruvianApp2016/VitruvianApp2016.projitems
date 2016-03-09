@@ -32,6 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\ColumnHeaderCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\DataCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CheckInternetConnectivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CalculateAverageData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.txt" />
@@ -47,6 +48,7 @@
     <None Include="$(MSBuildThisFileDirectory)Depreciated\TeamNumberCell.cs" />
     <None Include="$(MSBuildThisFileDirectory)Depreciated\MatchNumberCell.cs" />
     <None Include="$(MSBuildThisFileDirectory)Depreciated\TeleOpMatchScoutingPage2.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Images\AppIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)MatchInfo\" />

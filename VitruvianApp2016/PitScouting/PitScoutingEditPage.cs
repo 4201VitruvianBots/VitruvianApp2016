@@ -136,7 +136,7 @@ namespace VitruvianApp2016
 
 			// Intake Picker
 			Label intakeLabel = new Label {
-				Text = "Intake Position:",
+				Text = "Can you shoot/outtake opposite of your intake?:",
 				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
 			};
@@ -151,11 +151,11 @@ namespace VitruvianApp2016
 			catch{
 				intakePicker.Title = "Choose an Option";
 			}
-			for (Intake i = Intake.None; i <= Intake.Back; i++) {
+			for (Choice i = Choice.Yes; i <= Choice.No; i++) {
 				intakePicker.Items.Add (i.ToString ());
 			};
 			intakePicker.SelectedIndexChanged += (sender, e) => {
-				Intake type = (Intake)lowBarPicker.SelectedIndex;
+				Choice type = (Choice)intakePicker.SelectedIndex;
 				intakePicker.Title = type.ToString();
 			};
 

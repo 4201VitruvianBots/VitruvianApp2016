@@ -81,6 +81,7 @@ namespace VitruvianApp2016
 			};
 			BackgroundColor = Color.White;
 		}
+
 		async void UpdateTeamList(){
 			busyIcon.IsVisible = true;
 			busyIcon.IsRunning = true;

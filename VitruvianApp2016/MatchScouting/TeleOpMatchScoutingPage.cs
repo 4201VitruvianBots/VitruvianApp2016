@@ -17,6 +17,7 @@ namespace VitruvianApp2016
 
 		const int N = 11;
 		int[] scoreValue = new int[N];
+		double[] aDef = new double[N];
 		Button[] minus = new Button[N];
 		Button[] plus = new Button[N];
 		Label[] displayValue = new Label[N];
@@ -40,7 +41,7 @@ namespace VitruvianApp2016
 			FontAttributes = FontAttributes.Bold
 		};
 
-		public TeleOpMatchScoutingPage (ParseObject MatchData, int[] def)
+		public TeleOpMatchScoutingPage (ParseObject MatchData, int[] def, double[] autoScoreValue)
 		{
 			data = MatchData;
 
@@ -60,14 +61,14 @@ namespace VitruvianApp2016
 				FontAttributes = FontAttributes.Bold
 			};
 
-			defense (0, 0, 1, ((defA)def[0]).ToString());
-			defense (1, 3, 1, ((defB)def[1]).ToString());
-			defense (2, 6, 1, ((defC)def[2]).ToString());
-			defense (3, 9, 1, ((defD)def[3]).ToString());
-			defense (4, 12, 1, "Low Bar");
+			defense (0, 0, 1, ((defA)def[0]).ToString(), autoScoreValue[0]);
+			defense (1, 3, 1, ((defB)def[1]).ToString(), autoScoreValue[1]);
+			defense (2, 6, 1, ((defC)def[2]).ToString(), autoScoreValue[2]);
+			defense (3, 9, 1, ((defD)def[3]).ToString(), autoScoreValue[3]);
+			defense (4, 12, 1, "Low Bar", autoScoreValue[4]);
 			shoot (5, 0, 3, "Low Shot");
 			shoot (7, 3, 3, "High Shot");;
-			defense (10, 6, 3, "Shots Denied");
+			defense (10, 6, 3, "Shots Denied", 0);
 
 			Button challengeBtn = new Button () {
 				Text = "Robot Challenge",
@@ -146,6 +147,10 @@ namespace VitruvianApp2016
 					errorHandling("teleOpE", Convert.ToInt32(scoreValue[4]));
 					errorHandling("teleOpShotLowSuccess", Convert.ToInt32(scoreValue[5]));
 					errorHandling("teleOpShotLowTotal", Convert.ToInt32(scoreValue[5]+scoreValue[6]));
+					if(scoreValue[5]+scoreValue[6] == 0)
+						errorHandling("teleOpShotLowAccuracy", Convert.ToDouble(0));
+					else
+						errorHandling("teleOpShotLowAccuracy", Convert.ToDouble((double)scoreValue[5]/(double)(scoreValue[5]+scoreValue[6])));
 					errorHandling("teleOpShotHighSuccess", Convert.ToInt32(scoreValue[7]));
 					errorHandling("teleOpShotHighTotal", Convert.ToInt32(scoreValue[7]+scoreValue[8]));
 					if(scoreValue[7]+scoreValue[8] == 0)
@@ -185,8 +190,9 @@ namespace VitruvianApp2016
 			BackgroundColor = Color.White;
 		}
 
-		void defense(int arrayIndex, int x, int y, string title){
-			displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
+		void defense(int arrayIndex, int x, int y, string title, double autoDef){
+			aDef [arrayIndex] = autoDef;
+			displayValue [arrayIndex].Text = (scoreValue[arrayIndex] + aDef[arrayIndex]).ToString();
 			displayValue [arrayIndex].TextColor = Color.Black;
 			displayValue [arrayIndex].FontSize = GlobalVariables.sizeTitle;
 			minus [arrayIndex].Text = "-";
@@ -197,14 +203,16 @@ namespace VitruvianApp2016
 			minus[arrayIndex].Clicked += (object sender, EventArgs e) => {
 				if(scoreValue[arrayIndex] != 0){
 					scoreValue[arrayIndex]--;
-					displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
+					displayValue [arrayIndex].Text = (scoreValue[arrayIndex] + aDef[arrayIndex]).ToString();
 					pointsScored();
 				}
 			};
 			plus[arrayIndex].Clicked += (object sender, EventArgs e) => {
-				scoreValue[arrayIndex]++;
-				displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
-				pointsScored();
+				if((scoreValue[arrayIndex] + aDef[arrayIndex] < 2 || (scoreValue[arrayIndex] < 2 && aDef[arrayIndex] == 0.2))){
+					scoreValue[arrayIndex]++;
+					displayValue [arrayIndex].Text = (scoreValue[arrayIndex] + aDef[arrayIndex]).ToString();
+					pointsScored();
+				}
 			};
 
 			Label defLabel = new Label () {
@@ -316,6 +324,8 @@ namespace VitruvianApp2016
 				points += (int)(10 * A);
 			else if (A != 0 && scoreValue[0] == 1)
 				points += (int)(10*A+5);
+			else if (A == 0.2 && scoreValue[0] == 2)
+				points += (int)(10*A+10);
 			
 			try{
 				B += Convert.ToDouble(data["autoB1"].ToString());
@@ -331,6 +341,8 @@ namespace VitruvianApp2016
 				points += (int)(10 * B);
 			else if (B != 0 && scoreValue[1] == 1)
 				points += (int)(10 * B + 5);
+			else if (B == 0.2 && scoreValue[1] == 2)
+				points += (int)(10*B+10);
 			
 			try{
 				C += Convert.ToDouble(data["autoC1"].ToString());
@@ -346,6 +358,8 @@ namespace VitruvianApp2016
 				points += (int)(10 * C);
 			else if (C != 0 && scoreValue[2] == 1)
 				points += (int)(10 * C+5);
+			else if (C == 0.2 && scoreValue[2] == 2)
+				points += (int)(10*C+10);
 			
 			try{
 				D += Convert.ToDouble(data["autoD1"].ToString());
@@ -361,6 +375,8 @@ namespace VitruvianApp2016
 				points += (int)(10 * D);
 			else if (D != 0 && scoreValue[3] == 1)
 				points += (int)(10 * D+5);
+			else if (D == 0.2 && scoreValue[3] == 2)
+				points += (int)(10*D+10);
 			
 			try{
 				E += Convert.ToDouble(data["autoE"].ToString());
@@ -373,6 +389,8 @@ namespace VitruvianApp2016
 				points += (int)(10 * E);
 			else if (E != 0 && scoreValue[4] == 1)
 				points += (int)(10 * E+5);
+			else if (E == 0.2 && scoreValue[4] == 2)
+				points += (int)(10*E+10);
 			
 			points += 5 * Convert.ToInt16(data ["autoShotLowSuccess"]) + 2 * scoreValue[5];
 			points += 10 * Convert.ToInt16(data ["autoShotHighSuccess"]) + 5 * scoreValue[7];

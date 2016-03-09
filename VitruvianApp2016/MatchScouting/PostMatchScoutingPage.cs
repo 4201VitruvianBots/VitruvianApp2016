@@ -35,7 +35,8 @@ namespace VitruvianApp2016
 				rolePicker.Items.Add (i.ToString ());
 			};
 			rolePicker.SelectedIndexChanged += (sender, e) => {
-				rolePicker.Title = rolePicker.SelectedIndex.ToString ();
+				RobotRole role = (RobotRole)rolePicker.SelectedIndex;
+				rolePicker.Title = role.ToString();
 			};
 
 			Label interferenceLabel = new Label {
@@ -95,7 +96,7 @@ namespace VitruvianApp2016
 					if(noteEditor.Text != "[notes]" || string.IsNullOrEmpty(noteEditor.Text) || string.IsNullOrWhiteSpace(noteEditor.Text))
 						errorHandling("matchNotes", noteEditor.Text);
 					if(rolePicker.Title.ToString() != "Choose an Option")
-						errorHandling("robotRole", rolePicker.Title.ToString());
+						errorHandling("robotRole", rolePicker.Title);
 
 					if(errorStatus == true){
 						errorString = errorString.Remove(errorString.Length - 2); 

@@ -139,7 +139,7 @@ namespace VitruvianApp2016
 			addColumnHeaders ("Blue 3", gridX++);
 
 			foreach (ParseObject obj in matchList) {
-				await obj.FetchIfNeededAsync ();
+				await obj.FetchIfNeededAsync();
 				data = obj;
 
 				matchGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength (50, GridUnitType.Absolute)});
@@ -184,7 +184,7 @@ namespace VitruvianApp2016
 			if (gridY % 2 == 1)
 				cell.BackgroundColor = Color.Gray;
 			if (gridX == 1)
-				cell.BackgroundColor = Color.Green;
+				cell.BackgroundColor = Color.Olive;
 
 			if (arrayIndex == 0) {
 				TapGestureRecognizer tap = new TapGestureRecognizer ();
