@@ -73,6 +73,15 @@ namespace VitruvianApp2016
 				Navigation.PushModalAsync (new RobotComparisonSelectPage());
 			};
 
+			//Team Comparison
+			Button teamComparisonBtn = new Button (){
+				Text = "Team Comparison",
+			};
+			buttonSettings (teamComparisonBtn);
+			teamComparisonBtn.Clicked += (object sender, EventArgs e) => {
+				Navigation.PushModalAsync (new StatComparsionPage());
+			};
+
 			// Cloud Calculation
 			Button cloudBtn = new Button (){
 				Text = "Calculate All Team Data",
@@ -104,8 +113,9 @@ namespace VitruvianApp2016
 					matchDataBtn,
 					overviewBtn,
 					robotComparisonBtn,
+					teamComparisonBtn,
 					cloudBtn,
-					testBtn
+					//testBtn
 				}
 			};
 

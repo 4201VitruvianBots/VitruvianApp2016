@@ -39,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ImagePopupPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RobotComparison\RobotComparisonSelectPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RobotComparison\RobotComparisonDisplayPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StatComparison\StatComparisonPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.txt" />
@@ -64,5 +65,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Debug Hold\" />
     <Folder Include="$(MSBuildThisFileDirectory)CellViews\" />
     <Folder Include="$(MSBuildThisFileDirectory)RobotComparison\" />
+    <Folder Include="$(MSBuildThisFileDirectory)StatComparison\" />
   </ItemGroup>
 </Project>

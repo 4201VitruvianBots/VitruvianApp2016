@@ -22,6 +22,7 @@ namespace VitruvianApp2016
 			},
 			ColumnDefinitions = {
 				new ColumnDefinition{ Width = GridLength.Auto },
+				new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) },
 				new ColumnDefinition{ Width = GridLength.Auto },
 			}
 		};
@@ -105,16 +106,18 @@ namespace VitruvianApp2016
 			ScrollView teamScroll = new ScrollView(){
 				Content = consoleStack
 			};
+			pageGrid.Children.Add (teamScroll, 0, 3 ,4,5);
 			pageGrid.Children.Add (pageTitle,0,0);
 			pageGrid.Children.Add (busyIcon,1,0);
 			pageGrid.Children.Add (teamNumberLabel,0,1);
 			pageGrid.Children.Add (teamNumberEntry,0,2);
-			pageGrid.Children.Add (calculateTeamBtn,1,2);
-			pageGrid.Children.Add (calculateAllTeamsBtn,1,3);
-			pageGrid.Children.Add (teamScroll, 0, 2 ,4,5);
-			pageGrid.Children.Add (navigationBtns,0, 2, 5,6);
-			this.Content = new ScrollView {
-				Content = pageGrid
+			pageGrid.Children.Add (calculateTeamBtn,2,2);
+			pageGrid.Children.Add (calculateAllTeamsBtn,2,3);
+			pageGrid.Children.Add (navigationBtns,0, 3, 5,6);
+			this.Content = new StackLayout {
+				Children = {
+					pageGrid
+				}
 			};
 		}
 

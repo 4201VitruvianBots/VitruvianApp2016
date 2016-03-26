@@ -28,14 +28,14 @@ namespace VitruvianApp2016
 					//Console.WriteLine("****Error: " + t.Exception);
 				}
 			);
-			ParseCloud.CallFunctionAsync<Task>("totalTeleOpShotHighAccuracy", parameters).ContinueWith(
+			ParseCloud.CallFunctionAsync<Task>("teleOpShotHighAccuracy", parameters).ContinueWith(
 				t => {
 					//Console.WriteLine ("GOT RESULTS ");
 					//Console.WriteLine("**Result: " + t.Result);
 					//Console.WriteLine("****Error: " + t.Exception);
 				}
 			);
-			ParseCloud.CallFunctionAsync<Task> ("totalTeleOpShotLowAccuracy", parameters).ContinueWith (
+			ParseCloud.CallFunctionAsync<Task> ("teleOpShotLowAccuracy", parameters).ContinueWith (
 				t => {
 					//Console.WriteLine ("GOT RESULTS ");
 					//Console.WriteLine ("**Result: " + t.Result);
@@ -43,6 +43,27 @@ namespace VitruvianApp2016
 				}
 			);
 			ParseCloud.CallFunctionAsync<Task> ("calculateDefenses", parameters).ContinueWith (
+				t => {
+					//Console.WriteLine ("GOT RESULTS ");
+					//Console.WriteLine ("**Result: " + t.Result);
+					//Console.WriteLine("****Error: " + t.Exception);
+				}
+			);
+			ParseCloud.CallFunctionAsync<Task> ("scaleCount", parameters).ContinueWith (
+				t => {
+					//Console.WriteLine ("GOT RESULTS ");
+					//Console.WriteLine ("**Result: " + t.Result);
+					//Console.WriteLine("****Error: " + t.Exception);
+				}
+			);
+			ParseCloud.CallFunctionAsync<Task> ("otherData", parameters).ContinueWith (
+				t => {
+					//Console.WriteLine ("GOT RESULTS ");
+					//Console.WriteLine ("**Result: " + t.Result);
+					//Console.WriteLine("****Error: " + t.Exception);
+				}
+			);
+			ParseCloud.CallFunctionAsync<Task> ("penalties", parameters).ContinueWith (
 				t => {
 					//Console.WriteLine ("GOT RESULTS ");
 					//Console.WriteLine ("**Result: " + t.Result);

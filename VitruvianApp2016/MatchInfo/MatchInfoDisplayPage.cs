@@ -123,7 +123,7 @@ namespace VitruvianApp2016
 		Label[] rowHeaderLabels = new Label[20];
 		Label[,] descriptionLabel = new Label[6,99];
 		Label[,] dataLabel = new Label[6,99];
-		ColumnHeaderCellSmall[,] defHeaderCells = new ColumnHeaderCellSmall[6,3];
+		ColumnHeaderCellSmall[,] defHeaderCells = new ColumnHeaderCellSmall[6,4];
 		ColumnHeaderCellSmall[,] shotHeaderCells = new ColumnHeaderCellSmall[6,3];
 
 		public MatchInfoDisplayPage (ParseObject matchInfo)
@@ -247,7 +247,8 @@ namespace VitruvianApp2016
 			addRobotImage(teamData[arrayIndex], arrayIndex);
 			defGrid [arrayIndex].Children.Add (defHeaderCells [arrayIndex,0], 0, gridHieght);
 			defGrid [arrayIndex].Children.Add (defHeaderCells [arrayIndex,1], 1, gridHieght);
-			defGrid [arrayIndex].Children.Add (defHeaderCells [arrayIndex,2], 2, gridHieght++);
+			defGrid [arrayIndex].Children.Add (defHeaderCells [arrayIndex,2], 2, gridHieght);
+			defGrid [arrayIndex].Children.Add (defHeaderCells [arrayIndex,3], 3, gridHieght++);
 			addDefItems ("E", teamData [arrayIndex], arrayIndex, gridHieght++);
 			addDefItems ("A1", teamData [arrayIndex], arrayIndex, gridHieght++);
 			addDefItems ("A2", teamData [arrayIndex], arrayIndex, gridHieght++);
@@ -322,6 +323,14 @@ namespace VitruvianApp2016
 			}
 			else if (description == "Notes:"){
 				descriptionLabel [arrayIndex, Z].Text = description;
+
+				try {
+					if (tData [parseString] != null)
+						dataLabel [arrayIndex, Z].Text = tData [parseString].ToString ();
+				} catch {
+					dataLabel [arrayIndex, Z].Text = "<No Data Recorded>";
+				}
+
 				try{
 					if (string.IsNullOrEmpty(tData ["matchNotes"].ToString()) == false) {
 						descriptionLabel [arrayIndex, Z].BackgroundColor = Color.Fuchsia;
@@ -374,6 +383,7 @@ namespace VitruvianApp2016
 						new ColumnDefinition{ Width = new GridLength (1, GridUnitType.Star) },
 						new ColumnDefinition{ Width = new GridLength (1, GridUnitType.Star) },
 						new ColumnDefinition{ Width = new GridLength (1, GridUnitType.Star) },
+						new ColumnDefinition{ Width = new GridLength (20, GridUnitType.Absolute) },
 					},
 					RowDefinitions = {
 						new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute) },
@@ -398,6 +408,7 @@ namespace VitruvianApp2016
 							new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) },
 							new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) },
 							new ColumnDefinition{ Width = new GridLength(1, GridUnitType.Star) },
+							new ColumnDefinition{ Width = GridLength.Auto },
 						},
 						RowDefinitions = {
 							new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)},
@@ -413,6 +424,8 @@ namespace VitruvianApp2016
 				defHeaderCells [i, 1].header.Text = "Success";
 				defHeaderCells [i, 2] = new ColumnHeaderCellSmall ();
 				defHeaderCells [i, 2].header.Text = "Attempts";
+				defHeaderCells [i, 3] = new ColumnHeaderCellSmall ();
+				defHeaderCells [i, 3].header.Text = "#";
 				shotHeaderCells [i, 0] = new ColumnHeaderCellSmall ();
 				shotHeaderCells [i, 0].header.Text = "Hits";
 				shotHeaderCells [i, 1] = new ColumnHeaderCellSmall ();
@@ -451,17 +464,21 @@ namespace VitruvianApp2016
 			DataCell cell1 = new DataCell ();
 			DataCell cell2 = new DataCell ();
 			DataCell cell3 = new DataCell ();
+			DataCell cell4 = new DataCell ();
 			cell1.data.TextColor = Color.White;
 			cell2.data.TextColor = Color.White;
 			cell3.data.TextColor = Color.White;
+			cell4.data.TextColor = Color.White;
 			if (arrayIndex < 3) {
 				cell1.BackgroundColor = Color.Red;
 				cell2.BackgroundColor = Color.Red;
 				cell3.BackgroundColor = Color.Red;
+				cell4.BackgroundColor = Color.Red;
 			} else {
 				cell1.BackgroundColor = Color.Blue;
 				cell2.BackgroundColor = Color.Blue;
 				cell3.BackgroundColor = Color.Blue;
+				cell4.BackgroundColor = Color.Blue;
 			}
 			try{
 				cell1.data.Text = tData[defense+"sta"].ToString();
@@ -484,6 +501,13 @@ namespace VitruvianApp2016
 				cell3.data.Text = "NULL";
 			}
 			defGrid [arrayIndex].Children.Add (cell3, 2, gridHieght);
+			try{
+				cell4.data.Text = tData[defense+"count"].ToString();
+			}
+			catch{
+				cell4.data.Text = "N";
+			}
+			defGrid [arrayIndex].Children.Add (cell4, 3, gridHieght);
 		}
 
 		void addShotItems(string shot, ParseObject tData, int arrayIndex, int gridHieght){

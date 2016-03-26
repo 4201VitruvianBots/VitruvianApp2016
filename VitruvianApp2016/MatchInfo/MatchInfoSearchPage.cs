@@ -64,6 +64,16 @@ namespace VitruvianApp2016
 				Keyboard = Keyboard.Numeric
 			};
 
+			// Team Picker
+			Picker teamPicker = new Picker(){ 
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				Title = "Select a team"			
+			};
+			populateTeamPicker(teamPicker);
+			teamPicker.SelectedIndexChanged += (sender, e) => {
+				teamSearchEntry.Text = teamPicker.Items[teamPicker.SelectedIndex];
+			};
+
 			Button teamSearchBtn = new Button () {
 				Text = "Lookup Team",
 				TextColor = Color.Green,
@@ -78,22 +88,6 @@ namespace VitruvianApp2016
 						DisplayAlert("Error:", "Invalid search query", "OK");
 					}
 				}
-			};
-
-			// Team Picker
-			Label teamPickerLabel = new Label {
-				Text = "Select a team:",
-				TextColor = Color.Black,
-				FontSize = GlobalVariables.sizeMedium,
-			};
-
-			Picker teamPicker = new Picker(){ 
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Title = "Choose a team"			
-			};
-			populateTeamPicker(teamPicker);
-			teamPicker.SelectedIndexChanged += (sender, e) => {
-				teamSearchEntry.Text = teamPicker.Items[teamPicker.SelectedIndex];
 			};
 
 			Label matchSearch = new Label () {
@@ -165,14 +159,13 @@ namespace VitruvianApp2016
 			//layoutGrid.Children.Add (title, 0, 2, spanYi, spanYf);
 			//layoutGrid.Children.Add (busyIcon, 1, 2, spanYi++, spanYf++);
 			layoutGrid.Children.Add (teamSearch, 0, 1, spanYi++, spanYf++);
-			layoutGrid.Children.Add (teamSearchEntry, 0, 1, spanYi, spanYf);
+			layoutGrid.Children.Add (teamSearchEntry, 0, 1, spanYi++, spanYf++);
+			layoutGrid.Children.Add (teamPicker, 0, 1, spanYi, spanYf);
 			layoutGrid.Children.Add (teamSearchBtn, 2, 3, spanYi++, spanYf++);
 			layoutGrid.Children.Add (matchSearch, 0, 1, spanYi++, spanYf++);
 			layoutGrid.Children.Add (matchSearchEntry, 0, 1, spanYi, spanYf);
 			layoutGrid.Children.Add (matchSearchBtn, 2, 3, spanYi++, spanYf++);
 			layoutGrid.Children.Add (allMatchesBtn, 2, 3, spanYi++, spanYf++);
-			layoutGrid.Children.Add (teamPickerLabel, 0, 1, spanYi++, spanYf++);
-			layoutGrid.Children.Add (teamPicker, 0, 1, spanYi++, spanYf++);
 			//layoutGrid.Children.Add (navigationBtns, 0, 2, spanYi+1, spanYf+1);
 
 			StackLayout pageStack = new StackLayout () {
