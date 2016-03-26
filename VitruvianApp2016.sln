@@ -148,6 +148,14 @@ Global
 		$24.NamingStyle = PascalCase
 		$24.IncludeInstanceMembers = True
 		$24.IncludeStaticEntities = True
-		version = 1.0
+		$0.TextStylePolicy = $26
+		$26.inheritsSet = null
+		$26.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $27
+		$27.AfterDelegateDeclarationParameterComma = True
+		$27.inheritsSet = Mono
+		$27.inheritsScope = text/x-csharp
+		$27.scope = text/x-csharp
+		version = 2.0
 	EndGlobalSection
 EndGlobal

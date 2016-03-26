@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Parse;
 using System.Threading.Tasks;
+using FFImageLoading.Forms;
+using Rg.Plugins.Popup.Services;
 
 namespace VitruvianApp2016
 {
@@ -13,7 +15,8 @@ namespace VitruvianApp2016
 
 		ParseObject data;
 		ParseObject data2;
-		Image robotImage = new Image();
+		CachedImage robotImage;
+		CachedImage robotImageFull;
 
 		int Z=0;
 		Label[]	descriptionLabel = new Label[99];
@@ -22,8 +25,8 @@ namespace VitruvianApp2016
 
 		public RobotInfoViewPage (ParseObject teamData)
 		{
+			//refreshPage ();
 			data = teamData;
-			new CalculateAverageData(Convert.ToInt16(data ["teamNumber"].ToString()));
 
 			Grid topGrid = new Grid () {
 				BackgroundColor = Color.Black,
@@ -88,8 +91,6 @@ namespace VitruvianApp2016
 				teamName.Text = "<No Team Name>";
 			}
 
-			data = teamData;
-
 			listedItem("Drive Type:", "driveType");
 			listedItem("Can use the low bar?:", "lowBarAccess");
 			listedItem("Intake Position:", "intakePos");
@@ -97,6 +98,7 @@ namespace VitruvianApp2016
 			listedItem("TeleOp Strategy:", "teleOpStrategy");
 			listedItem("Additional Notes:", "notes");
 			Z2 = Z;
+			listedItem("Average Score:", "avgScore");
 			listedItem("Highest Score:", "highScore1");
 			listedItem("Second Highest Score:", "highScore2");
 			listedItem("Third Highest Score:", "highScore3");
@@ -126,7 +128,7 @@ namespace VitruvianApp2016
 			};
 			refreshBtn.Clicked += (object sender, EventArgs e) => {
 				if (new CheckInternetConnectivity().InternetStatus())
-					refreshPage();
+					Navigation.PushModalAsync(new RobotInfoViewPage(data));
 			};
 
 			//Back Button
@@ -251,20 +253,19 @@ namespace VitruvianApp2016
 		}
 
 		async void refreshPage(){
-			busyIcon.IsVisible = true;
-			busyIcon.IsRunning = true;
-
-			new CalculateAverageData(Convert.ToInt16(data ["teamNumber"].ToString()));
-			ParseQuery<ParseObject> refresh = ParseObject.GetQuery ("TeamData");
-			ParseQuery<ParseObject> sorted = refresh.WhereEqualTo ("teamNumber", data ["teamNumber"]);
+			data = await data.FetchAsync ();
+			var test = new CalculateAverageData (Convert.ToInt16 (data ["teamNumber"].ToString ()));
+			data = await data.FetchAsync ();
+			/*
+			ParseQuery<ParseObject> query = ParseObject.GetQuery("TeamData");
+			ParseQuery<ParseObject> sorted = query.WhereEqualTo ("teamNumber", data ["teamNumber"]);
 
 			var allTeams = await sorted.FindAsync();
-			foreach (ParseObject obj in allTeams)
+			foreach (ParseObject obj in allTeams) {
+				await obj.FetchAsync ();
 				data = obj;
-
-			busyIcon.IsVisible = false;
-			busyIcon.IsRunning = false;
-			await Navigation.PushModalAsync(new RobotInfoViewPage(data));
+			}
+			*/
 		}
 
 		/*
@@ -292,14 +293,32 @@ namespace VitruvianApp2016
 				if (data ["robotImage"].ToString() != null) {
 					ParseFile robotImageURL = (ParseFile)data ["robotImage"];
 					//Gets the image from parse and converts it to ParseFile
-					//robotImage.Source = "I"+teamData["teamNumber"]+".jpg"; //Must scale down images manually before upload, & all images must be .jpg
-					//How to write this so caching actually works?
-
-					robotImage.Source = new UriImageSource{
-						Uri = robotImageURL.Url,
-						CachingEnabled = true,
-						CacheValidity = new TimeSpan(7,0,0,0) //Caches Images onto your device for a week
+					robotImage = new CachedImage(){
+						HorizontalOptions = LayoutOptions.Center,
+						VerticalOptions = LayoutOptions.Center,
+						Source = new UriImageSource{
+							Uri = robotImageURL.Url,
+							CachingEnabled = true,
+							CacheValidity = new TimeSpan(7,0,0,0) //Caches Images onto your device for a week
+						},
+						HeightRequest = 120,
+						DownsampleToViewSize = true
 					};
+					robotImageFull = new CachedImage(){
+						Source = new UriImageSource{
+							Uri = robotImageURL.Url,
+							CachingEnabled = true,
+							CacheValidity = new TimeSpan(7,0,0,0) //Caches Images onto your device for a week
+						}
+					};
+
+					TapGestureRecognizer tap = new TapGestureRecognizer();
+					tap.Tapped += (object sender, EventArgs e) => {
+						// Create a gesture recognizer to display the popup image
+						popUpPage(robotImageFull);
+					};
+					robotImage.GestureRecognizers.Add (tap);
+					robotImage.Aspect = Aspect.AspectFit; 
 				} else {}
 			}
 			catch {
@@ -307,6 +326,11 @@ namespace VitruvianApp2016
 			}
 			robotImage.Aspect = Aspect.AspectFit; //Need better way to scale an image while keeping aspect ratio, but not overflowing everything else
 			//robotImage.GestureRecognizers.Add (imageTap);
+		}
+
+		async void popUpPage(CachedImage rImage){
+			await Task.Yield ();
+			await PopupNavigation.PushAsync (new ImagePopupPage (rImage), false);
 		}
 	}
 }

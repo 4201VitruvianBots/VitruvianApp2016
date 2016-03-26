@@ -97,6 +97,10 @@ namespace VitruvianApp2016
 						errorHandling("matchNotes", noteEditor.Text);
 					if(rolePicker.Title.ToString() != "Choose an Option")
 						errorHandling("robotRole", rolePicker.Title);
+					if(!string.IsNullOrEmpty(techFoulEntry.Text))
+						errorHandling("techFouls", Convert.ToInt16(techFoulEntry.Text));
+					else
+						errorHandling("techFouls", 0);
 
 					if(errorStatus == true){
 						errorString = errorString.Remove(errorString.Length - 2); 
@@ -104,7 +108,7 @@ namespace VitruvianApp2016
 						errorString = "The following data was unable to be saved: ";
 					} else {
 						// Navigation.InsertPageBefore(new PreMatchScoutingPage(), AutoMatchScoutingPage);
-						Navigation.PushModalAsync(new PreMatchScoutingPage());
+						Navigation.PushModalAsync(new PreMatchScoutingPage(matchData["scouterName"].ToString()));
 					}
 				}
 			};

@@ -10,6 +10,8 @@ namespace VitruvianApp2016
 
 		Grid layoutGrid = new Grid ();
 
+		enum defenses {Portcullis, Cheval_de_Frise, Moat, Ramparts, Drawbridge, Salley_Port, Rock_Wall, Rough_Terrain};
+		enum parseString {autoA1, autoA2, autoB1, autoB2, autoC1, autoC2, autoD1, autoD2};
 		enum defA {Portcullis, Cheval_de_Frise};
 		enum defB {Moat, Ramparts};
 		enum defC {Drawbridge, Salley_Port};
@@ -40,7 +42,7 @@ namespace VitruvianApp2016
 		string errorString = errorStringDefault;
 		bool error = false;
 
-		public AutoMatchScoutingPage (ParseObject MatchData, int[] def)
+		public AutoMatchScoutingPage (ParseObject MatchData, int[] def, int teamNo)
 		{
 			for(int i=0; i<N; i++){
 				scoreValue [i] = 0;
@@ -63,11 +65,20 @@ namespace VitruvianApp2016
 				FontAttributes = FontAttributes.Bold
 			};
 
-			defense (0, 0, 1, ((defA)def[0]).ToString());
-			defense (1, 3, 1, ((defB)def[1]).ToString());
-			defense (2, 6, 1, ((defC)def[2]).ToString());
-			defense (3, 9, 1, ((defD)def[3]).ToString());
-			defense (4, 12, 1, "Low Bar");
+			Label teamNumber = new Label () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				Text = "Team: " + teamNo.ToString(),
+				TextColor = Color.White,
+				BackgroundColor = Color.Black,
+				FontSize = GlobalVariables.sizeTitle,
+				FontAttributes = FontAttributes.Bold
+			};
+
+			defense (0, 0, 1, "Low Bar");
+			defense (1, 3, 1, ((defenses)def[0]).ToString());
+			defense (2, 6, 1, ((defenses)def[1]).ToString());
+			defense (3, 9, 1, ((defenses)def[2]).ToString());
+			defense (4, 12, 1, ((defenses)def[3]).ToString());
 			shoot (5, 0, 4, "Low Shot");
 			shoot (7, 3, 4, "High Shot");
 
@@ -82,23 +93,11 @@ namespace VitruvianApp2016
 
 			TeleopPage.Clicked += (object sender, EventArgs e) => {
 				if (new CheckInternetConnectivity().InternetStatus()){
-					if(def[0] == 0)
-						errorHandling("autoA1", Convert.ToDouble(scoreValue[0]));
-					else if(def[0] == 1)
-						errorHandling("autoA2", Convert.ToDouble(scoreValue[0]));
-					if(def[1] == 0)
-						errorHandling("autoB1", Convert.ToDouble(scoreValue[1]));
-					else if(def[1] == 1)
-						errorHandling("autoB2", Convert.ToDouble(scoreValue[1]));
-					if(def[2] == 0)
-						errorHandling("autoC1", Convert.ToDouble(scoreValue[2]));
-					else if(def[2] == 1)
-						errorHandling("autoC2", Convert.ToDouble(scoreValue[2]));
-					if(def[3] == 0)
-						errorHandling("autoD1", Convert.ToDouble(scoreValue[3]));
-					else if(def[3] == 1)
-						errorHandling("autoD2", Convert.ToDouble(scoreValue[3]));
-					errorHandling("autoE", Convert.ToDouble(scoreValue[4]));
+					errorHandling("autoE", Convert.ToDouble(scoreValue[0]));
+					errorHandling(((parseString)def[0]).ToString(), Convert.ToDouble(scoreValue[1]));
+					errorHandling(((parseString)def[1]).ToString(), Convert.ToDouble(scoreValue[2]));
+					errorHandling(((parseString)def[2]).ToString(), Convert.ToDouble(scoreValue[3]));
+					errorHandling(((parseString)def[3]).ToString(), Convert.ToDouble(scoreValue[4]));
 					for(int i=0; i<5; i++){
 						if(scoreValue[i]==0.2)
 							errorHandling("autoReach", 1);
@@ -119,11 +118,12 @@ namespace VitruvianApp2016
 						errorString = errorStringDefault;
 						error = false;
 					} else {
-						Navigation.PushModalAsync(new TeleOpMatchScoutingPage(data, def, scoreValue));
+						Navigation.PushModalAsync(new TeleOpMatchScoutingPage(data, def, scoreValue, teamNo));
 					}
 				}
 			};
-			layoutGrid.Children.Add (pageTitle, 0, 13, 0, 1);
+			layoutGrid.Children.Add (pageTitle, 0, 4, 0, 1);
+			layoutGrid.Children.Add (teamNumber, 3, 13, 0, 1);
 			layoutGrid.Children.Add (scoreLabel, 12, 15, 0, 1);
 			layoutGrid.Children.Add (TeleopPage, 12, 15, 8, 9);
 
@@ -201,9 +201,11 @@ namespace VitruvianApp2016
 			displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
 			displayValue [arrayIndex].TextColor = Color.Black;
 			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
+			displayValue [arrayIndex].HorizontalOptions = LayoutOptions.Center;
 			displayValue [arrayIndex + 1].Text = scoreValue[arrayIndex+1].ToString();
 			displayValue [arrayIndex + 1].TextColor = Color.Black;
 			displayValue [arrayIndex + 1].FontSize = GlobalVariables.sizeMedium;
+			displayValue [arrayIndex + 1].HorizontalOptions = LayoutOptions.Center;
 			shotDisplay [shotDisplayInt] = new Label {
 				Text = "Hits",
 				TextColor = Color.Black,
@@ -214,7 +216,6 @@ namespace VitruvianApp2016
 				Text = "Misses",
 				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
-				FontAttributes = FontAttributes.Bold,
 				HorizontalOptions = LayoutOptions.CenterAndExpand
 			};
 

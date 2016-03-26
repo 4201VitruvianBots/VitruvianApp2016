@@ -43,7 +43,7 @@ namespace VitruvianApp2016
 			};
 			buttonSettings (matchBtn);
 			matchBtn.Clicked += (object sender, EventArgs e) => {
-				Navigation.PushModalAsync (new PreMatchScoutingPage ());
+				Navigation.PushModalAsync (new PreMatchScoutingPage (null));
 			};
 
 			//Match Data
@@ -64,16 +64,31 @@ namespace VitruvianApp2016
 				Navigation.PushModalAsync (new MatchInfoSearchPage());
 			};
 
+			//Robot Comparison
+			Button robotComparisonBtn = new Button (){
+				Text = "Robot Comparison",
+			};
+			buttonSettings (robotComparisonBtn);
+			robotComparisonBtn.Clicked += (object sender, EventArgs e) => {
+				Navigation.PushModalAsync (new RobotComparisonSelectPage());
+			};
 
-
+			// Cloud Calculation
+			Button cloudBtn = new Button (){
+				Text = "Calculate All Team Data",
+			};
+			buttonSettings (cloudBtn);
+			cloudBtn.Clicked += (object sender, EventArgs e) => {
+				Navigation.PushModalAsync (new CalculateAverageDataPage());
+			};
+				
 			//Test Page Button
 			Button testBtn = new Button (){
 				Text = "Test Button"
 			};
 			buttonSettings (testBtn);
 			testBtn.Clicked += (object sender, EventArgs e) => {
-				new CalculateAverageData(4);
-				//Navigation.PushModalAsync (new CalculateAverageData(4));
+				//Navigation.PushModalAsync (new RobotComparisonDisplayPage());
 			};
 			//Page Layout
 			StackLayout pageStack = new StackLayout (){
@@ -88,6 +103,8 @@ namespace VitruvianApp2016
 					matchBtn,
 					matchDataBtn,
 					overviewBtn,
+					robotComparisonBtn,
+					cloudBtn,
 					testBtn
 				}
 			};

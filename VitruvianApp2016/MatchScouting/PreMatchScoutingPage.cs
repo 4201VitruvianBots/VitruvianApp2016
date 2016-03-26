@@ -10,6 +10,7 @@ namespace VitruvianApp2016
 		ParseObject MatchData = new ParseObject("MatchData");
 
 		enum Alliance {red1, red2, red3, blue1, blue2, blue3};
+		enum defenses {Portcullis, Cheval_de_Frise, Moat, Ramparts, Drawbridge, Salley_Port, Rock_Wall, Rough_Terrain};
 		enum defA {Portcullis, Cheval_de_Frise};
 		enum defB {Moat, Ramparts};
 		enum defC {Drawbridge, Salley_Port};
@@ -18,7 +19,7 @@ namespace VitruvianApp2016
 		Label[] defLabel = new Label[4]{ new Label (), new Label (), new Label (), new Label () };
 		int[] def = new int[4] { -1, -1, -1, -1};
 
-		public PreMatchScoutingPage ()
+		public PreMatchScoutingPage (string name)
 		{
 			Label matchScoutingLabel = new Label () {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -28,6 +29,20 @@ namespace VitruvianApp2016
 				FontAttributes = FontAttributes.Bold,
 				BackgroundColor = Color.Black,
 			};
+
+			Label scouterNameLabel = new Label {
+				Text = "Scouter Name:",
+				TextColor = Color.Black,
+				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
+			};
+
+			Entry scouterNameEntry = new Entry {
+			};
+			if (name == null)
+				scouterNameEntry.Placeholder = "[Enter your name]";
+			else
+				scouterNameEntry.Text = name;
+
 			Label matchNoLabel = new Label {
 				Text = "Match Number:",
 				TextColor = Color.Black,
@@ -84,16 +99,16 @@ namespace VitruvianApp2016
 			};
 
 			// defPickers
-			for (int i = 0; i < 2; i++) {
-				defPicker[0].Items.Add (((defA)i).ToString());
-				defPicker[1].Items.Add (((defB)i).ToString());
-				defPicker[2].Items.Add (((defC)i).ToString());
-				defPicker[3].Items.Add (((defD)i).ToString());
+			for (int i = 0; i < 8; i++) {
+				defPicker [0].Items.Add (((defenses)i).ToString ());
+				defPicker [1].Items.Add (((defenses)i).ToString ());
+				defPicker [2].Items.Add (((defenses)i).ToString ());
+				defPicker [3].Items.Add (((defenses)i).ToString ());
 			}
-			defFunction ("Category A", 0);
-			defFunction ("Category B", 1);
-			defFunction ("Category C", 2);
-			defFunction ("Category D", 3);
+			defFunction ("Position 2:", 0);
+			defFunction ("Position 3:", 1);
+			defFunction ("Position 4:", 2);
+			defFunction ("Position 5:", 3);
 
 			//Start Match Scout
 			Button beginScoutBtn = new Button {
@@ -104,15 +119,28 @@ namespace VitruvianApp2016
 				FontSize = Device.GetNamedSize (NamedSize.Medium, typeof(Label))
 			};
 			beginScoutBtn.Clicked += (object sender, EventArgs e) => {
+				def[0]=defPicker[0].SelectedIndex;
+				def[1]=defPicker[1].SelectedIndex;
+				def[2]=defPicker[2].SelectedIndex;
+				def[3]=defPicker[3].SelectedIndex;
+
 				if (new CheckInternetConnectivity().InternetStatus()){
-					if(string.IsNullOrEmpty(matchNo.Text) || string.IsNullOrEmpty(teamNo.Text) ||positionPicker.Title.ToString() == "Choose an Option" || defPicker[0].Title.ToString() == "Choose an Option" || defPicker[1].Title.ToString() == "Choose an Option" || defPicker[2].Title.ToString() == "Choose an Option" || defPicker[3].Title.ToString() == "Choose an Option"){
+					if(string.IsNullOrEmpty(scouterNameEntry.Text)|| string.IsNullOrEmpty(matchNo.Text) || string.IsNullOrEmpty(teamNo.Text) ||positionPicker.Title.ToString() == "Choose an Option" || defPicker[0].Title.ToString() == "Choose an Option" || defPicker[1].Title.ToString() == "Choose an Option" || defPicker[2].Title.ToString() == "Choose an Option" || defPicker[3].Title.ToString() == "Choose an Option"){
 						DisplayAlert("Error", "Fill out all Fields", "Ok");
+					} 
+					else if(def[0] == def[1] || def[0] == def[2] || def[0] == def[3] || def[1] == def[2] || def[1] == def[3] || def[2] == def[3]){
+						DisplayAlert("Error", "You cannot have multiples of a single defense", "Ok");
 					} else {
 						Console.WriteLine(matchNo.Text);
+						MatchData["scouterName"]=scouterNameEntry.Text;
 						MatchData["teamNo"]=Convert.ToInt32(teamNo.Text);
 						MatchData["matchNo"]=Convert.ToInt32(matchNo.Text);
 						MatchData["alliance"]=Convert.ToString(alliancePicker.Title.ToString());
 						MatchData["startPosition"]=Convert.ToInt32(positionPicker.Title.ToString());
+						MatchData["pos2"]=((defenses)def[0]).ToString();
+						MatchData["pos3"]=((defenses)def[1]).ToString();
+						MatchData["pos4"]=((defenses)def[2]).ToString();
+						MatchData["pos5"]=((defenses)def[3]).ToString();
 
 						/*
 						MatchData.Add("teamNo", Convert.ToInt32(teamNo.Text));
@@ -121,12 +149,8 @@ namespace VitruvianApp2016
 						MatchData.Add("startPosition", Convert.ToInt32(positionPicker.Title.ToString()));
 						*/
 						SaveData();
-						def[0]=defPicker[0].SelectedIndex;
-						def[1]=defPicker[1].SelectedIndex;
-						def[2]=defPicker[2].SelectedIndex;
-						def[3]=defPicker[3].SelectedIndex;
 
-						Navigation.PushModalAsync(new AutoMatchScoutingPage(MatchData, def));
+						Navigation.PushModalAsync(new AutoMatchScoutingPage(MatchData, def, Convert.ToInt16(teamNo.Text)));
 					}
 				}
 			};
@@ -161,6 +185,8 @@ namespace VitruvianApp2016
 
 				Children = {
 					matchScoutingLabel,
+					scouterNameLabel,
+					scouterNameEntry,
 					matchNoLabel,
 					matchNo,
 					teamNoLabel,

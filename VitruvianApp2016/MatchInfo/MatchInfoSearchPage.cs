@@ -32,6 +32,8 @@ namespace VitruvianApp2016
 					new RowDefinition{ Height = GridLength.Auto },
 					new RowDefinition{ Height = GridLength.Auto },
 					new RowDefinition{ Height = GridLength.Auto }, 
+					new RowDefinition{ Height = GridLength.Auto }, 
+					new RowDefinition{ Height = GridLength.Auto }, 
 					new RowDefinition{ Height = new GridLength(1, GridUnitType.Star) },
 					new RowDefinition{ Height = GridLength.Auto },
 				},
@@ -76,6 +78,22 @@ namespace VitruvianApp2016
 						DisplayAlert("Error:", "Invalid search query", "OK");
 					}
 				}
+			};
+
+			// Team Picker
+			Label teamPickerLabel = new Label {
+				Text = "Select a team:",
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
+			};
+
+			Picker teamPicker = new Picker(){ 
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				Title = "Choose a team"			
+			};
+			populateTeamPicker(teamPicker);
+			teamPicker.SelectedIndexChanged += (sender, e) => {
+				teamSearchEntry.Text = teamPicker.Items[teamPicker.SelectedIndex];
 			};
 
 			Label matchSearch = new Label () {
@@ -153,6 +171,8 @@ namespace VitruvianApp2016
 			layoutGrid.Children.Add (matchSearchEntry, 0, 1, spanYi, spanYf);
 			layoutGrid.Children.Add (matchSearchBtn, 2, 3, spanYi++, spanYf++);
 			layoutGrid.Children.Add (allMatchesBtn, 2, 3, spanYi++, spanYf++);
+			layoutGrid.Children.Add (teamPickerLabel, 0, 1, spanYi++, spanYf++);
+			layoutGrid.Children.Add (teamPicker, 0, 1, spanYi++, spanYf++);
 			//layoutGrid.Children.Add (navigationBtns, 0, 2, spanYi+1, spanYf+1);
 
 			StackLayout pageStack = new StackLayout () {
@@ -194,9 +214,11 @@ namespace VitruvianApp2016
 				filter[4] = filter[3].Or(query.WhereEqualTo("blue2", number));
 				filter[5] = filter[4].Or(query.WhereEqualTo("blue3", number));
 
+				filter [5] = filter [5].OrderBy ("matchNo");
 				dataSelect = await filter[5].FindAsync ();
+
 				try{
-					await Navigation.PushModalAsync(new MatchInfoIndexPage(dataSelect));
+					await Navigation.PushModalAsync(new MatchInfoIndexPage(dataSelect, number));
 				}
 				catch{
 					DisplayAlert("Error:", "Invalid search query", "OK");
@@ -215,10 +237,21 @@ namespace VitruvianApp2016
 				}
 			} else if (searchType == 3){
 				dataSelect = await sorted.FindAsync();
-				await Navigation.PushModalAsync(new MatchInfoIndexPage(dataSelect));
+				await Navigation.PushModalAsync(new MatchInfoIndexPage(dataSelect, 0));
 			}
 			busyIcon.IsVisible = false;
 			busyIcon.IsRunning = false;
+		}
+
+		async void populateTeamPicker(Picker pick){
+			ParseQuery<ParseObject> query = ParseObject.GetQuery("TeamData");
+			ParseQuery<ParseObject> sorted = query.OrderBy("teamNumber");
+
+			var allTeams = await sorted.FindAsync();
+			pick.Items.Clear ();
+			foreach (ParseObject obj in allTeams) {
+				pick.Items.Add (obj ["teamNumber"].ToString ());
+			}
 		}
 	}
 }

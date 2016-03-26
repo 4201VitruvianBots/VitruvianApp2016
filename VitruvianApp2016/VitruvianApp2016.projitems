@@ -33,6 +33,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\DataCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CheckInternetConnectivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CalculateAverageData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CalculateAverageDataPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)theBlueAllianceAPITest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ColumnHeaderCellSmall.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImagePopupPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RobotComparison\RobotComparisonSelectPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RobotComparison\RobotComparisonDisplayPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.txt" />
@@ -57,5 +63,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Depreciated\" />
     <Folder Include="$(MSBuildThisFileDirectory)Debug Hold\" />
     <Folder Include="$(MSBuildThisFileDirectory)CellViews\" />
+    <Folder Include="$(MSBuildThisFileDirectory)RobotComparison\" />
   </ItemGroup>
 </Project>

@@ -10,19 +10,29 @@ namespace VitruvianApp2016
 
 		Grid layoutGrid = new Grid ();
 
+		enum defenses {Portcullis, Cheval_de_Frise, Moat, Ramparts, Drawbridge, Salley_Port, Rock_Wall, Rough_Terrain};
+		enum parseString {teleOpA1, teleOpA2, teleOpB1, teleOpB2, teleOpC1, teleOpC2, teleOpD1, teleOpD2};
 		enum defA {Portcullis, Cheval_de_Frise};
 		enum defB {Moat, Ramparts};
 		enum defC {Drawbridge, Salley_Port};
 		enum defD {Rock_Wall, Rough_Terrain};
 
-		const int N = 11;
+		const int N = 12;
 		int[] scoreValue = new int[N];
 		double[] aDef = new double[N];
 		Button[] minus = new Button[N];
 		Button[] plus = new Button[N];
+		Button[] stallBtn = new Button[5];
+		bool[] stallBool = new bool[5] {false, false, false, false, false};
 		Label[] displayValue = new Label[N];
+		Label[] attemptsDisplay = new Label[5];
+		int[] attemptsValue = new int[5] {0,0,0,0,0};
+		Button[] attemptsMinus = new Button[5];
+		Button[] attemptsPlus = new Button[5];
+		Label[] attemptsLabel = new Label[10];
 		Label[] shotDisplay = new Label[4];
 		int shotDisplayInt = 0;
+		int defInt = 0;
 
 		const string errorStringDefault = "The Following Data Was Unable To Be Saved: ";
 		string errorString = errorStringDefault;
@@ -41,7 +51,7 @@ namespace VitruvianApp2016
 			FontAttributes = FontAttributes.Bold
 		};
 
-		public TeleOpMatchScoutingPage (ParseObject MatchData, int[] def, double[] autoScoreValue)
+		public TeleOpMatchScoutingPage (ParseObject MatchData, int[] def, double[] autoScoreValue, int teamNo)
 		{
 			data = MatchData;
 
@@ -61,14 +71,25 @@ namespace VitruvianApp2016
 				FontAttributes = FontAttributes.Bold
 			};
 
-			defense (0, 0, 1, ((defA)def[0]).ToString(), autoScoreValue[0]);
-			defense (1, 3, 1, ((defB)def[1]).ToString(), autoScoreValue[1]);
-			defense (2, 6, 1, ((defC)def[2]).ToString(), autoScoreValue[2]);
-			defense (3, 9, 1, ((defD)def[3]).ToString(), autoScoreValue[3]);
-			defense (4, 12, 1, "Low Bar", autoScoreValue[4]);
-			shoot (5, 0, 3, "Low Shot");
-			shoot (7, 3, 3, "High Shot");;
-			defense (10, 6, 3, "Shots Denied", 0);
+			Label teamNumber = new Label () {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				Text = "Team: " + teamNo.ToString(),
+				TextColor = Color.White,
+				BackgroundColor = Color.Black,
+				FontSize = GlobalVariables.sizeTitle,
+				FontAttributes = FontAttributes.Bold
+			};
+
+			defense (0, 0, 1, "Low Bar", autoScoreValue[0]);
+			defense (1, 3, 1, ((defenses)def[0]).ToString(), autoScoreValue[1]);
+			defense (2, 6, 1, ((defenses)def[1]).ToString(), autoScoreValue[2]);
+			defense (3, 9, 1, ((defenses)def[2]).ToString(), autoScoreValue[3]);
+			defense (4, 12, 1, ((defenses)def[3]).ToString(), autoScoreValue[4]);
+			shoot (5, 0, 7, "Low Shot");
+			shoot (7, 3, 7, "High Shot");
+			counter (9, 6, 8, "Teamwork");
+			counter (10, 6, 10, "Shots Altered");
+			counter (11, 12, 8, "Fouls");
 
 			Button challengeBtn = new Button () {
 				Text = "Robot Challenge",
@@ -128,23 +149,26 @@ namespace VitruvianApp2016
 			};
 			endMatch.Clicked += (object sender, EventArgs e) => {
 				if (new CheckInternetConnectivity().InternetStatus()){
-					if(def[0] == 0)
-						errorHandling("teleOpA1", Convert.ToInt32(scoreValue[0]));
-					else if(def[0] == 1)
-						errorHandling("teleOpA2", Convert.ToInt32(scoreValue[0]));
-					if(def[1] == 0)
-						errorHandling("teleOpB1", Convert.ToInt32(scoreValue[1]));
-					else if(def[1] == 1)
-						errorHandling("teleOpB2", Convert.ToInt32(scoreValue[1]));
-					if(def[2] == 0)
-						errorHandling("teleOpC1", Convert.ToInt32(scoreValue[2]));
-					else if(def[2] == 1)
-						errorHandling("teleOpC2", Convert.ToInt32(scoreValue[2]));
-					if(def[3] == 0)
-						errorHandling("teleOpD1", Convert.ToInt32(scoreValue[3]));
-					else if(def[3] == 1)
-						errorHandling("teleOpD2", Convert.ToInt32(scoreValue[3]));
-					errorHandling("teleOpE", Convert.ToInt32(scoreValue[4]));
+					errorHandling("teleOpE", Convert.ToDouble(scoreValue[0]));
+					errorHandling(((parseString)def[0]).ToString(), Convert.ToDouble(scoreValue[1]));
+					errorHandling(((parseString)def[1]).ToString(), Convert.ToDouble(scoreValue[2]));
+					errorHandling(((parseString)def[2]).ToString(), Convert.ToDouble(scoreValue[3]));
+					errorHandling(((parseString)def[3]).ToString(), Convert.ToDouble(scoreValue[4]));
+					errorHandling("teleOpEAtmpts", Convert.ToInt16(attemptsValue[0]));
+					errorHandling(((parseString)def[0]).ToString()+"Atmpts", Convert.ToInt16(attemptsValue[1]));
+					errorHandling(((parseString)def[1]).ToString()+"Atmpts", Convert.ToInt16(attemptsValue[2]));
+					errorHandling(((parseString)def[2]).ToString()+"Atmpts", Convert.ToInt16(attemptsValue[3]));
+					errorHandling(((parseString)def[3]).ToString()+"Atmpts", Convert.ToInt16(attemptsValue[4]));
+					if(stallBool[0] == true)
+						errorHandling("teleOpEStall", 1);
+					if(stallBool[1] == true)
+						errorHandling(((parseString)def[0]).ToString()+"Stall", 1);
+					if(stallBool[2] == true)
+						errorHandling(((parseString)def[1]).ToString()+"Stall", 1);
+					if(stallBool[3] == true)
+						errorHandling(((parseString)def[2]).ToString()+"Stall", 1);
+					if(stallBool[4] == true)
+						errorHandling(((parseString)def[3]).ToString()+"Stall", 1);
 					errorHandling("teleOpShotLowSuccess", Convert.ToInt32(scoreValue[5]));
 					errorHandling("teleOpShotLowTotal", Convert.ToInt32(scoreValue[5]+scoreValue[6]));
 					if(scoreValue[5]+scoreValue[6] == 0)
@@ -157,7 +181,9 @@ namespace VitruvianApp2016
 						errorHandling("teleOpShotHighAccuracy", Convert.ToDouble(0));
 					else
 						errorHandling("teleOpShotHighAccuracy", Convert.ToDouble((double)scoreValue[7]/(double)(scoreValue[7]+scoreValue[8])));
-					errorHandling("shotsDenied", scoreValue[9]);
+					errorHandling("teamwork", scoreValue[9]);
+					errorHandling("shotsDenied", scoreValue[10]);
+					errorHandling("fouls", scoreValue[11]);
 					errorHandling("challenge", challenge);
 					errorHandling("scaled", scaled);
 					errorHandling("disabled", disabled);
@@ -175,12 +201,13 @@ namespace VitruvianApp2016
 					}
 				}
 			};
-			layoutGrid.Children.Add (pageTitle, 0, 13, 0, 1);
+			layoutGrid.Children.Add (pageTitle, 0, 4, 0, 1);
+			layoutGrid.Children.Add (teamNumber, 3, 13, 0, 1);
 			layoutGrid.Children.Add (scoreLabel, 12, 15, 0, 1);
-			layoutGrid.Children.Add (challengeBtn, 9, 12, 6, 7);
-			layoutGrid.Children.Add (scaleBtn, 9, 12, 7, 8);
-			layoutGrid.Children.Add (disabledBtn, 12, 15, 6, 7);
-			layoutGrid.Children.Add (endMatch, 12, 15, 7, 8);
+			layoutGrid.Children.Add (challengeBtn, 9, 12, 10, 11);
+			layoutGrid.Children.Add (scaleBtn, 9, 12, 11, 12);
+			layoutGrid.Children.Add (disabledBtn, 12, 15, 10, 11);
+			layoutGrid.Children.Add (endMatch, 12, 15, 11, 12);
 
 			this.Content = new StackLayout () {
 				Children = {
@@ -194,11 +221,52 @@ namespace VitruvianApp2016
 			aDef [arrayIndex] = autoDef;
 			displayValue [arrayIndex].Text = (scoreValue[arrayIndex] + aDef[arrayIndex]).ToString();
 			displayValue [arrayIndex].TextColor = Color.Black;
-			displayValue [arrayIndex].FontSize = GlobalVariables.sizeTitle;
+			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
+			displayValue [arrayIndex].HorizontalOptions = LayoutOptions.Center;
+			attemptsDisplay [arrayIndex] = new Label {
+				Text = "0",
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
+				HorizontalOptions = LayoutOptions.Center
+			};
+
+			attemptsLabel [arrayIndex] = new Label {
+				Text = "Successes",
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
+				HorizontalOptions = LayoutOptions.CenterAndExpand
+			};
+			attemptsLabel [arrayIndex+5] = new Label {
+				Text = "Attempts",
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
+				HorizontalOptions = LayoutOptions.CenterAndExpand
+			};
+
+			stallBtn [arrayIndex] = new Button () {
+				BackgroundColor = Color.Gray,
+				Text = "Stalled",
+			};
+			stallBtn[arrayIndex].Clicked += (object sender, EventArgs e) => {
+				stallBool[arrayIndex] = !stallBool[arrayIndex];
+				if(stallBool[arrayIndex] == true)
+					stallBtn[arrayIndex].BackgroundColor = Color.Red;
+				else
+					stallBtn[arrayIndex].BackgroundColor = Color.Gray;
+			};
+
 			minus [arrayIndex].Text = "-";
 			minus [arrayIndex].BackgroundColor = Color.Red;
+			attemptsMinus [arrayIndex] = new Button () {
+				Text = "-",
+				BackgroundColor = Color.Red
+			};
 			plus [arrayIndex].Text = "+";
 			plus [arrayIndex].BackgroundColor = Color.Green;
+			attemptsPlus [arrayIndex] = new Button () {
+				Text = "+",
+				BackgroundColor = Color.Green
+			};
 
 			minus[arrayIndex].Clicked += (object sender, EventArgs e) => {
 				if(scoreValue[arrayIndex] != 0){
@@ -210,9 +278,20 @@ namespace VitruvianApp2016
 			plus[arrayIndex].Clicked += (object sender, EventArgs e) => {
 				if((scoreValue[arrayIndex] + aDef[arrayIndex] < 2 || (scoreValue[arrayIndex] < 2 && aDef[arrayIndex] == 0.2))){
 					scoreValue[arrayIndex]++;
+					attemptsValue[arrayIndex]++;
 					displayValue [arrayIndex].Text = (scoreValue[arrayIndex] + aDef[arrayIndex]).ToString();
 					pointsScored();
 				}
+			};
+			attemptsMinus[arrayIndex].Clicked += (object sender, EventArgs e) => {
+				if(attemptsValue[arrayIndex] != 0 || attemptsValue[arrayIndex] != scoreValue[arrayIndex]){
+					attemptsValue[arrayIndex]--;							
+					attemptsDisplay [arrayIndex].Text = attemptsValue[arrayIndex].ToString();
+				}
+			};
+			plus[arrayIndex].Clicked += (object sender, EventArgs e) => {
+				attemptsValue[arrayIndex]++;
+				attemptsDisplay [arrayIndex].Text = attemptsValue[arrayIndex].ToString();
 			};
 
 			Label defLabel = new Label () {
@@ -223,18 +302,26 @@ namespace VitruvianApp2016
 				HorizontalOptions = LayoutOptions.CenterAndExpand
 			};
 			layoutGrid.Children.Add (defLabel,x, x+3, y, y+1); // Picker 
-			layoutGrid.Children.Add (minus[arrayIndex],x, y+1); // Minus 
-			layoutGrid.Children.Add (displayValue[arrayIndex],x+1, y+1); // Minus  
-			layoutGrid.Children.Add (plus[arrayIndex],x+2, y+1); // Plus
+			layoutGrid.Children.Add (attemptsLabel[arrayIndex],x, x+3, y+1, y+2); // Picker 
+			layoutGrid.Children.Add (minus[arrayIndex],x, y+2); // Minus 
+			layoutGrid.Children.Add (displayValue[arrayIndex],x+1, y+2); // Minus  
+			layoutGrid.Children.Add (plus[arrayIndex],x+2, y+2); // Plus
+			layoutGrid.Children.Add (attemptsLabel[arrayIndex+5],x, x+3, y+3, y+4); // Picker 
+			layoutGrid.Children.Add (attemptsMinus[arrayIndex],x, y+4); // Minus 
+			layoutGrid.Children.Add (attemptsDisplay[arrayIndex],x+1, y+4); // Minus  
+			layoutGrid.Children.Add (attemptsPlus[arrayIndex],x+2, y+4); // Plus
+			layoutGrid.Children.Add (stallBtn[arrayIndex],x, x+3, y+5, y+6); // Picker 
 		}
 
 		void shoot(int arrayIndex, int x, int y, string title){
 			displayValue [arrayIndex].Text = scoreValue[arrayIndex].ToString();
 			displayValue [arrayIndex].TextColor = Color.Black;
-			displayValue [arrayIndex].FontSize = GlobalVariables.sizeTitle;
+			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
+			displayValue [arrayIndex].HorizontalOptions = LayoutOptions.Center;
 			displayValue [arrayIndex + 1].Text = scoreValue[arrayIndex+1].ToString();
 			displayValue [arrayIndex + 1].TextColor = Color.Black;
 			displayValue [arrayIndex + 1].FontSize = GlobalVariables.sizeMedium;
+			displayValue [arrayIndex + 1].HorizontalOptions = LayoutOptions.Center;
 			shotDisplay [shotDisplayInt] = new Label {
 				Text = "Hits",
 				TextColor = Color.Black,
@@ -300,6 +387,43 @@ namespace VitruvianApp2016
 			layoutGrid.Children.Add (displayValue[arrayIndex+1],x + 1, y+ 4); // value 
 			layoutGrid.Children.Add (plus[arrayIndex+1],x + 2, y + 4); // Plus
 			shotDisplayInt += 2;
+		}
+
+		void counter(int arrayIndex, int x, int y, string title){
+			displayValue [arrayIndex].Text = "0";
+			displayValue [arrayIndex].TextColor = Color.Black;
+			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
+			displayValue [arrayIndex].HorizontalOptions = LayoutOptions.Center;
+
+			minus [arrayIndex].Text = "-";
+			minus [arrayIndex].BackgroundColor = Color.Red;
+			plus [arrayIndex].Text = "+";
+			plus [arrayIndex].BackgroundColor = Color.Green;
+
+			minus[arrayIndex].Clicked += (object sender, EventArgs e) => {
+				if(scoreValue[arrayIndex] != 0){
+					scoreValue[arrayIndex]--;
+					displayValue [arrayIndex].Text = (scoreValue[arrayIndex] + aDef[arrayIndex]).ToString();
+					pointsScored();
+				}
+			};
+			plus[arrayIndex].Clicked += (object sender, EventArgs e) => {
+				scoreValue[arrayIndex]++;
+				displayValue [arrayIndex].Text = (scoreValue[arrayIndex] + aDef[arrayIndex]).ToString();
+				pointsScored();
+			};
+
+			Label defLabel = new Label () {
+				Text = title,
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
+				FontAttributes = FontAttributes.Bold,
+				HorizontalOptions = LayoutOptions.CenterAndExpand
+			};
+			layoutGrid.Children.Add (defLabel,x, x+3, y, y+1); // Picker 
+			layoutGrid.Children.Add (minus[arrayIndex],x, y+1); // Minus 
+			layoutGrid.Children.Add (displayValue[arrayIndex],x+1, y+1); // Minus  
+			layoutGrid.Children.Add (plus[arrayIndex],x+2, y+1); // Plus
 		}
 
 		void pointsScored(){

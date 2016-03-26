@@ -4,6 +4,7 @@ using Parse;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+//using TheBlueAlliance;
 
 namespace VitruvianApp2016
 {
@@ -13,6 +14,7 @@ namespace VitruvianApp2016
 
 		IEnumerable<ParseObject> matchList;
 		ParseObject data;
+		int teamNumber;
 
 		Grid layoutGrid = new Grid(){
 			HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -53,8 +55,9 @@ namespace VitruvianApp2016
 		int gridX = 0;
 		int gridY = 0;
 
-		public MatchInfoIndexPage (IEnumerable<ParseObject> matchListGet)
+		public MatchInfoIndexPage (IEnumerable<ParseObject> matchListGet, int teamNo)
 		{
+			teamNumber = teamNo;
 			matchList = matchListGet;	
 
 			Label pageTitle = new Label () {
@@ -125,6 +128,7 @@ namespace VitruvianApp2016
 			//ParseQuery<ParseObject> sorted = matchList.OrderBy("matchNo");
 			//var allMatches = await sorted.FindAsync();
 
+
 			matchGrid.Children.Clear();
 			matchGrid.RowDefinitions.Clear ();
 			gridY = 0;
@@ -174,17 +178,28 @@ namespace VitruvianApp2016
 
 		void addColumnData(ParseObject data, string parseString, int arrayIndex){
 			DataCell cell = new DataCell ();
+			cell.data.TextColor = Color.White;
 			try{
 				cell.data.Text = data[parseString].ToString();
+				if(data[parseString].ToString() == teamNumber.ToString()){
+					cell.data.TextColor = Color.Lime;
+					cell.data.FontSize = GlobalVariables.sizeTitle;
+					cell.data.FontAttributes = FontAttributes.Bold;
+				}
 			}
 			catch{
 				cell.data.Text = "NULL";
 			}
-
-			if (gridY % 2 == 1)
-				cell.BackgroundColor = Color.Gray;
 			if (gridX == 1)
 				cell.BackgroundColor = Color.Olive;
+			if (gridY % 2 == 1 && gridX < 5 && gridX != 1)
+				cell.BackgroundColor = Color.Maroon;
+			else if (gridY % 2 == 1 && gridX > 4)
+				cell.BackgroundColor = Color.Teal;
+			if (gridY % 2 == 0 && gridX < 5 && gridX != 1)
+				cell.BackgroundColor = Color.Red;
+			else if (gridY % 2 == 0 && gridX > 4)
+				cell.BackgroundColor = Color.Blue;
 
 			if (arrayIndex == 0) {
 				TapGestureRecognizer tap = new TapGestureRecognizer ();

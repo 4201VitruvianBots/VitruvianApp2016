@@ -8,23 +8,23 @@ using FFImageLoading.Forms;
 
 namespace VitruvianApp2016
 {
-	public class MatchInfoDisplayPage:ContentPage
+	public class RobotComparisonDisplayPage:ContentPage
 	{
 		ActivityIndicator busyIcon = new ActivityIndicator ();
 
-		ParseObject data;
-		ParseObject[] teamData = new ParseObject[6];
+		ParseObject data1, data2;
+		ParseObject[] teamData = new ParseObject[2];
 
-		ScrollView[] teamView = new ScrollView[6];
-		StackLayout[] pitInfo = new StackLayout [6];
-		StackLayout[] defStats = new StackLayout [6];
-		CachedImage[] robotImage = new CachedImage[6];
-		CachedImage[] robotImageFull = new CachedImage[6];
+		ScrollView[] teamView = new ScrollView[2];
+		StackLayout[] pitInfo = new StackLayout [2];
+		StackLayout[] defStats = new StackLayout [2];
+		CachedImage[] robotImage = new CachedImage[2];
+		CachedImage[] robotImageFull = new CachedImage[2];
 
-		int[] teamNumber = new int[6];
+		int[] teamNumber = new int[2];
 
 		Grid layoutGrid = new Grid(){
-			HorizontalOptions = LayoutOptions.FillAndExpand,
+			HorizontalOptions = LayoutOptions.CenterAndExpand,
 			VerticalOptions = LayoutOptions.FillAndExpand,
 			Padding = 0,
 			ColumnSpacing = 0,
@@ -43,6 +43,7 @@ namespace VitruvianApp2016
 			}
 		};
 		Grid dataLayoutGrid = new Grid(){
+			HorizontalOptions = LayoutOptions.CenterAndExpand,
 			Padding = 0,
 			ColumnSpacing = 0,
 			RowSpacing = 0,
@@ -114,26 +115,27 @@ namespace VitruvianApp2016
 			ColumnSpacing = 1,
 			RowSpacing = 1,
 		};
-		Grid[] defGrid = new Grid[6];
-		Grid[] shotGrid = new Grid[6];
+		Grid[] defGrid = new Grid[2];
+		Grid[] shotGrid = new Grid[2];
 
 		int rowHeaders = 1;
 		int gridHieght = 0;
 		int Z=0;
 		Label[] rowHeaderLabels = new Label[20];
-		Label[,] descriptionLabel = new Label[6,99];
-		Label[,] dataLabel = new Label[6,99];
-		ColumnHeaderCellSmall[,] defHeaderCells = new ColumnHeaderCellSmall[6,3];
-		ColumnHeaderCellSmall[,] shotHeaderCells = new ColumnHeaderCellSmall[6,3];
+		Label[,] descriptionLabel = new Label[2,99];
+		Label[,] dataLabel = new Label[2,99];
+		ColumnHeaderCellSmall[,] defHeaderCells = new ColumnHeaderCellSmall[2,3];
+		ColumnHeaderCellSmall[,] shotHeaderCells = new ColumnHeaderCellSmall[2,3];
 
-		public MatchInfoDisplayPage (ParseObject matchInfo)
+		public RobotComparisonDisplayPage (ParseObject team1, ParseObject team2)
 		{
+			data1 = team1;
+			data2 = team2;
 			initialization ();
-			data = matchInfo;
 
 			Label pageTitle = new Label () {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Text = "Match " + matchInfo["matchNo"].ToString(),
+				Text = "Team Comparison",
 				TextColor = Color.White,
 				BackgroundColor = Color.Black,
 				FontSize = GlobalVariables.sizeTitle,
@@ -177,7 +179,7 @@ namespace VitruvianApp2016
 			};
 
 			if (new CheckInternetConnectivity().InternetStatus())
-				PopulateData (matchInfo);
+				PopulateData (team1, team2);
 
 			layoutGrid.Children.Add (rowHeaderGrid, 0, 1, 0, 2);
 			layoutGrid.Children.Add (dataLayoutGrid, 1, 3, 1, 2);
@@ -195,21 +197,17 @@ namespace VitruvianApp2016
 			};
 		}
 
-		void PopulateData(ParseObject matchData){
+		void PopulateData(ParseObject team1, ParseObject team2){
 			busyIcon.IsVisible = true;
 			busyIcon.IsRunning = true;
 
-			teamNumber[0] = Convert.ToInt16 (matchData ["red1"].ToString ());
-			teamNumber[1] = Convert.ToInt16 (matchData ["red2"].ToString ());
-			teamNumber[2] = Convert.ToInt16 (matchData ["red3"].ToString ());
-			teamNumber[3] = Convert.ToInt16 (matchData ["blue1"].ToString ());
-			teamNumber[4] = Convert.ToInt16 (matchData ["blue2"].ToString ());
-			teamNumber[5] = Convert.ToInt16 (matchData ["blue3"].ToString ());
+			teamNumber[0] = Convert.ToInt16 (team1 ["teamNumber"].ToString ());
+			teamNumber[1] = Convert.ToInt16 (team2 ["teamNumber"].ToString ());
 
 			dataLayoutGrid.Children.Clear ();
 			headerGrid.Children.Clear ();
 
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 2; i++) {
 				addColumnHeaders (teamNumber [i].ToString (), i);
 				addTeamData (teamNumber [i], i);
 			}
@@ -275,7 +273,7 @@ namespace VitruvianApp2016
 			shotGrid [arrayIndex].Children.Add (shotHeaderCells [arrayIndex,2], 2, gridHieght++);
 			DataCell avgScoreCell = new DataCell ();
 			avgScoreCell.data.TextColor = Color.White;
-			if (arrayIndex < 3)
+			if (arrayIndex < 1)
 				avgScoreCell.BackgroundColor = Color.Red;
 			else
 				avgScoreCell.BackgroundColor = Color.Blue;
@@ -342,7 +340,7 @@ namespace VitruvianApp2016
 		}
 
 		void initialization(){
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 2; i++) {
 				
 				teamView [i] = new ScrollView ();
 
@@ -350,7 +348,7 @@ namespace VitruvianApp2016
 					HorizontalOptions = LayoutOptions.FillAndExpand,
 					VerticalOptions = LayoutOptions.FillAndExpand,
 				};
-				if (i < 3)
+				if (i < 1)
 					pitInfo [i].BackgroundColor = Color.Maroon;
 				else
 					pitInfo [i].BackgroundColor = Color.Teal;
@@ -454,7 +452,7 @@ namespace VitruvianApp2016
 			cell1.data.TextColor = Color.White;
 			cell2.data.TextColor = Color.White;
 			cell3.data.TextColor = Color.White;
-			if (arrayIndex < 3) {
+			if (arrayIndex < 1) {
 				cell1.BackgroundColor = Color.Red;
 				cell2.BackgroundColor = Color.Red;
 				cell3.BackgroundColor = Color.Red;
@@ -493,7 +491,7 @@ namespace VitruvianApp2016
 			cell1.data.TextColor = Color.White;
 			cell2.data.TextColor = Color.White;
 			cell3.data.TextColor = Color.White;
-			if (arrayIndex < 3) {
+			if (arrayIndex < 1) {
 				cell1.BackgroundColor = Color.Red;
 				cell2.BackgroundColor = Color.Red;
 				cell3.BackgroundColor = Color.Red;
@@ -575,7 +573,7 @@ namespace VitruvianApp2016
 			busyIcon.IsVisible = true;
 			busyIcon.IsRunning = true;
 
-			for(int i=0; i< 6; i++){
+			for(int i=0; i< 2; i++){
 				new CalculateAverageData (teamNumber[i]);
 				ParseQuery<ParseObject> refresh = ParseObject.GetQuery ("TeamData");
 				ParseQuery<ParseObject> sorted = refresh.WhereEqualTo ("teamNumber", teamNumber[i]);
@@ -585,7 +583,7 @@ namespace VitruvianApp2016
 					teamData [i] = obj;
 			}
 
-			PopulateData(data);
+			PopulateData (data1, data2);
 
 			busyIcon.IsVisible = false;
 			busyIcon.IsRunning = false;

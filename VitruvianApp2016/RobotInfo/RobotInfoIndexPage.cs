@@ -11,6 +11,9 @@ namespace VitruvianApp2016
 	{
 		StackLayout teamStack = new StackLayout();
 
+		int i=0;
+		ParseObject[] teamObj = new ParseObject[99];
+
 		ActivityIndicator busyIcon = new ActivityIndicator ();
 		public RobotInfoIndexPage ()
 		{
@@ -91,18 +94,28 @@ namespace VitruvianApp2016
 			var allTeams = await sorted.FindAsync();
 			teamStack.Children.Clear();
 			foreach (ParseObject obj in allTeams) {
-				await obj.FetchIfNeededAsync ();
+				await obj.FetchAsync ();
 				TeamListCell cell = new TeamListCell ();
 				cell.teamName.Text = "Team " + obj ["teamNumber"];
 				teamStack.Children.Add (cell);
 				TapGestureRecognizer tap = new TapGestureRecognizer ();
+				//teamObj [i] = obj;
 				tap.Tapped += (object sender, EventArgs e) => {
-					Navigation.PushModalAsync (new RobotInfoViewPage (obj));
+					Navigation.PushModalAsync(new RobotInfoViewPage(obj));
+					//nextPage(teamObj[i]);
 				};
 				cell.GestureRecognizers.Add (tap);
+				i++;
 			}
 			busyIcon.IsVisible = false;
 			busyIcon.IsRunning = false;
+		}
+
+		async void nextPage(ParseObject teamObj){
+			//ParseObject obj2;
+			//new CalculateAverageData(Convert.ToInt16(teamObj["teamNumber"]));
+			//obj2 = await teamObj.FetchAsync ();
+			await Navigation.PushModalAsync (new RobotInfoViewPage (teamObj));
 		}
 	}
 }

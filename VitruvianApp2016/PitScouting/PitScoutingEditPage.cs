@@ -4,6 +4,8 @@ using Parse;
 using Xamarin.Media;
 using System.IO;
 using System.Threading.Tasks;
+using FFImageLoading.Forms;
+using Rg.Plugins.Popup.Services;
 
 namespace VitruvianApp2016
 {
@@ -19,7 +21,8 @@ namespace VitruvianApp2016
 		string errorString = errorStringDefault;
 		bool error = false;
 
-		Image robotImage = new Image();
+		CachedImage robotImage = new CachedImage();
+		CachedImage robotImageFull;
 		MediaFile robotImageFile;
 
 		public PitScoutingEditPage (ParseObject teamData)
@@ -213,6 +216,23 @@ namespace VitruvianApp2016
 				notesEditor.Text = "<No Data Recorded>";
 			}
 
+			// Additional Notes Editor
+			Label matchNotesLabel = new Label {
+				Text = "Match Notes",
+				TextColor = Color.Black,
+				FontSize = GlobalVariables.sizeMedium,
+			};
+
+			Editor matchNotesEditor = new Editor(){
+				HeightRequest = 200,
+				BackgroundColor = Color.Silver
+			};
+			try{
+				if(teamData["matchNotes"] != null)
+					matchNotesEditor.Text = data ["matchNotes"].ToString();
+			} catch {
+			}
+
 			data = teamData;
 
 			Button updateBtn = new Button () {
@@ -230,6 +250,7 @@ namespace VitruvianApp2016
 					errorHandling("autoStrategy", autoStrategyEditor.Text.ToString());
 					errorHandling("teleOpStrategy", teleOpStrategyEditor.Text.ToString());
 					errorHandling("notes", notesEditor.Text.ToString());
+					errorHandling("matchNotes", matchNotesEditor.Text.ToString());
 
 					// DisplayAlert if save did not go through
 					if(error == true){
@@ -285,7 +306,9 @@ namespace VitruvianApp2016
 					teleOpStrategyLabel,
 					teleOpStrategyEditor,
 					notesLabel,
-					notesEditor
+					notesEditor,
+					matchNotesLabel,
+					matchNotesEditor
 				}
 
 			};
@@ -403,14 +426,33 @@ namespace VitruvianApp2016
 				if (data ["robotImage"].ToString () != null) {
 					ParseFile robotImageURL = (ParseFile)data ["robotImage"];
 					// Gets the image from parse and converts it to ParseFile
-					// robotImage.Source = "I"+teamData["teamNumber"]+".jpg"; //Must scale down images manually before upload, & all images must be .jpg
-					// How to write this so caching actually works?
 
-					robotImage.Source = new UriImageSource {
-						Uri = robotImageURL.Url,
-						CachingEnabled = true,
-						CacheValidity = new TimeSpan (7, 0, 0, 0) // Caches Images onto your device for a week
+					robotImage = new CachedImage(){
+						HorizontalOptions = LayoutOptions.Center,
+						VerticalOptions = LayoutOptions.Center,
+						Source = new UriImageSource{
+							Uri = robotImageURL.Url,
+							CachingEnabled = true,
+							CacheValidity = new TimeSpan(7,0,0,0) //Caches Images onto your device for a week
+						},
+						HeightRequest = 120,
+						DownsampleToViewSize = true
 					};
+					robotImageFull = new CachedImage(){
+						Source = new UriImageSource{
+							Uri = robotImageURL.Url,
+							CachingEnabled = true,
+							CacheValidity = new TimeSpan(7,0,0,0) //Caches Images onto your device for a week
+						}
+					};
+
+					TapGestureRecognizer tap = new TapGestureRecognizer();
+					tap.Tapped += (object sender, EventArgs e) => {
+						// Create a gesture recognizer to display the popup image
+						popUpPage(robotImageFull);
+					};
+					robotImage.GestureRecognizers.Add (tap);
+					robotImage.Aspect = Aspect.AspectFit; 
 				} else {
 				}
 			} catch {
@@ -418,6 +460,11 @@ namespace VitruvianApp2016
 				robotImage.GestureRecognizers.Add (imageTap);
 			}
 			robotImage.Aspect = Aspect.AspectFit; //Need better way to scale an image while keeping aspect ratio, but not overflowing everything else
+		}
+
+		async void popUpPage(CachedImage rImage){
+			await Task.Yield ();
+			await PopupNavigation.PushAsync (new ImagePopupPage (rImage, data), false);
 		}
 	}
 }
