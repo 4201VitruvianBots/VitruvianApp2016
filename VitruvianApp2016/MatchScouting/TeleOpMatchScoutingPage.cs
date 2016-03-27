@@ -223,8 +223,9 @@ namespace VitruvianApp2016
 			displayValue [arrayIndex].TextColor = Color.Black;
 			displayValue [arrayIndex].FontSize = GlobalVariables.sizeMedium;
 			displayValue [arrayIndex].HorizontalOptions = LayoutOptions.Center;
+			attemptsValue [arrayIndex] = Convert.ToInt16 (aDef [arrayIndex]);
 			attemptsDisplay [arrayIndex] = new Label {
-				Text = "0",
+				Text = Convert.ToInt16(aDef[arrayIndex]).ToString(),
 				TextColor = Color.Black,
 				FontSize = GlobalVariables.sizeMedium,
 				HorizontalOptions = LayoutOptions.Center
@@ -271,7 +272,9 @@ namespace VitruvianApp2016
 			minus[arrayIndex].Clicked += (object sender, EventArgs e) => {
 				if(scoreValue[arrayIndex] != 0){
 					scoreValue[arrayIndex]--;
-					displayValue [arrayIndex].Text = (scoreValue[arrayIndex] + aDef[arrayIndex]).ToString();
+					attemptsValue[arrayIndex]--;
+					displayValue [arrayIndex].Text = (scoreValue[arrayIndex] + aDef[arrayIndex]).ToString();							
+					attemptsDisplay [arrayIndex].Text = attemptsValue[arrayIndex].ToString();
 					pointsScored();
 				}
 			};
@@ -279,17 +282,20 @@ namespace VitruvianApp2016
 				if((scoreValue[arrayIndex] + aDef[arrayIndex] < 2 || (scoreValue[arrayIndex] < 2 && aDef[arrayIndex] == 0.2))){
 					scoreValue[arrayIndex]++;
 					attemptsValue[arrayIndex]++;
-					displayValue [arrayIndex].Text = (scoreValue[arrayIndex] + aDef[arrayIndex]).ToString();
+					displayValue [arrayIndex].Text = (scoreValue[arrayIndex] + aDef[arrayIndex]).ToString();							
+					attemptsDisplay [arrayIndex].Text = attemptsValue[arrayIndex].ToString();
 					pointsScored();
 				}
 			};
 			attemptsMinus[arrayIndex].Clicked += (object sender, EventArgs e) => {
-				if(attemptsValue[arrayIndex] != 0 || attemptsValue[arrayIndex] != scoreValue[arrayIndex]){
-					attemptsValue[arrayIndex]--;							
-					attemptsDisplay [arrayIndex].Text = attemptsValue[arrayIndex].ToString();
+				if(attemptsValue[arrayIndex] != 0){
+					if(attemptsValue[arrayIndex] != (scoreValue[arrayIndex] + Convert.ToInt16(aDef[arrayIndex]))){
+						attemptsValue[arrayIndex]--;							
+						attemptsDisplay [arrayIndex].Text = attemptsValue[arrayIndex].ToString();
+					}
 				}
 			};
-			plus[arrayIndex].Clicked += (object sender, EventArgs e) => {
+			attemptsPlus[arrayIndex].Clicked += (object sender, EventArgs e) => {
 				attemptsValue[arrayIndex]++;
 				attemptsDisplay [arrayIndex].Text = attemptsValue[arrayIndex].ToString();
 			};

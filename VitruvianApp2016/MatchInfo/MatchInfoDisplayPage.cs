@@ -84,7 +84,11 @@ namespace VitruvianApp2016
 			RowSpacing = 1,
 
 			RowDefinitions = {
-				new RowDefinition { Height = new GridLength (189, GridUnitType.Absolute)},
+				new RowDefinition { Height = new GridLength (85, GridUnitType.Absolute)},
+				new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)},
+				new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)},
+				new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)},
+				new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)},
 				new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)},
 				new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)},
 				new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)},
@@ -125,6 +129,8 @@ namespace VitruvianApp2016
 		Label[,] dataLabel = new Label[6,99];
 		ColumnHeaderCellSmall[,] defHeaderCells = new ColumnHeaderCellSmall[6,4];
 		ColumnHeaderCellSmall[,] shotHeaderCells = new ColumnHeaderCellSmall[6,3];
+		double redScore = 0;
+		double blueScore = 0;
 
 		public MatchInfoDisplayPage (ParseObject matchInfo)
 		{
@@ -213,6 +219,7 @@ namespace VitruvianApp2016
 				addColumnHeaders (teamNumber [i].ToString (), i);
 				addTeamData (teamNumber [i], i);
 			}
+
 			dataLayoutGrid.Children.Add (statsGrid, 0, 1);
 			dataLayoutGrid.Children.Add (headerGrid, 0, 0);
 			dataLayoutGrid.Children.Add (dataGrid, 0, 2);
@@ -225,7 +232,7 @@ namespace VitruvianApp2016
 			ColumnHeaderCell teamNumber = new ColumnHeaderCell ();
 			teamNumber.header.Text = headerName;
 
-			headerGrid.Children.Add (teamNumber, arrayIndexX, 0);
+			headerGrid.Children.Add (teamNumber, 2 * arrayIndexX, 0);
 		}
 
 		async void addTeamData(int getTeamNumber, int arrayIndex){
@@ -239,6 +246,22 @@ namespace VitruvianApp2016
 			foreach (ParseObject team in teamObj) {
 				teamData[arrayIndex] = team;
 			}
+			DataCell avgScoreCell = new DataCell ();
+			avgScoreCell.data.TextColor = Color.White;
+			if (arrayIndex < 3)
+				avgScoreCell.BackgroundColor = Color.Red;
+			else
+				avgScoreCell.BackgroundColor = Color.Blue;
+			try{
+				avgScoreCell.data.Text = String.Format("{0:N2}", teamData[arrayIndex]["avgScore"]);
+			}
+			catch{
+				avgScoreCell.data.Text = "NULL";
+			}
+			headerGrid.Children.Add (avgScoreCell, 2*arrayIndex + 1, 0);
+
+
+			calculateAllianceScore (teamData[arrayIndex], arrayIndex);
 
 			Z = 0;
 			gridHieght = 0;
@@ -249,6 +272,7 @@ namespace VitruvianApp2016
 			defGrid [arrayIndex].Children.Add (defHeaderCells [arrayIndex,1], 1, gridHieght);
 			defGrid [arrayIndex].Children.Add (defHeaderCells [arrayIndex,2], 2, gridHieght);
 			defGrid [arrayIndex].Children.Add (defHeaderCells [arrayIndex,3], 3, gridHieght++);
+			//shotGrid [arrayIndex].Children.Add (avgScoreCell, 1, gridHieght++);
 			addDefItems ("E", teamData [arrayIndex], arrayIndex, gridHieght++);
 			addDefItems ("A1", teamData [arrayIndex], arrayIndex, gridHieght++);
 			addDefItems ("A2", teamData [arrayIndex], arrayIndex, gridHieght++);
@@ -274,19 +298,6 @@ namespace VitruvianApp2016
 			shotGrid [arrayIndex].Children.Add (shotHeaderCells [arrayIndex,0], 0, gridHieght);
 			shotGrid [arrayIndex].Children.Add (shotHeaderCells [arrayIndex,1], 1, gridHieght);
 			shotGrid [arrayIndex].Children.Add (shotHeaderCells [arrayIndex,2], 2, gridHieght++);
-			DataCell avgScoreCell = new DataCell ();
-			avgScoreCell.data.TextColor = Color.White;
-			if (arrayIndex < 3)
-				avgScoreCell.BackgroundColor = Color.Red;
-			else
-				avgScoreCell.BackgroundColor = Color.Blue;
-			try{
-				avgScoreCell.data.Text = teamData[arrayIndex]["avgScore"].ToString();
-			}
-			catch{
-				avgScoreCell.data.Text = "NULL";
-			}
-			shotGrid [arrayIndex].Children.Add (avgScoreCell, 1, gridHieght++);
 
 			addShotItems ("teleOpHigh", teamData [arrayIndex], arrayIndex, gridHieght++);
 			addShotItems ("teleOpLow", teamData [arrayIndex], arrayIndex, gridHieght++);
@@ -351,6 +362,8 @@ namespace VitruvianApp2016
 		}
 
 		void initialization(){
+			redScore = 0;
+			blueScore = 0;
 			for (int i = 0; i < 6; i++) {
 				
 				teamView [i] = new ScrollView ();
@@ -383,7 +396,7 @@ namespace VitruvianApp2016
 						new ColumnDefinition{ Width = new GridLength (1, GridUnitType.Star) },
 						new ColumnDefinition{ Width = new GridLength (1, GridUnitType.Star) },
 						new ColumnDefinition{ Width = new GridLength (1, GridUnitType.Star) },
-						new ColumnDefinition{ Width = new GridLength (20, GridUnitType.Absolute) },
+						new ColumnDefinition{ Width = new GridLength (1, GridUnitType.Star) },
 					},
 					RowDefinitions = {
 						new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute) },
@@ -414,22 +427,21 @@ namespace VitruvianApp2016
 							new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)},
 							new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)},
 							new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)},
-							new RowDefinition { Height = new GridLength (20, GridUnitType.Absolute)},
 						}
 				};
 				
 				defHeaderCells [i, 0] = new ColumnHeaderCellSmall ();
-				defHeaderCells [i, 0].header.Text = "Stalls";
+				defHeaderCells [i, 0].header.Text = "Stall";
 				defHeaderCells [i, 1] = new ColumnHeaderCellSmall ();
-				defHeaderCells [i, 1].header.Text = "Success";
+				defHeaderCells [i, 1].header.Text = "Pass";
 				defHeaderCells [i, 2] = new ColumnHeaderCellSmall ();
-				defHeaderCells [i, 2].header.Text = "Attempts";
+				defHeaderCells [i, 2].header.Text = "Tries";
 				defHeaderCells [i, 3] = new ColumnHeaderCellSmall ();
-				defHeaderCells [i, 3].header.Text = "#";
+				defHeaderCells [i, 3].header.Text = "Faced";
 				shotHeaderCells [i, 0] = new ColumnHeaderCellSmall ();
-				shotHeaderCells [i, 0].header.Text = "Hits";
+				shotHeaderCells [i, 0].header.Text = "Made";
 				shotHeaderCells [i, 1] = new ColumnHeaderCellSmall ();
-				shotHeaderCells [i, 1].header.Text = "Total";
+				shotHeaderCells [i, 1].header.Text = "Tried";
 				shotHeaderCells [i, 2] = new ColumnHeaderCellSmall ();
 				shotHeaderCells [i, 2].header.Text = "%";
 			}
@@ -439,6 +451,11 @@ namespace VitruvianApp2016
 				TextColor = Color.White
 				};
 
+			addRowHeaders ("Red Total:");
+			addRowHeaders ("test");
+			addRowHeaders ("Blue Total:");
+			addRowHeaders ("test");
+			addRowHeaders (" ");
 			addRowHeaders ("Low Bar ");
 			addRowHeaders ("Port");
 			addRowHeaders ("Cheval");
@@ -449,15 +466,28 @@ namespace VitruvianApp2016
 			addRowHeaders ("Rock");
 			addRowHeaders ("Rough");
 			addRowHeaders (" ");
-			addRowHeaders ("Avg. Score ");
 			addRowHeaders ("High");
 			addRowHeaders ("Low");
 		}
 
 		void addRowHeaders(string description){
-			rowHeaderLabels [rowHeaders].Text = description;
+			if(rowHeaders == 2)
+				rowHeaderLabels [rowHeaders].Text = "0";
+			else if(rowHeaders == 4)
+				rowHeaderLabels [rowHeaders].Text = "0";
+			else
+				rowHeaderLabels [rowHeaders].Text = description;
 			rowHeaderGrid.Children.Add (rowHeaderLabels [rowHeaders], 0, rowHeaders);
 			rowHeaders++;
+		}
+		void calculateAllianceScore (ParseObject tData, int arrayIndex){
+			if (arrayIndex < 3) {
+				redScore += Convert.ToDouble (tData ["avgScore"]);
+				rowHeaderLabels [2].Text = String.Format("{0:N2}", redScore);
+			} else {
+				blueScore += Convert.ToInt16 (tData ["avgScore"]);
+				rowHeaderLabels [4].Text = String.Format("{0:N2}", blueScore);
+			}
 		}
 
 		void addDefItems(string defense, ParseObject tData, int arrayIndex, int gridHieght){
@@ -541,7 +571,7 @@ namespace VitruvianApp2016
 			}
 			shotGrid [arrayIndex].Children.Add (cell2, 1, gridHieght);
 			try{
-				cell3.data.Text = tData[shot+"Accuracy"].ToString();
+				cell3.data.Text = string.Format("{0:P}", tData[shot+"Accuracy"]);
 			}
 			catch{
 				cell3.data.Text = "NULL";
@@ -587,7 +617,7 @@ namespace VitruvianApp2016
 				robotImage[arrayIndex].Source = "Placeholder_image_placeholder.png";
 			}
 
-			headerGrid.Children.Add (robotImage[arrayIndex],arrayIndex, 1);
+			headerGrid.Children.Add (robotImage[arrayIndex], 2 * arrayIndex, 2 * (arrayIndex + 1 ), 1, 2);
 		}
 
 		async void popUpPage(CachedImage rImage){
